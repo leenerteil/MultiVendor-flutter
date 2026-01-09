@@ -1369,9 +1369,9 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         
                         // Drop Zone
                         DragTarget<String>(
-                          onWillAccept: (data) => true,
-                          onAccept: (data) {
-                            _exportOrders(data, this.context);
+                          onWillAcceptWithDetails: (data) => true,
+                          onAcceptWithDetails: (data) {
+                            _exportOrders(data.data, this.context);
                           },
                           builder: (context, candidateData, rejectedData) {
                             return Container(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopzy/screens/manage_inventory_screen.dart';
 import 'package:shopzy/screens/shop_owner_manage_ads.dart';
+import 'package:shopzy/screens/shop_owner_sales_screen.dart';
 import 'shop_info_screen.dart';
 import 'shop_owner_products_screen.dart';
 
@@ -250,7 +252,14 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                             title: 'Manage Inventory',
                             subtitle: 'Track stock and supplies',
                             color: Colors.orange,
-                            onTap: () {},
+                            onTap: () {Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ManageInventoryScreen(),
+                                ),
+                              );
+
+                            },
                           ),
                           const SizedBox(height: 12),
                           _buildMenuTile(
@@ -258,7 +267,13 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                             title: 'View All Orders',
                             subtitle: 'See complete order history',
                             color: Colors.green,
-                            onTap: () {},
+                            onTap: () {Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const OrdersManagementScreen(),
+                                ),
+                              );
+                              },
                           ),
                           const SizedBox(height: 12),
                           _buildMenuTile(
