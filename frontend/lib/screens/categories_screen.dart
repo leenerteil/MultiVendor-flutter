@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/shop_owner_drawer.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
+  final bool isShopOwner;
+  const CategoriesScreen({super.key, this.isShopOwner = false});
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Map<String, dynamic>> _allCategories = [
     {
       'name': 'Electronics',
@@ -131,7 +134,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
+      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Categories') : null,
       body: Column(
         children: [
           // Header Section
@@ -163,6 +168,27 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         Row(
                           children: [
+                            if (widget.isShopOwner) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  _scaffoldKey.currentState?.openDrawer();
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.menu_rounded,
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                            ],
                             const Icon(
                               Icons.category_rounded,
                               color: Colors.white,

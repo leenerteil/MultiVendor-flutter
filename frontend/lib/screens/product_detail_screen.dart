@@ -144,7 +144,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Container(
                     margin: const EdgeInsets.all(20),
                     padding: const EdgeInsets.all(30),
-                    height: 220, // Increased height
+                    height: 300, // Increased height
                     decoration: BoxDecoration(
                       color: _currentProduct.color.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(24),
@@ -164,7 +164,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Icon(
                         _currentProduct.icon,
                         color: _currentProduct.color,
-                        size: 160, // Larger icon
+                        size: 200, // Larger icon
                       ),
                     ),
                   ),

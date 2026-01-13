@@ -115,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           // Header with Gradient
           Container(
-            height: 200,
+            height: 120,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -185,33 +185,6 @@ class _CartScreenState extends State<CartScreen> {
                             color: Colors.white,
                             size: 20,
                           ),
-                        ),
-                      ],
-                    ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    // Cart Stats
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildStatCard(
-                          'Total Items',
-                          '${widget.cartItems.length}',
-                          Icons.shopping_bag_rounded,
-                          const Color(0xFFFFC107),
-                        ),
-                        _buildStatCard(
-                          'Unique Items',
-                          '${uniqueItems.length}',
-                          Icons.category_rounded,
-                          const Color(0xFF1CE2D6),
-                        ),
-                        _buildStatCard(
-                          'Est. Total',
-                          '\$${_calculateTotal().toStringAsFixed(2)}',
-                          Icons.attach_money_rounded,
-                          Colors.white,
                         ),
                       ],
                     ),
@@ -373,55 +346,6 @@ class _CartScreenState extends State<CartScreen> {
 
           // Bottom Summary and Checkout
           if (widget.cartItems.isNotEmpty) _buildBottomSummary(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatCard(String title, String value, IconData icon, Color iconColor) {
-    return Container(
-      width: 100,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.3),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 18,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.9),
-            ),
-          ),
         ],
       ),
     );
@@ -913,7 +837,7 @@ class _CartScreenState extends State<CartScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(
-                        Icons.lock_rounded,
+                        Icons.shopping_basket_rounded,
                         color: Colors.white,
                         size: 20,
                       ),

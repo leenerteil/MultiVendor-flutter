@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/shop_owner_drawer.dart';
 
 class OrdersManagementScreen extends StatefulWidget {
   const OrdersManagementScreen({super.key});
@@ -9,6 +10,7 @@ class OrdersManagementScreen extends StatefulWidget {
 }
 
 class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedFilter = 'All';
   
   List<Map<String, dynamic>> _orders = [
@@ -136,7 +138,9 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8F9FA),
+      drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
       body: SafeArea(
         child: Column(
           children: [
@@ -160,11 +164,13 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
                   children: [
-                    // Top Bar with Back Button
+                    // Top Bar with Menu Button
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () {
+                            _scaffoldKey.currentState?.openDrawer();
+                          },
                           child: Container(
                             width: 40,
                             height: 40,
@@ -173,9 +179,9 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
-                              Icons.arrow_back_rounded,
+                              Icons.menu_rounded,
                               color: Colors.white,
-                              size: 20,
+                              size: 24,
                             ),
                           ),
                         ),

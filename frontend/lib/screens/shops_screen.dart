@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/shop_owner_drawer.dart';
 
 class Shop {
   final String id;
@@ -10,8 +11,6 @@ class Shop {
   final int productCount;
   final String imageAsset; // Changed from IconData to String for image asset
   final List<String> tags;
-  bool isFavorite;
-
   Shop({
     required this.id,
     required this.name,
@@ -21,18 +20,19 @@ class Shop {
     required this.productCount,
     required this.imageAsset,
     required this.tags,
-    this.isFavorite = false,
   });
 }
 
 class ShopsScreen extends StatefulWidget {
-  const ShopsScreen({super.key});
+  final bool isShopOwner;
+  const ShopsScreen({super.key, this.isShopOwner = false});
 
   @override
   _ShopsScreenState createState() => _ShopsScreenState();
 }
 
 class _ShopsScreenState extends State<ShopsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Shop> _allShops = [
     Shop(
       id: '1',
@@ -108,24 +108,12 @@ class _ShopsScreenState extends State<ShopsScreen> {
 
   String _selectedCategory = 'All';
   String _searchQuery = '';
-  int _favoriteCount = 0; // Initial favorite count
   List<Shop> _filteredShops = [];
 
   @override
   void initState() {
     super.initState();
     _filteredShops = _allShops;
-  }
-
-  void _toggleFavorite(Shop shop) {
-    setState(() {
-      shop.isFavorite = !shop.isFavorite;
-      if (shop.isFavorite) {
-        _favoriteCount++;
-      } else {
-        _favoriteCount--;
-      }
-    });
   }
 
   void _visitShop(Shop shop) {
@@ -163,16 +151,18 @@ class _ShopsScreenState extends State<ShopsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
+      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Shops') : null,
       body: Column(
         children: [
           // Header Section
           Container(
             padding: const EdgeInsets.only(
-              top: 60,
+              top: 50,
               left: 20,
               right: 20,
-              bottom: 20,
+              bottom: 16,
             ),
             decoration: const BoxDecoration(
               color: Color(0xFF3D5150),
@@ -184,10 +174,29 @@ class _ShopsScreenState extends State<ShopsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    if (widget.isShopOwner) ...[
+                      GestureDetector(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.menu_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                    ],
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -195,11 +204,11 @@ class _ShopsScreenState extends State<ShopsScreen> {
                           children: [
                             // Main Text
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 6),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
                                 'Discover Shops',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
@@ -210,7 +219,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                               bottom: 0,
                               left: 0,
                               child: Container(
-                                width: 50, // Halfy underline
+                                width: 40,
                                 height: 3,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF1CE2D6),
@@ -220,67 +229,23 @@ class _ShopsScreenState extends State<ShopsScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         Text(
-                          'Browse our curated collection of vendors',
+                          'Browse our curated vendors',
                           style: GoogleFonts.poppins(
-                            fontSize: 13,
+                            fontSize: 12,
                             color: Colors.white70,
                           ),
                         ),
                       ],
                     ),
-                    // Favorite Badge
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1CE2D6),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.favorite,
-                            color: Colors.white,
-                            size: 22,
-                          ),
-                        ),
-                        if (_favoriteCount > 0)
-                          Positioned(
-                            right: -4,
-                            top: -4,
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 18,
-                                minHeight: 18,
-                              ),
-                              child: Text(
-                                '$_favoriteCount',
-                                style: const TextStyle(
-                                  color: Color(0xFF3D5150),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
 
                 // Search Bar with better text alignment
                 Container(
-                  height: 40,
+                  height: 36,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
@@ -315,13 +280,14 @@ class _ShopsScreenState extends State<ShopsScreen> {
                               color: const Color(0xFF3D5150),
                             ),
                             decoration: InputDecoration(
+                              isDense: true,
                               border: InputBorder.none,
                               hintText: 'Search shops by name...',
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: const Color(0xFF9E9E9E),
                               ),
-                              contentPadding: const EdgeInsets.symmetric(horizontal:0,vertical: 10),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
                             ),
                             textAlignVertical: TextAlignVertical.center,
                           ),
@@ -334,7 +300,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
 
                 // Categories Filter
                 SizedBox(
-                  height: 40,
+                  height: 36,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: _categories.length,
@@ -477,34 +443,6 @@ class _ShopsScreenState extends State<ShopsScreen> {
                         Colors.transparent,
                         Colors.black.withOpacity(0.5),
                       ],
-                    ),
-                  ),
-                ),
-                // Favorite Button
-                Positioned(
-                  right: 20,
-                  top: 20,
-                  child: GestureDetector(
-                    onTap: () => _toggleFavorite(shop),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        shop.isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: shop.isFavorite ? Colors.red : const Color(0xFF3D5150),
-                        size: 20,
-                      ),
                     ),
                   ),
                 ),

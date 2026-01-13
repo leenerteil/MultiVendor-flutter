@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login_screen.dart';
+import '../widgets/shop_owner_drawer.dart';
 
 class Product {
   final String id;
@@ -26,13 +27,15 @@ class Product {
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool isShopOwner;
+  const HomeScreen({super.key, this.isShopOwner = false});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentCarouselIndex = 0;
   late Timer _carouselTimer;
   late PageController _pageController;
@@ -231,7 +234,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildHomeContent();
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Home') : null,
+      body: _buildHomeContent(),
+    );
   }
 
   Widget _buildHomeContent() {
@@ -261,12 +269,38 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Logo Image
-                          Image.asset(
-                            'assets/images/shopzy_logo.png',
-                            height: 80,
-                            width: 80,
-                            fit: BoxFit.contain,
+                          // Menu Icon and Logo Row
+                          Row(
+                            children: [
+                              if (widget.isShopOwner) ...[
+                                GestureDetector(
+                                  onTap: () {
+                                    _scaffoldKey.currentState?.openDrawer();
+                                  },
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.menu_rounded,
+                                      color: Colors.white,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                              // Logo Image
+                              Image.asset(
+                                'assets/images/shopzy_logo.png',
+                                height: 80,
+                                width: 80,
+                                fit: BoxFit.contain,
+                              ),
+                            ],
                           ),
                           // Icons with badges
                           Row(

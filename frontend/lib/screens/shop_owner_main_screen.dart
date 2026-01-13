@@ -4,6 +4,7 @@ import 'shop_owner_dashboard_screen.dart';
 import 'shop_owner_sales_screen.dart';
 import 'shop_owner_my_orders_screen.dart';
 import 'shop_owner_profile_screen.dart';
+import 'shop_owner_settings_screen.dart';
 
 class ShopOwnerMainScreen extends StatefulWidget {
   const ShopOwnerMainScreen({super.key});
@@ -19,6 +20,7 @@ class _ShopOwnerMainScreenState extends State<ShopOwnerMainScreen> {
     const ShopOwnerDashboardScreen(),
     const OrdersManagementScreen(),
     const ShopOwnerMyOrdersScreen(),
+    const ShopOwnerSettingsScreen(),
     const ShopOwnerProfileScreen(),
   ];
 

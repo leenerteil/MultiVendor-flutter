@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../widgets/shop_owner_drawer.dart';
 
-class ShopOwnerDashboardScreen extends StatelessWidget {
+class ShopOwnerDashboardScreen extends StatefulWidget {
   const ShopOwnerDashboardScreen({super.key});
+
+  @override
+  State<ShopOwnerDashboardScreen> createState() => _ShopOwnerDashboardScreenState();
+}
+
+class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8FAFC),
+      drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -37,17 +47,22 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
                       // Top Bar
                       Row(
                         children: [
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.menu_rounded,
-                              color: Colors.white,
-                              size: 24,
+                          GestureDetector(
+                            onTap: () {
+                              _scaffoldKey.currentState?.openDrawer();
+                            },
+                            child: Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.menu_rounded,
+                                color: Colors.white,
+                                size: 24,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -205,6 +220,19 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
+              // Monthly Order Count Section
+              _buildChartSection(
+                title: 'Monthly Order Count',
+                subtitle: 'Order trends over last 6 months',
+                chart: _buildMonthlyOrdersChart(),
+                gradientColors: [
+                  const Color(0xFFF9A825).withOpacity(0.3),
+                  const Color(0xFFF9A825).withOpacity(0.1),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
               // Top Selling Products Section with Bar Chart
               _buildChartSection(
                 title: 'Top Selling Products',
@@ -223,7 +251,6 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
                 title: 'Category Revenue',
                 subtitle: 'Revenue distribution by category',
                 chart: _buildCategoryPieChart(),
-                showPeriodSelector: false,
                 gradientColors: [
                   const Color(0xFFF9A825).withOpacity(0.3),
                   const Color(0xFFF9A825).withOpacity(0.1),
@@ -338,7 +365,6 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
     required String subtitle,
     required Widget chart,
     required List<Color> gradientColors,
-    bool showPeriodSelector = true,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -354,63 +380,30 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: Colors.grey.withOpacity(0.1),
-            width: 1,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF3D5150),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        color: const Color(0xFF3D5150).withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-                if (showPeriodSelector)
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Weekly',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            color: const Color(0xFF3D5150),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        const Icon(
-                          Icons.arrow_drop_down_rounded,
-                          color: Color(0xFF3D5150),
-                          size: 20,
-                        ),
-                      ],
-                    ),
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF3D5150),
                   ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: const Color(0xFF3D5150).withOpacity(0.6),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -503,6 +496,96 @@ class ShopOwnerDashboardScreen extends StatelessWidget {
         minY: 0,
         maxY: 14,
       ),
+    );
+  }
+
+  Widget _buildMonthlyOrdersChart() {
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.spaceEvenly,
+        maxY: 50,
+        barTouchData: BarTouchData(enabled: true),
+        titlesData: FlTitlesData(
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                if (value.toInt() < months.length) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      months[value.toInt()],
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: const Color(0xFF3D5150).withOpacity(0.6),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+              reservedSize: 28,
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                return Text(
+                  value.toInt().toString(),
+                  style: GoogleFonts.poppins(
+                    fontSize: 10,
+                    color: const Color(0xFF3D5150).withOpacity(0.6),
+                  ),
+                );
+              },
+              reservedSize: 28,
+            ),
+          ),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: const Color(0xFF3D5150).withOpacity(0.05),
+            strokeWidth: 1,
+          ),
+        ),
+        borderData: FlBorderData(show: false),
+        barGroups: [
+          _buildMonthlyBarGroup(0, 25),
+          _buildMonthlyBarGroup(1, 35),
+          _buildMonthlyBarGroup(2, 45),
+          _buildMonthlyBarGroup(3, 30),
+          _buildMonthlyBarGroup(4, 40),
+          _buildMonthlyBarGroup(5, 48),
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData _buildMonthlyBarGroup(int x, double y) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          width: 16,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+          gradient: const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xFF3D5150),
+              Color(0xFFF9A825),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

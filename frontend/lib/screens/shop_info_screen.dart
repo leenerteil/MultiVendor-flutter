@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ShopInfoScreen extends StatefulWidget {
@@ -40,6 +43,10 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
   String _shopStatus = 'Active';
   final List<String> _statusOptions = ['Active', 'Inactive', 'Pending', 'Suspended'];
+
+  File? _logoImage;
+  File? _coverImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void dispose() {
@@ -181,9 +188,8 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 6),
-                                      _buildTextField(
-                                        _ownerController,
-                                        'Enter owner name',
+                                      _buildReadOnlyField(
+                                        _ownerController.text,
                                         icon: Icons.person_outline,
                                       ),
                                     ],
@@ -271,7 +277,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               _instagramController,
                               'Instagram URL',
                               'https://instagram.com/...',
-                              Icons.photo_camera_outlined, 
+                              Icons.camera_alt, 
                               const Color(0xFFE4405F),
                             ),
                             const SizedBox(height: 16),
@@ -281,7 +287,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               _facebookController,
                               'Facebook URL',
                               'https://facebook.com/...',
-                              Icons.thumb_up_outlined, 
+                              Icons.facebook, 
                               const Color(0xFF1877F2),
                             ),
                             const SizedBox(height: 16),
@@ -317,10 +323,12 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildTextField(
-                              _locationController,
-                              'Enter shop address or location',
-                              icon: Icons.location_on_outlined,
+                            GestureDetector(
+                              onTap: _launchMaps,
+                              child: _buildReadOnlyField(
+                                _locationController.text,
+                                icon: Icons.location_on_outlined,
+                              ),
                             ),
                             const SizedBox(height: 30),
 
@@ -334,43 +342,27 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                 Expanded(
                                   child: _buildImageUploader(
                                     title: 'Shop Logo',
-                                    subtitle: 'Recommended: 500x500px',
+                                    subtitle: 'Optional (500x500px)',
                                     icon: Icons.photo_camera_outlined,
+                                    imageFile: _logoImage,
+                                    onTap: () => _pickImage(true),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: _buildImageUploader(
-                                    title: 'Shop Cover',
-                                    subtitle: 'Recommended: 1200x300px',
+                                    title: 'Cover Image',
+                                    subtitle: 'Optional (1200x300px)',
                                     icon: Icons.photo_library_outlined,
+                                    imageFile: _coverImage,
+                                    onTap: () => _pickImage(false),
                                   ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 20),
 
-                            // Gallery Images
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: _buildImageUploader(
-                                    title: 'Gallery Image 1',
-                                    subtitle: 'Optional',
-                                    icon: Icons.add_photo_alternate_outlined,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: _buildImageUploader(
-                                    title: 'Gallery Image 2',
-                                    subtitle: 'Optional',
-                                    icon: Icons.add_photo_alternate_outlined,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 30),
+
 
                             // Shop Settings Section
                             _buildSectionHeader('Shop Settings'),
@@ -386,7 +378,10 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildStatusDropdown(),
+                            _buildReadOnlyField(
+                              _statusController.text,
+                              icon: Icons.info_outline,
+                            ),
                             const SizedBox(height: 16),
 
                             // Product Limit
@@ -407,11 +402,9 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildTextField(
-                              _productLimitController,
-                              'Enter product limit',
+                            _buildReadOnlyField(
+                              _productLimitController.text,
                               icon: Icons.inventory_2_outlined,
-                              keyboardType: TextInputType.number,
                             ),
                             const SizedBox(height: 20),
 
@@ -495,6 +488,38 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickImage(bool isLogo) async {
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          if (isLogo) {
+            _logoImage = File(image.path);
+          } else {
+            _coverImage = File(image.path);
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
+  }
+
+  Future<void> _launchMaps() async {
+    final query = Uri.encodeComponent(_locationController.text);
+    final googleMapsUrl = Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
+    
+    if (await canLaunchUrl(googleMapsUrl)) {
+      await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open maps')),
+        );
+      }
+    }
   }
 
   Widget _buildSectionHeader(String title) {
@@ -739,6 +764,8 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
     required String title,
     required String subtitle,
     required IconData icon,
+    File? imageFile,
+    required VoidCallback onTap,
   }) {
     return Container(
       height: 100,
@@ -749,117 +776,72 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
           color: Colors.grey.withOpacity(0.2),
           width: 1.5,
         ),
+        image: imageFile != null
+            ? DecorationImage(
+                image: FileImage(imageFile),
+                fit: BoxFit.cover,
+              )
+            : null,
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // Image picker action
-          },
+          onTap: onTap,
           borderRadius: BorderRadius.circular(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: const Color(0xFF1CE2D6),
-                size: 28,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF3D5150),
+          child: imageFile == null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      color: const Color(0xFF1CE2D6),
+                      size: 28,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      title,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF3D5150),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 14,
+                          color: Color(0xFF1CE2D6),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                subtitle,
-                style: GoogleFonts.poppins(
-                  fontSize: 10,
-                  color: Colors.grey[500],
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  Widget _buildStatusDropdown() {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.withOpacity(0.2)),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButtonFormField<String>(
-          value: _shopStatus,
-          icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xFF1CE2D6)),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: InputBorder.none,
-            hintText: 'Select status',
-            hintStyle: GoogleFonts.poppins(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
-          ),
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            color: const Color(0xFF3D5150),
-          ),
-          items: _statusOptions.map((String value) {
-            Color statusColor;
-            switch (value) {
-              case 'Active':
-                statusColor = Colors.green;
-                break;
-              case 'Inactive':
-                statusColor = Colors.grey;
-                break;
-              case 'Pending':
-                statusColor = Colors.orange;
-                break;
-              case 'Suspended':
-                statusColor = Colors.red;
-                break;
-              default:
-                statusColor = const Color(0xFF3D5150);
-            }
-            
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Row(
-                children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: statusColor,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(value),
-                ],
-              ),
-            );
-          }).toList(),
-          onChanged: (newValue) {
-            setState(() {
-              _shopStatus = newValue!;
-              _statusController.text = newValue;
-            });
-          },
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildReadOnlyField(String text, {IconData? icon}) {
     return Container(
