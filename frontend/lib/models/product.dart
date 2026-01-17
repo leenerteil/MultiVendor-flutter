@@ -11,6 +11,7 @@ class Product {
   final IconData icon;
   bool isFavorite;
   int cartQuantity;
+  final String? imageUrl;
 
   Product({
     required this.id,
@@ -23,5 +24,6 @@ class Product {
     required this.icon,
     this.isFavorite = false,
     this.cartQuantity = 0,
+    this.imageUrl,
   });
 }

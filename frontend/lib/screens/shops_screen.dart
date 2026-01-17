@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
+import 'shop_screen.dart';
 
 class Shop {
   final String id;
@@ -9,6 +10,9 @@ class Shop {
   final String description;
   final double rating;
   final int productCount;
+  final String email;
+  final String location;
+  final String views;
   final String imageAsset; // Changed from IconData to String for image asset
   final List<String> tags;
   Shop({
@@ -18,6 +22,9 @@ class Shop {
     required this.description,
     required this.rating,
     required this.productCount,
+    required this.email,
+    required this.location,
+    required this.views,
     required this.imageAsset,
     required this.tags,
   });
@@ -38,9 +45,12 @@ class _ShopsScreenState extends State<ShopsScreen> {
       id: '1',
       name: 'Skin & Grin',
       category: 'Beauty',
-      description: 'Premium skincare products for radiant skin',
+      description: '✨ وكيل رسمي لمستحضرات لادورا الفاخرة ✨ 🌿منتجات طبيعية مستخلصة من الطبيعة🌿 🛵 نوصل الجمال إلى جميع أنحاء لبنان 🛵',
       rating: 4.7,
-      productCount: 42,
+      productCount: 15,
+      email: 'SkinGrin@gmail.com',
+      location: 'حارة حريك',
+      views: '20',
       imageAsset: 'assets/images/skin_grin.png', // Image asset path
       tags: ['Skincare', 'Beauty', 'Organic', 'Premium'],
     ),
@@ -51,6 +61,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
       description: 'Latest fashion trends & designer collections',
       rating: 4.5,
       productCount: 56,
+      email: 'info@hananboutique.com',
+      location: 'Beirut',
+      views: '1.2k',
       imageAsset: 'assets/images/hanan_boutique.png',
       tags: ['Fashion', 'Clothing', 'Designer', 'Trendy'],
     ),
@@ -61,6 +74,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
       description: 'Latest tech gadgets & smart devices',
       rating: 4.8,
       productCount: 38,
+      email: 'sales@techgadgets.com',
+      location: 'Tripoli',
+      views: '850',
       imageAsset: 'assets/images/tech_gadgets.png',
       tags: ['Electronics', 'Gadgets', 'Smart', 'Tech'],
     ),
@@ -71,6 +87,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
       description: 'Fresh groceries & daily essentials',
       rating: 4.6,
       productCount: 89,
+      email: 'support@freshmart.com',
+      location: 'Saida',
+      views: '2.5k',
       imageAsset: 'assets/images/freshmart.png',
       tags: ['Groceries', 'Fresh', 'Organic', 'Essentials'],
     ),
@@ -81,6 +100,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
       description: 'Wide collection of books & stationery',
       rating: 4.9,
       productCount: 24,
+      email: 'hello@bookhaven.com',
+      location: 'Jounieh',
+      views: '400',
       imageAsset: 'assets/images/book_haven.png',
       tags: ['Books', 'Stationery', 'Educational', 'Novels'],
     ),
@@ -91,6 +113,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
       description: 'Sports equipment & fitness gear',
       rating: 4.4,
       productCount: 31,
+      email: 'team@fitgear.com',
+      location: 'Tyre',
+      views: '920',
       imageAsset: 'assets/images/fit_gear.png',
       tags: ['Sports', 'Fitness', 'Equipment', 'Gear'],
     ),
@@ -117,10 +142,21 @@ class _ShopsScreenState extends State<ShopsScreen> {
   }
 
   void _visitShop(Shop shop) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Visiting ${shop.name}...'),
-        duration: const Duration(seconds: 1),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ShopScreen(
+          shopName: shop.name,
+          shopDescription: shop.description,
+          shopEmail: shop.email,
+          shopLocation: shop.location,
+          shopViews: shop.views,
+          shopProductCount: shop.productCount,
+          shopCategory: shop.category,
+          coverImage: shop.imageAsset,
+          logoImage: shop.imageAsset,
+          isShopOwner: widget.isShopOwner,
+        ),
       ),
     );
   }

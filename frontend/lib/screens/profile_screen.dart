@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
 import 'cart_screen.dart';
 import '../models/product.dart';
+import 'user_orders_screen.dart';
 
 // --- MAIN ENTRY POINT (For testing) ---
 void main() {
@@ -347,6 +348,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               });
                             },
                           ),
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 12),
+
+                    // My Orders Button
+                    _buildMenuButton("My Orders", Icons.receipt_long_outlined, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UserOrdersScreen(),
                         ),
                       );
                     }),

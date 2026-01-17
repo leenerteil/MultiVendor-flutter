@@ -6,7 +6,8 @@ import 'dart:io';
 import 'package:shopzy/screens/profile_screen.dart'; 
 import 'package:shopzy/screens/main_screen.dart'; 
 import 'cart_screen.dart'; 
-import 'package:shopzy/models/product.dart'; 
+import 'package:shopzy/models/product.dart';
+import 'user_orders_screen.dart'; 
 
 class ShopOwnerProfileScreen extends StatefulWidget {
   const ShopOwnerProfileScreen({super.key});
@@ -320,6 +321,17 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                             });
                           },
                         ),
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 12),
+
+                  // My Orders Button
+                  _buildMenuButton("My Orders", Icons.receipt_long_outlined, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserOrdersScreen(),
                       ),
                     );
                   }),

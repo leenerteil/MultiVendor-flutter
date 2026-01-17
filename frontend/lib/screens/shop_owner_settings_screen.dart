@@ -69,7 +69,7 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Settings',
+                              'Management',
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,

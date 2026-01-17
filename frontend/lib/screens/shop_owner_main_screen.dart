@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/shop_owner_bottom_nav.dart';
 import 'shop_owner_dashboard_screen.dart';
 import 'shop_owner_sales_screen.dart';
-import 'shop_owner_my_orders_screen.dart';
 import 'shop_owner_profile_screen.dart';
 import 'shop_owner_settings_screen.dart';
 
@@ -19,7 +18,6 @@ class _ShopOwnerMainScreenState extends State<ShopOwnerMainScreen> {
   final List<Widget> _screens = [
     const ShopOwnerDashboardScreen(),
     const OrdersManagementScreen(),
-    const ShopOwnerMyOrdersScreen(),
     const ShopOwnerSettingsScreen(),
     const ShopOwnerProfileScreen(),
   ];

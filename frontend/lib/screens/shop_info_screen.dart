@@ -41,9 +41,6 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
     'Health',
   ];
 
-  String _shopStatus = 'Active';
-  final List<String> _statusOptions = ['Active', 'Inactive', 'Pending', 'Suspended'];
-
   File? _logoImage;
   File? _coverImage;
   final ImagePicker _picker = ImagePicker();

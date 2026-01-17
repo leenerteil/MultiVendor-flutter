@@ -1363,7 +1363,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.58, 
+                        childAspectRatio: 0.52, 
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
                       ),
@@ -1467,9 +1467,9 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product Image
+          // Product Image - INCREASED HEIGHT
           Container(
-            height: 115, 
+            height: 150, // Changed from 130 to 150
             width: double.infinity,
             decoration: BoxDecoration(
               color: isInactive
@@ -1588,7 +1588,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
           // Product Info
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8), // Adjusted vertical padding
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1607,16 +1607,16 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                               ? Colors.grey[600]
                               : const Color(0xFF3D5150),
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 2),
                       
                       // Description
                       Text(
                         product['description'],
                         style: GoogleFonts.poppins(
-                          fontSize: 10,
+                          fontSize: 9,
                           color: isInactive
                               ? Colors.grey[500]
                               : Colors.grey[600],
@@ -1624,51 +1624,56 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4), // Reduced from 6
                       
-                      // Category Badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isInactive
-                              ? Colors.grey[200]
-                              : const Color(0xFF1CE2D6).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.label,
-                              size: 10,
-                              color: isInactive
-                                  ? Colors.grey[500]
-                                  : const Color(0xFF1CE2D6),
-                            ),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                categoryText,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w600,
-                                  color: isInactive
-                                      ? Colors.grey[500]
-                                      : const Color(0xFF1CE2D6),
-                                ),
-                                overflow: TextOverflow.ellipsis,
+                      // Category - REMOVED THE SPACE UNDER IT
+                      GestureDetector(
+                        onTap: categories.length > 1 
+                            ? () => _showAllCategoriesModal(categories) 
+                            : null,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isInactive
+                                ? Colors.grey[200]
+                                : const Color(0xFF1CE2D6).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.label,
+                                size: 12,
+                                color: isInactive
+                                    ? Colors.grey[500]
+                                    : const Color(0xFF1CE2D6),
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  categoryText,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: isInactive
+                                        ? Colors.grey[500]
+                                        : const Color(0xFF1CE2D6),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
 
-                  // Bottom section: Price, stock, and buttons
+                  // Bottom section: Price, stock, and buttons - PUSHED TO BOTTOM
                   Column(
                     children: [
                       // Price and Stock Row
@@ -1710,8 +1715,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
+                              horizontal: 6,
+                              vertical: 2,
                             ),
                             decoration: BoxDecoration(
                               color: isOutOfStock
@@ -1737,7 +1742,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                 Text(
                                   '${product['stock']}',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 11,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.w600,
                                     color: isOutOfStock
                                         ? Colors.red
@@ -1751,40 +1756,30 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       
                       // Action Buttons
-                      SizedBox(
-                        height: 32,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: _buildActionButton(
-                                icon: Icons.edit,
-                                label: 'Edit',
-                                color: isInactive
-                                    ? Colors.grey
-                                    : const Color(0xFF1CE2D6),
-                                onTap: () {
-                                  _showEditProductDialog(product);
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _buildActionButton(
-                                icon: isInactive ? Icons.check : Icons.close,
-                                label: isInactive ? 'Activate' : 'Deactivate',
-                                color: isInactive ? Colors.green : Colors.orange,
-                                onTap: () => _toggleProductStatus(index),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            _buildDeleteButton(
-                              onTap: () => _deleteProduct(index),
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildIconButton(
+                            icon: Icons.edit,
+                            color: isInactive
+                                ? Colors.grey
+                                : const Color(0xFF1CE2D6),
+                            onTap: () {
+                              _showEditProductDialog(product);
+                            },
+                          ),
+                          _buildIconButton(
+                            icon: isInactive ? Icons.check_circle_outline : Icons.close,
+                            color: isInactive ? Colors.green : Colors.orange,
+                            onTap: () => _toggleProductStatus(index),
+                          ),
+                          _buildDeleteButton(
+                            onTap: () => _deleteProduct(index),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -1797,17 +1792,16 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
     );
   }
 
-  Widget _buildActionButton({
+  Widget _buildIconButton({
     required IconData icon,
-    required String label,
     required Color color,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: 32,
         height: 32,
-        padding: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
@@ -1816,27 +1810,10 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
             width: 1,
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 14,
-            ),
-            const SizedBox(width: 4),
-            Flexible(
-              child: Text(
-                label,
-                style: GoogleFonts.poppins(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
-                  color: color,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
+        child: Icon(
+          icon,
+          color: color,
+          size: 16,
         ),
       ),
     );
@@ -1860,6 +1837,69 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
           Icons.delete,
           color: Colors.red,
           size: 16,
+        ),
+      ),
+    );
+  }
+
+  void _showAllCategoriesModal(List<String> categories) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'All Categories',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF3D5150),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: categories.map((cat) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1CE2D6).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: const Color(0xFF1CE2D6).withOpacity(0.2)),
+                ),
+                child: Text(
+                  cat,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF1CE2D6),
+                  ),
+                ),
+              )).toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
         ),
       ),
     );
