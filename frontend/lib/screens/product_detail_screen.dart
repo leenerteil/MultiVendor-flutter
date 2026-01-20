@@ -1,6 +1,8 @@
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/product.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -330,7 +332,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Price',
+                                      AppLocalizations.of(context)!.price,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       color: const Color(0xFF3D5150).withOpacity(0.6),
@@ -361,7 +363,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                       const SizedBox(width: 6),
                                       Text(
-                                        _inStock ? 'In Stock' : 'Out of Stock',
+                                        _inStock ? AppLocalizations.of(context)!.inStock : AppLocalizations.of(context)!.outOfStock,
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -401,7 +403,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                         // Product Description
                         Text(
-                          'Description',
+                                AppLocalizations.of(context)!.description,
                           style: GoogleFonts.poppins(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -410,7 +412,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'High-quality ${_currentProduct.name.toLowerCase()} designed for exceptional performance. Crafted with premium materials and attention to detail, this product offers reliability and style. Perfect for everyday use with features that enhance your experience.',
+                          AppLocalizations.of(context)!.productDescription(_currentProduct.name.toLowerCase()),
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             color: const Color(0xFF3D5150).withOpacity(0.7),
@@ -437,7 +439,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Select Quantity',
+                                    AppLocalizations.of(context)!.selectQuantity,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
@@ -445,7 +447,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    'Stock: ${_inStock ? 'Available' : 'Unavailable'}',
+                                    AppLocalizations.of(context)!.stockStatus(_inStock ? AppLocalizations.of(context)!.available : AppLocalizations.of(context)!.unavailable),
                                     style: GoogleFonts.poppins(
                                       fontSize: 13,
                                       color: _inStock ? Colors.green : Colors.red,
@@ -502,7 +504,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
-                                          _quantity == 1 ? 'item' : 'items',
+                                          AppLocalizations.of(context)!.itemsCount(_quantity.toString()),
                                           style: GoogleFonts.poppins(
                                             fontSize: 11,
                                             color: const Color(0xFF9E9E9E),
@@ -561,7 +563,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Rate this product',
+                                AppLocalizations.of(context)!.rateThisProduct,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
@@ -598,8 +600,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   _rating > 0
-                                      ? 'You rated ${_rating.toInt()} star${_rating == 1 ? '' : 's'}'
-                                      : 'Tap stars to rate',
+                                      ? AppLocalizations.of(context)!.youRated(_rating.toInt().toString())
+                                      : AppLocalizations.of(context)!.tapStarsToRate,
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     color: const Color(0xFF666666),
@@ -681,7 +683,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        _inStock ? 'Add to Cart' : 'Out of Stock',
+                        _inStock ? AppLocalizations.of(context)!.addToCart : AppLocalizations.of(context)!.outOfStock,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

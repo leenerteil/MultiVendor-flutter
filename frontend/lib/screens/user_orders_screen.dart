@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/order.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserOrdersScreen extends StatefulWidget {
   const UserOrdersScreen({super.key});
@@ -56,7 +57,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
       backgroundColor: const Color(0xFFF8F9FA), // Light background
       appBar: AppBar(
         title: Text(
-          'My Orders',
+          AppLocalizations.of(context)!.myOrders,
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             color: const Color(0xFF3D5150),
@@ -76,7 +77,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
           children: [
             // Subtitle
             Text(
-              'Track and manage all your orders in one place',
+              AppLocalizations.of(context)!.trackOrdersSubtitle,
               style: GoogleFonts.poppins(
                 fontSize: 13,
                 color: const Color(0xFF3D5150).withOpacity(0.6),
@@ -127,7 +128,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Order Number #${order.id}',
+                      AppLocalizations.of(context)!.orderNumber(order.id),
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -162,7 +163,9 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                         const Icon(Icons.check_circle_outline, size: 12, color: Color(0xFF3D5150)),
                       if (order.status == 'COMPLETED') const SizedBox(width: 4),
                       Text(
-                        order.status,
+                        order.status == 'COMPLETED' 
+                            ? AppLocalizations.of(context)!.completed 
+                            : AppLocalizations.of(context)!.cancelled,
                         style: GoogleFonts.poppins(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -214,19 +217,19 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${order.itemCount} items in this order',
+                        AppLocalizations.of(context)!.itemsInOrder(order.itemCount.toString()),
                         style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600]),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '• ${order.firstItemName} (x1)',
+                        AppLocalizations.of(context)!.orderItemFormat(order.firstItemName, '1'),
                         style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[700]),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       if (order.otherItemsCount > 0)
                         Text(
-                          '+${order.otherItemsCount} more items',
+                          AppLocalizations.of(context)!.moreItems(order.otherItemsCount.toString()),
                           style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF1CE2D6), fontWeight: FontWeight.w500),
                         ),
                     ],
@@ -246,7 +249,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                       ),
                     ),
                     Text(
-                      'Total Amount',
+                      AppLocalizations.of(context)!.totalAmountLabel,
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         color: Colors.grey[500],
@@ -281,7 +284,9 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      order.deliveryStatus,
+                      order.deliveryStatus == 'Cancelled' 
+                          ? AppLocalizations.of(context)!.cancelled 
+                          : AppLocalizations.of(context)!.delivered,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

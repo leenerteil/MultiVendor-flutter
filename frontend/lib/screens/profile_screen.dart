@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/language_switcher.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,6 +9,7 @@ import 'dart:io';
 import 'cart_screen.dart';
 import '../models/product.dart';
 import 'user_orders_screen.dart';
+
 
 // --- MAIN ENTRY POINT (For testing) ---
 void main() {
@@ -249,12 +252,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 10),
 
                     // --- Email Field ---
-                    _buildProfileField("Email", Icons.email_outlined, _emailController),
+                    _buildProfileField(AppLocalizations.of(context)!.emailLabel, Icons.email_outlined, _emailController),
                     const SizedBox(height: 16),
 
                     // --- Password Field ---
-                    _buildProfileField("Password", Icons.lock_outline, _passwordController, isPassword: true),
+                    _buildProfileField(AppLocalizations.of(context)!.passwordLabel, Icons.lock_outline, _passwordController, isPassword: true),
                     const SizedBox(height: 30),
+
+                    const SizedBox(height: 20),
+                    const LanguageSwitcher(),
+                    const SizedBox(height: 10),
 
                     // --- View Profile Button ---
                     SizedBox(
@@ -276,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         icon: Icon(Icons.account_circle_outlined, size: 20, color: _accentCyan),
                         label: Text(
-                          "View Profile Info",
+                          AppLocalizations.of(context)!.profile,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -294,11 +301,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 30),
 
                     // --- Functional Buttons ---
-                    _buildMenuButton("My Wishlist", Icons.favorite_border, () {
+                    _buildMenuButton(AppLocalizations.of(context)!.myWishlist, Icons.favorite_border, () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Wishlist is empty',
+                            AppLocalizations.of(context)!.wishlistEmpty,
                             style: GoogleFonts.poppins(color: Colors.white),
                           ),
                           backgroundColor: _primaryDark,
@@ -308,7 +315,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 12),
 
                     // My Cart Button
-                    _buildMenuButton("My Cart", Icons.shopping_bag_outlined, () {
+                    _buildMenuButton(AppLocalizations.of(context)!.myCart, Icons.shopping_bag_outlined, () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -329,7 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       const Icon(Icons.check_circle, color: Colors.white),
                                       const SizedBox(width: 10),
                                       Text(
-                                        'Order placed successfully!',
+                                        AppLocalizations.of(context)!.orderPlacedSuccessfully,
                                         style: GoogleFonts.poppins(color: Colors.white),
                                       ),
                                     ],
@@ -354,7 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 12),
 
                     // My Orders Button
-                    _buildMenuButton("My Orders", Icons.receipt_long_outlined, () {
+                    _buildMenuButton(AppLocalizations.of(context)!.myOrders, Icons.receipt_long_outlined, () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -379,7 +386,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         icon: Icon(Icons.contact_support_outlined, color: _primaryDark),
                         label: Text(
-                          "Contact Us",
+                          AppLocalizations.of(context)!.contactUs,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -403,21 +410,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: Text(
-                              "Logout",
+                              AppLocalizations.of(context)!.logout,
                               style: GoogleFonts.poppins(
                                 color: _primaryDark,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             content: Text(
-                              "Are you sure you want to logout?",
+                              AppLocalizations.of(context)!.logoutConfirm,
                               style: GoogleFonts.poppins(color: Colors.grey.shade600),
                             ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
                                 child: Text(
-                                  "Cancel",
+                                  AppLocalizations.of(context)!.cancel,
                                   style: GoogleFonts.poppins(color: Colors.grey.shade600),
                                 ),
                               ),
@@ -425,8 +432,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Logged out successfully!"),
+                                    SnackBar(
+                                      content: Text(AppLocalizations.of(context)!.loggedOut),
                                       backgroundColor: Colors.green,
                                     ),
                                   );
@@ -437,7 +444,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   backgroundColor: Colors.redAccent,
                                 ),
                                 child: Text(
-                                  "Logout",
+                                  AppLocalizations.of(context)!.logout,
                                   style: GoogleFonts.poppins(color: Colors.white),
                                 ),
                               ),
@@ -447,7 +454,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                       icon: const Icon(Icons.logout, color: Colors.redAccent),
                       label: Text(
-                        "Log Out",
+                        AppLocalizations.of(context)!.logout,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -557,7 +564,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Choose Profile Photo",
+              AppLocalizations.of(context)!.chooseProfilePhoto,
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -590,7 +597,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(Icons.camera_alt, color: _accentCyan, size: 30),
                       ),
                     ),
-                    Text("Camera", style: GoogleFonts.poppins(color: _primaryDark)),
+                    Text(AppLocalizations.of(context)!.camera, style: GoogleFonts.poppins(color: _primaryDark)),
                   ],
                 ),
                 Column(
@@ -615,7 +622,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(Icons.photo_library, color: _accentCyan, size: 30),
                       ),
                     ),
-                    Text("Gallery", style: GoogleFonts.poppins(color: _primaryDark)),
+                    Text(AppLocalizations.of(context)!.gallery, style: GoogleFonts.poppins(color: _primaryDark)),
                   ],
                 ),
               ],
@@ -624,7 +631,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                "Cancel",
+                AppLocalizations.of(context)!.cancel,
                 style: GoogleFonts.poppins(color: Colors.grey),
               ),
             ),
@@ -764,7 +771,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             const Icon(Icons.check_circle, color: Colors.white),
             const SizedBox(width: 10),
             Text(
-              'Profile updated successfully!',
+              AppLocalizations.of(context)!.profileUpdated,
               style: GoogleFonts.poppins(color: Colors.white),
             ),
           ],
@@ -789,7 +796,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Could not open Google Maps")),
+          SnackBar(content: Text(AppLocalizations.of(context)!.mapsError)),
         );
       }
     }
@@ -833,7 +840,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
               Icon(Icons.map_outlined, size: 40, color: Colors.grey.shade400),
               const SizedBox(height: 10),
               Text(
-                "Map Preview",
+                AppLocalizations.of(context)!.mapPreview,
                 style: GoogleFonts.poppins(color: Colors.grey.shade600),
               ),
             ],
@@ -859,7 +866,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 Icon(Icons.map, size: 50, color: Colors.grey.shade400),
                 const SizedBox(height: 10),
                 Text(
-                  "Map Preview",
+                  AppLocalizations.of(context)!.mapPreview,
                   style: GoogleFonts.poppins(
                     color: Colors.grey.shade600,
                     fontWeight: FontWeight.bold,
@@ -867,7 +874,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Coordinates: ${_locationController.text}",
+                  "${AppLocalizations.of(context)!.coordinatesLabel}: ${_locationController.text}",
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     color: Colors.grey.shade600,
@@ -1083,7 +1090,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
         ),
         centerTitle: true,
         title: Text(
-          _isEditing ? "Edit Profile" : "Profile Info",
+          _isEditing ? AppLocalizations.of(context)!.editProfile : AppLocalizations.of(context)!.profileInfo,
           style: GoogleFonts.poppins(
             color: _primaryDark,
             fontWeight: FontWeight.bold,
@@ -1150,7 +1157,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              _isEditing ? "Tap to change photo" : widget.userProfile.username,
+              _isEditing ? AppLocalizations.of(context)!.tapToChangePhoto : widget.userProfile.username,
               style: GoogleFonts.poppins(
                 color: _isEditing ? Colors.grey.shade600 : _primaryDark,
                 fontWeight: FontWeight.w500,
@@ -1162,9 +1169,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             if (_isEditing)
               Column(
                 children: [
-                  _buildEditableField("Username *", _usernameController),
-                  _buildEditableField("Phone Number", _phoneController),
-                  _buildEditableField("Email *", _emailController),
+                  _buildEditableField("${AppLocalizations.of(context)!.usernameLabel} *", _usernameController),
+                  _buildEditableField(AppLocalizations.of(context)!.phoneLabel, _phoneController),
+                  _buildEditableField("${AppLocalizations.of(context)!.emailLabel} *", _emailController),
                   
                   // Gender Dropdown
                   Container(
@@ -1173,7 +1180,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Gender",
+                          AppLocalizations.of(context)!.genderLabel,
                           style: GoogleFonts.poppins(
                             color: _primaryDark,
                             fontSize: 12,
@@ -1217,9 +1224,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                     ),
                   ),
                   
-                  _buildEditableField("Address", _addressController),
-                  _buildEditableField("Location (Google Maps)", _locationController, isLocation: true),
-                  _buildEditableField("Password", _passwordController, isPassword: true),
+                  _buildEditableField(AppLocalizations.of(context)!.addressLabel, _addressController),
+                  _buildEditableField(AppLocalizations.of(context)!.locationLabel, _locationController, isLocation: true),
+                  _buildEditableField(AppLocalizations.of(context)!.passwordLabel, _passwordController, isPassword: true),
                   
                   // Location submit info
                   Container(
@@ -1235,7 +1242,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            "Submit location: ${_locationController.text}",
+                            AppLocalizations.of(context)!.submitLocation(_locationController.text),
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: _primaryDark,
@@ -1254,13 +1261,13 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             else
               Column(
                 children: [
-                  _buildInfoRow("Username *", _usernameController.text),
-                  _buildInfoRow("Phone Number", _phoneController.text),
-                  _buildInfoRow("Email *", _emailController.text),
-                  _buildInfoRow("Gender", _selectedGender),
-                  _buildInfoRow("Address", _addressController.text),
-                  _buildInfoRow("Location (Google Maps)", _locationController.text),
-                  _buildInfoRow("Password", _passwordController.text, isPassword: true),
+                  _buildInfoRow("${AppLocalizations.of(context)!.usernameLabel} *", _usernameController.text),
+                  _buildInfoRow(AppLocalizations.of(context)!.phoneLabel, _phoneController.text),
+                  _buildInfoRow("${AppLocalizations.of(context)!.emailLabel} *", _emailController.text),
+                  _buildInfoRow(AppLocalizations.of(context)!.genderLabel, _selectedGender),
+                  _buildInfoRow(AppLocalizations.of(context)!.addressLabel, _addressController.text),
+                  _buildInfoRow(AppLocalizations.of(context)!.locationLabel, _locationController.text),
+                  _buildInfoRow(AppLocalizations.of(context)!.passwordLabel, _passwordController.text, isPassword: true),
                   
                   // Location submit info
                   Container(
@@ -1280,7 +1287,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Submit location: ${_locationController.text}",
+                                AppLocalizations.of(context)!.submitLocation(_locationController.text),
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   color: _primaryDark,
@@ -1289,7 +1296,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "Coordinates saved from Google Maps",
+                                AppLocalizations.of(context)!.coordinatesSaved,
                                 style: GoogleFonts.poppins(
                                   fontSize: 10,
                                   color: Colors.grey.shade600,
@@ -1325,7 +1332,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                           ),
                         ),
                         child: Text(
-                          "Cancel",
+                          AppLocalizations.of(context)!.cancel,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             color: Colors.grey.shade600,
@@ -1347,7 +1354,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                           ),
                         ),
                         child: Text(
-                          "Save Changes",
+                          AppLocalizations.of(context)!.saveChanges,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -1409,7 +1416,7 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Map Location",
+          AppLocalizations.of(context)!.mapLocation,
           style: GoogleFonts.poppins(color: _primaryDark, fontWeight: FontWeight.bold),
         ),
         actions: widget.isEditable ? [
@@ -1440,7 +1447,7 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      "Google Maps Placeholder",
+                      AppLocalizations.of(context)!.googleMapsPlaceholder,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.grey.shade600,
@@ -1449,12 +1456,12 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Location: ${widget.locationName}",
+                      AppLocalizations.of(context)!.locationLabelWithColon(widget.locationName),
                       style: GoogleFonts.poppins(color: Colors.grey.shade600),
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "Coordinates: ${widget.location.latitude.toStringAsFixed(5)}, ${widget.location.longitude.toStringAsFixed(5)}",
+                      AppLocalizations.of(context)!.coordinatesLabelWithColon(widget.location.latitude.toStringAsFixed(5), widget.location.longitude.toStringAsFixed(5)),
                       style: GoogleFonts.poppins(color: _accentCyan),
                     ),
                   ],
@@ -1478,7 +1485,7 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
                 child: Column(
                   children: [
                     Text(
-                      "Edit Location",
+                      AppLocalizations.of(context)!.editLocation,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         color: _primaryDark,
@@ -1490,13 +1497,13 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            "Lat: ${_selectedLocation?.latitude.toStringAsFixed(5)}",
+                            "${AppLocalizations.of(context)!.latitudeLabel}: ${_selectedLocation?.latitude.toStringAsFixed(5)}",
                             style: GoogleFonts.poppins(color: Colors.grey.shade600),
                           ),
                         ),
                         Expanded(
                           child: Text(
-                            "Lng: ${_selectedLocation?.longitude.toStringAsFixed(5)}",
+                            "${AppLocalizations.of(context)!.longitudeLabel}: ${_selectedLocation?.longitude.toStringAsFixed(5)}",
                             style: GoogleFonts.poppins(color: Colors.grey.shade600),
                           ),
                         ),
@@ -1520,7 +1527,7 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
                           ),
                         ),
                         child: Text(
-                          "Save Location",
+                          AppLocalizations.of(context)!.saveChanges,
                           style: GoogleFonts.poppins(color: Colors.white),
                         ),
                       ),
@@ -1534,6 +1541,8 @@ class _FullscreenMapScreenState extends State<FullscreenMapScreen> {
     );
   }
 }
+
+
 
 // ==========================================
 // 5. CONTACT US SCREEN (Updated to match theme)
@@ -1557,7 +1566,7 @@ class ContactUsScreen extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          "Contact Us",
+          AppLocalizations.of(context)!.contactUs,
           style: GoogleFonts.poppins(color: _primaryDark, fontWeight: FontWeight.bold),
         ),
       ),
@@ -1569,7 +1578,7 @@ class ContactUsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
-                "You may drop us a line, give us a call or send an email. Choose what suits you best.",
+                AppLocalizations.of(context)!.dropUsLine,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14),
               ),
@@ -1581,9 +1590,17 @@ class ContactUsScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Row(
                 children: [
-                  Expanded(child: _buildInfoCard(Icons.phone_in_talk, "Phone", "+961 71 503 235")),
+                  Expanded(child: _buildInfoCard(
+                    Icons.phone_in_talk, 
+                    AppLocalizations.of(context)!.phone, 
+                    AppLocalizations.of(context)!.phoneNumberExample
+                  )),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildInfoCard(Icons.email_outlined, "Email", "info@diraya.dev")),
+                  Expanded(child: _buildInfoCard(
+                    Icons.email_outlined, 
+                    AppLocalizations.of(context)!.email, 
+                    AppLocalizations.of(context)!.emailExample
+                  )),
                 ],
               ),
             ),
@@ -1594,9 +1611,15 @@ class ContactUsScreen extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  Text("Follow Us", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: _primaryDark)),
+                  Text(
+                    AppLocalizations.of(context)!.followUs,
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: _primaryDark),
+                  ),
                   const SizedBox(height: 4),
-                  Text("Stay connected with us on social media", style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey)),
+                  Text(
+                    AppLocalizations.of(context)!.stayConnected,
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                  ),
                   const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1627,15 +1650,21 @@ class ContactUsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Get In Touch With Us!", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: _primaryDark)),
-                  Text("Fill out the form below to send us a message.", style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey)),
+                  Text(
+                    AppLocalizations.of(context)!.getInTouch,
+                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: _primaryDark),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.fillOutForm,
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                  ),
                   const SizedBox(height: 20),
                   
-                  _buildFormInput("Name"),
+                  _buildFormInput(AppLocalizations.of(context)!.nameLabel),
                   const SizedBox(height: 12),
-                  _buildFormInput("Email"),
+                  _buildFormInput(AppLocalizations.of(context)!.emailLabel),
                   const SizedBox(height: 12),
-                  _buildFormInput("Message", maxLines: 4),
+                  _buildFormInput(AppLocalizations.of(context)!.messageLabel, maxLines: 4),
                   
                   const SizedBox(height: 20),
                   SizedBox(
@@ -1646,7 +1675,7 @@ class ContactUsScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Message sent successfully!',
+                              AppLocalizations.of(context)!.messageSentSuccessfully,
                               style: GoogleFonts.poppins(color: Colors.white),
                             ),
                             backgroundColor: _accentCyan,
@@ -1657,7 +1686,10 @@ class ContactUsScreen extends StatelessWidget {
                         backgroundColor: _primaryDark,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Text("SEND MESSAGE", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
+                      child: Text(
+                        AppLocalizations.of(context)!.sendMessage,
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
                     ),
                   ),
 
@@ -1684,7 +1716,7 @@ class ContactUsScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Location Map Placeholder",
+                            AppLocalizations.of(context)!.locationMapPlaceholder,
                             style: GoogleFonts.poppins(color: Colors.grey[600], fontWeight: FontWeight.bold),
                           )
                         ],
@@ -1760,3 +1792,4 @@ class ContactUsScreen extends StatelessWidget {
     );
   }
 }
+

@@ -1,0 +1,980 @@
+{
+  "@@locale": "en",
+  "appName": "Multivendor App",
+  "welcome": "Welcome",
+  "home": "Home",
+  "categories": "Categories",
+  "cart": "Cart",
+  "profile": "Profile",
+  "shops": "Shops",
+  "products": "Products",
+  "orders": "Orders",
+  "settings": "Settings",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+
+  "signup": "Sign Up",
+  "logout": "Logout",
+  "search": "Search",
+  "price": "Price",
+  "addToCart": "Add to Cart",
+  "buyNow": "Buy Now",
+  "description": "Description",
+  "reviews": "Reviews",
+  "total": "Total",
+  "checkout": "Checkout",
+  "orderHistory": "Order History",
+  "dashboard": "Dashboard",
+  "inventory": "Inventory",
+  "sales": "Sales",
+  "ads": "Ads",
+  "shopInfo": "Shop Info",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success",
+  "noInternet": "No Internet Connection",
+  "language": "Language",
+  "popularProducts": "Popular Products",
+  "showAll": "Show All",
+  "viewAll": "View All",
+  "searchHint": "Search for products, shops...",
+  "sponsored": "Sponsored",
+  "shopNow": "Shop Now",
+  "welcomeBack": "Welcome back,",
+  "today": "Today",
+  "totalProductsCount": "Total Products",
+  "totalOrdersCount": "Total Orders",
+  "totalRevenue": "Total Revenue",
+  "activeCustomers": "Active Customers",
+  "salesOverTime": "Sales Over Time",
+  "monthlyOrderCount": "Monthly Order Count",
+  "signIn": "Sign In",
+  "googleSignIn": "Sign in with Google",
+  "googleSignUp": "Sign up with Google",
+  "summerCollection": "Summer Collection",
+  "discount50": "50% Off Now",
+  "newArrivals": "New Arrivals",
+  "checkNow": "Check Now",
+  "exclusiveDeals": "Exclusive Deals",
+  "limitedTime": "Limited Time",
+  "beautySale": "Beauty Sale",
+  "upTo70Off": "Up to 70% Off",
+  "techDeals": "Tech Deals",
+  "latestGadgets": "Latest Gadgets",
+  "homeDecor": "Home Decor",
+  "modernFurniture": "Modern Furniture",
+  "fitnessGear": "Fitness Gear",
+  "stayActive": "Stay Active",
+  "bookFair": "Book Fair",
+  "bestSellers": "Best Sellers",
+  "fashionWeek": "Fashion Week",
+  "trendyStyles": "Trendy Styles",
+  "gamingZone": "Gaming Zone",
+  "newConsoles": "New Consoles",
+  "kitchenware": "Kitchenware",
+  "premiumCookware": "Premium Cookware",
+  "smartWatches": "Smart Watches",
+  "healthTracking": "Health Tracking",
+  "audioGear": "Audio Gear",
+  "premiumSound": "Premium Sound",
+  "productDetails": "Product Details",
+  "inStock": "In Stock",
+  "outOfStock": "Out of Stock",
+  "available": "Available",
+  "unavailable": "Unavailable",
+  "selectQuantity": "Select Quantity",
+  "stockCount": "Stock: {count}",
+  "@stockCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "rateThisProduct": "Rate this product",
+  "tapStarsToRate": "Tap stars to rate",
+  "youRated": "You rated {rating} stars",
+  "@youRated": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToCart": "{count} items added to cart",
+  "@addedToCart": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeBackTitle": "Welcome Back",
+  "signInSubtitle": "Sign in to continue to your account",
+  "emailAddress": "Email Address",
+  "rememberMe": "Remember me",
+  "forgotPassword": "Forgot Password?",
+  "noAccount": "Don't have an account? ",
+  "createAccountTitle": "Create Account",
+  "joinCommunity": "Join our community today",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "address": "Address",
+  "createPassword": "Create Password",
+  "confirmPassword": "Confirm Password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "accountCreated": "Account created successfully!",
+  "orContinueWith": "or continue with",
+  "orSignUpWith": "or sign up with",
+  "alreadyHaveAccount": "Already have an account? ",
+  "fillAllFields": "Please fill in all fields",
+  "invalidCredentials": "Invalid email or password",
+  "welcomeShopOwner": "Welcome, Shop Owner! Sign in successful!",
+  "myCart": "My Cart",
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "clearCartTitle": "Clear Cart?",
+  "clearCartConfirm": "Are you sure you want to remove all items from your cart?",
+  "clearAll": "Clear All",
+  "profile": "Profile",
+  "personalProfile": "Personal Profile",
+
+  "orderPlacedSuccessfully": "Order placed successfully!",
+  "itemRemoved": "{name} removed from cart",
+  "@itemRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyCart": "Your cart is empty",
+  "emptyCartSubtitle": "Looks like you haven't added any products to your cart yet. Start shopping to fill it up!",
+  "startShopping": "Start Shopping",
+  "orderSummary": "Order Summary",
+  "subtotal": "Subtotal",
+  "shipping": "Shipping",
+  "orderSuccess": "Order placed successfully!",
+  "willBeCharged": "{amount} will be charged",
+  "@willBeCharged": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "productDescription": "High-quality {name} designed for exceptional performance. Crafted with premium materials and attention to detail, this product offers reliability and style. Perfect for everyday use with features that enhance your experience.",
+  "@productDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "stockStatus": "Stock: {status}",
+  "@stockStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "electronics": "Electronics",
+  "accessories": "Accessories",
+  "cosmetics": "Cosmetics",
+  "groceries": "Groceries",
+  "fashion": "Fashion",
+  "featuredShops": "Featured Shops",
+  "visitShop": "Visit Shop",
+  "seeAll": "See All",
+  "management": "Management",
+  "ordersManagement": "Orders Management",
+
+  "revenue": "Revenue",
+  "rating": "Rating",
+  "manageProducts": "Manage Products",
+  "manageProductsSubtitle": "Add, edit or remove products",
+  "manageAds": "Manage Ads",
+  "manageAdsSubtitle": "Create and track advertisements",
+  "manageInventory": "Manage Inventory",
+  "manageInventorySubtitle": "Track stock and supplies",
+  "viewAllOrders": "View All Orders",
+  "viewAllOrdersSubtitle": "See complete order history",
+  "shopInfoSubtitle": "Manage your shop details",
+  "shopOwner": "Shop Owner",
+  "exportAllOrders": "Export All Orders",
+  "refreshOrders": "Refresh Orders",
+  "refreshingOrders": "Refreshing orders...",
+  "exportingOrders": "Exporting {count} {filter} orders...",
+  "@exportingOrders": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "preparingFile": "Preparing {format} file...",
+  "@preparingFile": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "exportSuccessful": "Export Successful",
+  "yourFileIsReady": "Your {format} file is ready",
+  "@yourFileIsReady": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "size": "Size",
+  "orders": "Orders",
+  "preview": "Preview",
+  "close": "Close",
+  "fileDownloadedSuccessfully": "{format} file downloaded successfully!",
+  "@fileDownloadedSuccessfully": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "download": "Download",
+  "dropHereToExport": "Drop here to export",
+  "last7Days": "Last 7 days performance",
+  "orderTrends": "Order trends over last 6 months",
+  "topSellingProducts": "Top Selling Products",
+  "bestPerformingItems": "Best performing items",
+  "categoryRevenue": "Category Revenue",
+  "revenueDistribution": "Revenue distribution by category",
+  "inventoryLevels": "Inventory Levels",
+  "facialCleansing": "Facial Cleansing",
+  "splash": "Splash",
+  "shampoo": "Shampoo",
+  "passionOrchidPerfume": "Passion Orchid Perfume",
+  "personalProfile": "Personal Profile",
+  "profileInfo": "Profile Info",
+  "usernameLabel": "Username *",
+  "phoneLabel": "Phone Number",
+  "emailLabel": "Email *",
+  "email": "Email",
+  "passwordLabel": "Password",
+  "genderLabel": "Gender",
+  "addressLabel": "Address",
+  "locationLabel": "Location (Google Maps)",
+  "myWishlist": "My Wishlist",
+  "wishlistEmpty": "Wishlist is empty",
+  "contactSupport": "Contact Support",
+  "myOrders": "My Orders",
+  "logoutConfirm": "Are you sure you want to logout?",
+  "loggedOut": "Logged out successfully!",
+  "chooseProfilePhoto": "Choose Profile Photo",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "profileUpdated": "Profile updated successfully!",
+  "mapsError": "Could not open Google Maps",
+  "editProfile": "Edit Profile",
+  "saveChanges": "Save Changes",
+  "tapToChangePhoto": "Tap to change photo",
+  "mapPreview": "Map Preview",
+  "coordinatesLabel": "Coordinates",
+  "coordinatesSaved": "Coordinates saved from Google Maps",
+  "googleMapsPlaceholder": "Google Maps Placeholder",
+  "mapLocation": "Map Location",
+  "latitudeLabel": "Lat",
+  "longitudeLabel": "Lng",
+  "editLocation": "Edit Location",
+  "locationLabelWithColon": "Location: {location}",
+  "@locationLabelWithColon": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "coordinatesLabelWithColon": "Coordinates: {lat}, {lng}",
+  "@coordinatesLabelWithColon": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "orderPlacedSuccessfully": "Order Placed Successfully!",
+  "orderItemFormat": "• {name} (x{quantity})",
+  "@orderItemFormat": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
+  "contactUs": "Contact Us",
+  "dropUsLine": "Drop us a line anytime, and we'll get back to you as soon as possible!",
+  "phone": "Phone",
+  "phoneNumberExample": "+961 71 503 235",
+  "emailExample": "info@diraya.dev",
+  "followUs": "Follow Us",
+  "stayConnected": "Stay connected with us on social media",
+  "getInTouch": "Get In Touch With Us!",
+  "fillOutForm": "Fill out the form below to send us a message.",
+  "nameLabel": "Name",
+  "messageLabel": "Message",
+  "messageSentSuccessfully": "Message sent successfully!",
+  "sendMessage": "SEND MESSAGE",
+  "locationMapPlaceholder": "Location Map Placeholder",
+  "trackOrdersSubtitle": "Track and manage all your orders in one place",
+  "orderNumber": "Order Number #{id}",
+  "pending": "Pending",
+  "shipped": "Shipped",
+  "completed": "COMPLETED",
+  "cancelled": "CANCELLED",
+  "canceled": "CANCELLED",
+  "itemsInOrder": "{count} items in this order",
+  "moreItems": "+{count} more items",
+  "totalAmountLabel": "Total Amount",
+  "delivered": "Delivered",
+  "submitLocation": "Submit location: {location}",
+  "all": "All",
+  "active": "Active",
+  "inactive": "Inactive",
+  "allCategories": "All Categories",
+  "skinCare": "Skin Care",
+  "noProductsFound": "No products found",
+  "emptyProductsSubtitle": "Try adjusting your filters or add a new product",
+  "updateProduct": "Update Product",
+  "searchProductsHint": "Search products by name...",
+  "productUpdatedSuccessfully": "Product updated successfully!",
+  "productAddedSuccessfully": "Product added successfully!",
+  "fillRequiredFields": "Please fill all required fields (*)",
+  "orderDetails": "Order Details",
+  "customerInformation": "Customer Information",
+  "selectNewStatusFor": "Select new status for {id}",
+  "@selectNewStatusFor": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "orderStatusUpdatedTo": "Order {id} status updated to {status}",
+  "@orderStatusUpdatedTo": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "exportOrdersTitle": "Export Orders",
+  "dragToExportHint": "Drag format to export zone or click to export",
+  "updateOrderStatusTitle": "Update Order Status",
+
+  "exportZone": "Drop format here to export",
+  "exportAs": "Export as {format}",
+  "@exportAs": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersExported": "Orders exported as {format}",
+  "@ordersExported": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "pendingStatus": "Pending",
+  "shopInformation": "Shop Information",
+  "basicInformation": "Basic Information",
+  "ownerName": "Owner Name",
+  "phoneNumber": "Phone Number",
+  "shopDescription": "Shop Description",
+  "socialMedia": "Social Media",
+  "location": "Location",
+  "shopImages": "Shop Images",
+  "shopLogo": "Shop Logo",
+  "coverImage": "Cover Image",
+  "shopSettings": "Shop Settings",
+  "shopStatus": "Shop Status",
+  "productLimit": "Product Limit",
+  "shopCreatedAt": "Shop Created At",
+  "saveShopInfo": "Save Shop Information",
+  "shopInfoSaved": "Shop information saved successfully!",
+  "enterPhoneNumber": "Enter phone number",
+  "describeShop": "Describe your shop...",
+  "selectCategoriesHelp": "(Select one or more categories for your shop)",
+  "optional": "(Optional)",
+  "instagramUrl": "Instagram URL",
+  "facebookUrl": "Facebook URL",
+  "tiktokUrl": "TikTok URL",
+  "shopLocation": "Shop Location",
+  "logoSubtitle": "Optional (500x500px)",
+  "coverSubtitle": "Optional (1200x300px)",
+  "productLimitHelp": "Maximum number of products allowed",
+  "createdAtHelp": "This cannot be changed",
+  "couldNotOpenMaps": "Could not open maps",
+  "homeGarden": "Home & Garden",
+  "foodBeverage": "Food & Beverage",
+  "sports": "Sports",
+  "books": "Books",
+  "toys": "Toys",
+  "health": "Health",
+  "accessDownloadsDirectoryError": "Could not access downloads directory",
+  "addStaticImage": "Add Static\nImage",
+  "errorLoadingImage": "Error loading image",
+  "expirationDateLabel": "Expiration Date*",
+  "expirationDateDescription": "Expiration Date* - (Set by Admin)",
+  "noDynamicAdImages": "No dynamic ad images added yet",
+  "clickAddImagesButton": "Click \"Add Images\" button below to add images",
+  "dynamicImagesCount": "Images: {count}/{limit}",
+  "@dynamicImagesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "staticAdPlan": "Static Ad Plan",
+  "dynamicAdPlan": "Dynamic Ad Plan",
+  "addImagesToDynamicAdPlan": "Add Images to Dynamic Ad Plan",
+  "maxImagesReached": "Maximum {limit} images reached for Dynamic Ad Plan",
+  "@maxImagesReached": {
+    "placeholders": {
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "addUpToImages": "Add up to {limit} images for Dynamic Ad Plan",
+  "@addUpToImages": {
+    "placeholders": {
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "manageProductsTitle": "Manage Products",
+  "addProduct": "Add Product",
+  "editProduct": "Edit Product",
+  "productNameLabel": "Product Name *",
+  "priceLabel": "Price *",
+  "salePriceLabel": "Sale Price",
+  "quantityLabel": "Quantity *",
+  "categoriesLabel": "Categories *",
+  "weightOptional": "Weight (Optional)",
+  "addNewWeight": "Add New Weight",
+  "weightHint": "e.g., 250g",
+  "addNew": "Add New",
+  "productStatusUpdated": "Product status updated!",
+  "ordersManagement": "Orders Management",
+  "shopOwner": "Shop Owner",
+  "myWishlist": "My Wishlist",
+  "wishlistEmpty": "Your wishlist is empty",
+  "electronics": "Electronics",
+  "fashion": "Fashion",
+  "homeGarden": "Home & Garden",
+  "beauty": "Beauty",
+  "sports": "Sports",
+  "books": "Books",
+  "toys": "Toys",
+  "automotive": "Automotive",
+  "groceries": "Groceries",
+  "health": "Health",
+  "jewelry": "Jewelry",
+  "pets": "Pets",
+  "searchCategoriesHint": "Search categories...",
+  "browseByCategory": "Browse products by category",
+  "categoriesCount": "{count} categories",
+  "noCategoriesAvailable": "No categories available",
+  "noCategoriesFound": "No categories found",
+  "categoriesWillAppearHere": "Categories will appear here",
+  "noResultsFor": "No results for \"$query\"",
+  "@noResultsFor": {
+    "placeholders": {
+      "query": {}
+    }
+  },
+  "clearSearch": "Clear search",
+  "recentOrders": "Recent Orders",
+  "export": "Export",
+  "viewDetails": "View Details",
+  "updateStatus": "Update Status",
+  "orderId": "Order ID",
+  "date": "Date",
+  "statusLabel": "Status",
+  "updateProfilePhoto": "Update Profile Photo",
+  "browseAsUser": "Browse as User",
+  "home": "Home",
+  "shops": "Shops",
+  "categories": "Categories",
+  "products": "Products",
+  "dashboard": "Dashboard",
+  "orders": "Orders",
+  "management": "Management",
+  "deleteProductTitle": "Delete Product",
+  "deleteProductConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+  "deletedSuccessfully": "{name} deleted successfully",
+  "categoryRequired": "At least one category is required",
+  "imageRequired": "At least one image is required",
+  "customBrandHint": "Enter custom brand name",
+  "addPhoto": "Add",
+  "productImagesLabel": "Product Images *",
+  "addOneToThreeImages": "Add 1-3 images",
+  "adsManagement": "Ads Management",
+  "adsConfiguration": "Ads Configuration",
+  "viewEditAdsPlans": "View and edit your Ads Plans.",
+  "expirationDate": "Expiration Date*",
+  "setBySuperAdmin": "Set by Super Admin",
+  "adsLimitLabel": "Ads Limit (0 to disable)",
+  "staticAdImageLabel": "Static Ad Image (Optional)",
+  "dynamicAdImagesLabel": "Dynamic Ad Images ({count}/{limit})",
+  "@dynamicAdImagesLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "noDynamicAds": "No dynamic ad images added yet",
+  "clickAddImages": "Click \"Add Images\" button below to add images",
+  "downloadToSave": "Click download button to save, delete to remove",
+  "adsSavedSuccessfully": "Ads images saved successfully!",
+  "adsLimitError": "Dynamic Ad Images count ({count}) must match Ads Limit ({limit})",
+  "@adsLimitError": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "noStaticImageError": "No static image to download",
+  "storagePermissionRequired": "Storage permission is required to download images",
+  "enableStoragePermission": "Please enable storage permission in app settings",
+  "downloadSuccess": "Image downloaded successfully to Downloads folder",
+  "downloadError": "Failed to download image: {error}",
+  "adsLimitDisabledByAdmin": "Ads limit is disabled (set to 0) by Super Admin",
+  "inventoryManagement": "Inventory Management",
+  "productsOverview": "Products Overview",
+  "manageStockLevels": "Manage stock levels for all products in your inventory.",
+  "totalProducts": "Total Products",
+  "lowStock": "Low Stock",
+  "inStockCount": "{count} in stock",
+  "@inStockCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "inventoryUpdated": "Inventory updated successfully!",
+  "preparingFile": "Preparing your {format} file",
+  "@preparingFile": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "exportSuccessful": "Export Successful!",
+  "yourFileIsReady": "Your {format} file is ready:",
+  "@yourFileIsReady": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "size": "Size",
+  "orders": "Orders",
+  "preview": "Preview:",
+  "download": "Download",
+  "close": "Close",
+  "fileDownloadedSuccessfully": "{format} file downloaded successfully!",
+  "@fileDownloadedSuccessfully": {
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrder": "Cancel Order",
+  "cancelOrderConfirmation": "Are you sure you want to cancel order {id}? This action cannot be undone.",
+  "@cancelOrderConfirmation": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "no": "No",
+  "yesCancelOrder": "Yes, Cancel Order",
+  "orderCanceled": "Order {id} has been canceled",
+  "@orderCanceled": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "UNDO",
+  "deleteOrderConfirm": "Are you sure you want to delete order {id}?",
+  "@deleteOrderConfirm": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "staticAdPlan": "Static Ad Plan",
+"dynamicAdPlan": "Dynamic Ad Plan",
+"addImagesToDynamicAdPlan": "Add Images to Dynamic Ad Plan",
+"maxImagesReached": "Maximum {limit} images reached for Dynamic Ad Plan",
+"@maxImagesReached": {
+  "placeholders": {
+    "limit": {
+      "type": "String"
+    }
+  }
+},
+"addUpToImages": "Add up to {limit} images for Dynamic Ad Plan",
+"@addUpToImages": {
+  "placeholders": {
+    "limit": {
+      "type": "String"
+    }
+  }
+},
+"manageProductsTitle": "Manage Products",
+"addProduct": "Add Product",
+"editProduct": "Edit Product",
+"productNameLabel": "Product Name *",
+"priceLabel": "Price *",
+"salePriceLabel": "Sale Price",
+"quantityLabel": "Quantity *",
+"categoriesLabel": "Categories *",
+"weightOptional": "Weight (Optional)",
+"addNewWeight": "Add New Weight",
+"weightHint": "e.g., 250g",
+"addNew": "Add New",
+"productStatusUpdated": "Product status updated!",
+"ordersManagement": "Orders Management",
+"shopOwner": "Shop Owner",
+"myWishlist": "My Wishlist",
+"wishlistEmpty": "Your wishlist is empty",
+"electronics": "Electronics",
+"fashion": "Fashion",
+"homeGarden": "Home & Garden",
+"beauty": "Beauty",
+"sports": "Sports",
+"books": "Books",
+"toys": "Toys",
+"automotive": "Automotive",
+"groceries": "Groceries",
+"health": "Health",
+"jewelry": "Jewelry",
+"pets": "Pets",
+"searchCategoriesHint": "Search categories...",
+"browseByCategory": "Browse products by category",
+"categoriesCount": "{count} categories",
+"noCategoriesAvailable": "No categories available",
+"noCategoriesFound": "No categories found",
+"categoriesWillAppearHere": "Categories will appear here",
+"noResultsFor": "No results for \"$query\"",
+"@noResultsFor": {
+  "placeholders": {
+    "query": {}
+  }
+},
+"clearSearch": "Clear search",
+"recentOrders": "Recent Orders",
+"export": "Export",
+"viewDetails": "View Details",
+"updateStatus": "Update Status",
+"orderId": "Order ID",
+"date": "Date",
+"statusLabel": "Status",
+"updateProfilePhoto": "Update Profile Photo",
+"browseAsUser": "Browse as User",
+"home": "Home",
+"shops": "Shops",
+"categories": "Categories",
+"products": "Products",
+"dashboard": "Dashboard",
+"orders": "Orders",
+"management": "Management",
+"deleteProductTitle": "Delete Product",
+"deleteProductConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+"deletedSuccessfully": "{name} deleted successfully",
+"categoryRequired": "At least one category is required",
+"imageRequired": "At least one image is required",
+"customBrandHint": "Enter custom brand name",
+"addPhoto": "Add",
+"productImagesLabel": "Product Images *",
+"addOneToThreeImages": "Add 1-3 images",
+"adsManagement": "Ads Management",
+"adsConfiguration": "Ads Configuration",
+"viewEditAdsPlans": "View and edit your Ads Plans.",
+"expirationDate": "Expiration Date*",
+"setBySuperAdmin": "Set by Super Admin",
+"adsLimitLabel": "Ads Limit (0 to disable)",
+"staticAdImageLabel": "Static Ad Image (Optional)",
+"dynamicAdImagesLabel": "Dynamic Ad Images ({count}/{limit})",
+"@dynamicAdImagesLabel": {
+  "placeholders": {
+    "count": {
+      "type": "String"
+    },
+    "limit": {
+      "type": "String"
+    }
+  }
+},
+"noDynamicAds": "No dynamic ad images added yet",
+"clickAddImages": "Click \"Add Images\" button below to add images",
+"downloadToSave": "Click download button to save, delete to remove",
+"adsSavedSuccessfully": "Ads images saved successfully!",
+"adsLimitError": "Dynamic Ad Images count ({count}) must match Ads Limit ({limit})",
+"@adsLimitError": {
+  "placeholders": {
+    "count": {
+      "type": "String"
+    },
+    "limit": {
+      "type": "String"
+    }
+  }
+},
+"noStaticImageError": "No static image to download",
+"storagePermissionRequired": "Storage permission is required to download images",
+"enableStoragePermission": "Please enable storage permission in app settings",
+"downloadSuccess": "Image downloaded successfully to Downloads folder",
+"downloadError": "Failed to download image: {error}",
+"adsLimitDisabledByAdmin": "Ads limit is disabled (set to 0) by Super Admin",
+"inventoryManagement": "Inventory Management",
+"productsOverview": "Products Overview",
+"manageStockLevels": "Manage stock levels for all products in your inventory.",
+"totalProducts": "Total Products",
+"lowStock": "Low Stock",
+"inStockCount": "{count} in stock",
+"@inStockCount": {
+  "placeholders": {
+    "count": {
+      "type": "String"
+    }
+  }
+},
+"inventoryUpdated": "Inventory updated successfully!",
+"preparingFile": "Preparing your {format} file",
+"@preparingFile": {
+  "placeholders": {
+    "format": {
+      "type": "String"
+    }
+  }
+},
+"exportSuccessful": "Export Successful!",
+"yourFileIsReady": "Your {format} file is ready:",
+"@yourFileIsReady": {
+  "placeholders": {
+    "format": {
+      "type": "String"
+    }
+  }
+},
+"size": "Size",
+"orders": "Orders",
+"preview": "Preview:",
+"download": "Download",
+"close": "Close",
+"fileDownloadedSuccessfully": "{format} file downloaded successfully!",
+"@fileDownloadedSuccessfully": {
+  "placeholders": {
+    "format": {
+      "type": "String"
+    }
+  }
+},
+"cancelOrder": "Cancel Order",
+"cancelOrderConfirmation": "Are you sure you want to cancel order {id}? This action cannot be undone.",
+"@cancelOrderConfirmation": {
+  "placeholders": {
+    "id": {
+      "type": "String"
+    }
+  }
+},
+"no": "No",
+"yesCancelOrder": "Yes, Cancel Order",
+"orderCanceled": "Order {id} has been canceled",
+"@orderCanceled": {
+  "placeholders": {
+    "id": {
+      "type": "String"
+    }
+  }
+},
+"undo": "UNDO",
+"deleteOrderConfirm": "Are you sure you want to delete order {id}?",
+"@deleteOrderConfirm": {
+  "placeholders": {
+    "id": {
+      "type": "String"
+    }
+  }
+},
+"discoverShops": "Discover Shops",
+"browseCuratedVendors": "Browse our curated vendors",
+"searchShopsHint": "Search shops by name...",
+"shops": "Shops",
+"visitShop": "Visit Shop",
+"noShopsFound": "No shops found",
+"noShopsAvailable": "No shops available",
+"shopsWillAppearHere": "Shops will appear here",
+"productCount": "{count} products",
+"@productCount": {
+  "description": "Number of products in a shop",
+  "placeholders": {
+    "count": {}
+  }
+},
+"itemsCount": "{count} items",
+"viewsCount": "{views} views",
+"searchInShopHint": "Search in shop...",
+"filter": "Filter",
+"filters": "Filters",
+"category": "Category",
+"brand": "Brand",
+"priceRange": "Price Range",
+"noProductsAvailable": "No products available",
+"noProductsFound": "No products found",
+"inCartCount": "{count} in cart",
+"skincare": "Skincare",
+"masks": "Masks",
+"toners": "Toners",
+"suncare": "Suncare",
+"lipCare": "Lip Care",
+"bodyCare": "Body Care",
+"cleansers": "Cleansers",
+"essences": "Essences",
+"@itemsCount": {
+  "description": "Number of items in shop",
+  "placeholders": {
+    "count": {}
+  }
+},
+"@viewsCount": {
+  "description": "Number of shop views",
+  "placeholders": {
+    "views": {}
+  }
+},
+"@inCartCount": {
+  "description": "Number of items in cart",
+  "placeholders": {
+    "count": {}
+  }
+},
+"discoverProductsSubtitle": "Discover our complete collection",
+"searchProductsHint": "Search by name...",
+"allCategories": "All categories",
+"allBrands": "All Brands",
+"minPrice": "Min",
+"maxPrice": "Max",
+"productsFound": "{count} products found",
+"adjustFiltersHint": "Try adjusting your filters or search",
+"sportsOutdoors": "Sports & Outdoors",
+"foodBeverages": "Food & Beverages",
+"beautyHealth": "Beauty & Health",
+"booksMedia": "Books & Media",
+"@productsFound": {
+  "description": "Number of products found in search results",
+  "placeholders": {
+    "count": {}
+  }
+},
+"shippingMethod": "Shipping Method",
+"paymentMethod": "Payment Method",
+"shippingAddress": "Shipping Address",
+"orderItems": "Order Items",
+"quantity": "Quantity",
+"notes": "Notes",
+"generated": "Generated",
+"ordersReport": "ORDERS REPORT",
+"ordersDocument": "Orders Document",
+"ordersCount": "Orders Count",
+"itemsOrdered": "Items Ordered",
+"orderDate": "Order Date",
+"totalAmount": "Total Amount",
+"canceled": "Canceled",
+"completed": "Completed",
+"filterAll": "All",
+"filterPending": "Pending",
+"filterShipped": "Shipped",
+"filterCompleted": "Completed",
+"filterCanceled": "Canceled",
+"orderStatus": "Order Status",
+"customerInfo": "Customer Information",
+"orderSummary": "Order Summary",
+"itemName": "Item",
+"price": "Price",
+"qty": "Qty",
+"subtotal": "Subtotal",
+"shippingFee": "Shipping Fee",
+"taxes": "Taxes",
+"total": "Total",
+"shippingInfo": "Shipping Information",
+"contactInfo": "Contact Information",
+"phone": "Phone",
+"email": "Email",
+"address": "Address",
+"paymentInfo": "Payment Information",
+"orderNotes": "Order Notes",
+"noNotes": "No additional notes",
+"totalOrders": "Total Orders",
+"customer": "Customer",
+"order": "Order",
+"status": "Status",
+"items": "Items",
+"tax": "Tax",
+"browseAsUser": "Browse as User",
+"backToDashboard": "Back to Dashboard",
+"management": "Management"
+}

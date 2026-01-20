@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart' as ph;
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class ManageAdsScreen extends StatefulWidget {
   const ManageAdsScreen({super.key});
@@ -51,11 +52,11 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
   
   Future<void> _pickDynamicImages() async {
     if (_adsLimit <= 0) {
-      _showErrorSnackBar('Ads limit is disabled (set to 0) by Super Admin');
+      _showErrorSnackBar(AppLocalizations.of(context)!.adsLimitDisabledByAdmin);
       return;
     }
     
-    final List<XFile>? images = await _imagePicker.pickMultiImage(
+    final List<XFile> images = await _imagePicker.pickMultiImage(
       imageQuality: 85,
       maxWidth: 1200,
     );
@@ -86,7 +87,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
   
   Future<void> _downloadStaticImage() async {
     if (_staticAdImage == null) {
-      _showErrorSnackBar('No static image to download');
+      _showErrorSnackBar(AppLocalizations.of(context)!.noStaticImageError);
       return;
     }
     
@@ -114,17 +115,18 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
           // Copy the file to downloads
           await _staticAdImage!.copy(destinationPath);
           
-          _showSuccessSnackBar('Image downloaded successfully to Downloads folder');
+          _showSuccessSnackBar(AppLocalizations.of(context)!.downloadSuccess);
         } else {
-          _showErrorSnackBar('Could not access downloads directory');
+          _showErrorSnackBar(AppLocalizations.of(context)!.accessDownloadsDirectoryError);
         }
-      } else if (status.isDenied) {
-        _showErrorSnackBar('Storage permission is required to download images');
       } else if (status.isPermanentlyDenied) {
-        _showErrorSnackBar('Please enable storage permission in app settings');
+        _showErrorSnackBar(AppLocalizations.of(context)!.enableStoragePermission);
+        ph.openAppSettings();
+      } else {
+        _showErrorSnackBar(AppLocalizations.of(context)!.storagePermissionRequired);
       }
     } catch (e) {
-      _showErrorSnackBar('Failed to download image: ${e.toString()}');
+      _showErrorSnackBar(AppLocalizations.of(context)!.downloadError(e.toString()));
     } finally {
       setState(() {
         _isDownloading = false;
@@ -135,14 +137,14 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
   void _saveChanges() {
     // Validate dynamic images count matches ads limit
     if (_adsLimit > 0 && _dynamicAdImages.length != _adsLimit) {
-      _showErrorSnackBar('Dynamic Ad Images count (${_dynamicAdImages.length}) must match Ads Limit ($_adsLimit)');
+      _showErrorSnackBar(AppLocalizations.of(context)!.adsLimitError(_dynamicAdImages.length.toString(), _adsLimit.toString()));
       return;
     }
     
     // Save logic for images would go here
     // Note: Expiration dates and ads limit are managed by Super Admin from backend
     
-    _showSuccessSnackBar('Ads images saved successfully!');
+    _showSuccessSnackBar(AppLocalizations.of(context)!.adsSavedSuccessfully);
   }
   
   void _showErrorSnackBar(String message) {
@@ -221,7 +223,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Add Static\nImage',
+                  AppLocalizations.of(context)!.addStaticImage,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontSize: 12,
@@ -262,7 +264,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Error loading image',
+                        AppLocalizations.of(context)!.errorLoadingImage,
                         style: GoogleFonts.poppins(
                           fontSize: 10,
                           color: Colors.grey[600],
@@ -437,7 +439,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  'Set by Super Admin',
+                  AppLocalizations.of(context)!.setBySuperAdmin,
                   style: GoogleFonts.poppins(
                     fontSize: 11,
                     color: Colors.grey[600],
@@ -456,7 +458,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Ads Limit (0 to disable)',
+          AppLocalizations.of(context)!.adsLimitLabel,
           style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -501,7 +503,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  'Set by Super Admin',
+                  AppLocalizations.of(context)!.setBySuperAdmin,
                   style: GoogleFonts.poppins(
                     fontSize: 11,
                     color: Colors.grey[600],
@@ -512,6 +514,17 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSectionHeader(String text) {
+    return Text(
+      text,
+      style: GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: const Color(0xFF3D5150),
+      ),
     );
   }
   
@@ -562,23 +575,16 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
           
           // Expiration Date field
           _buildStaticFormField(
-            label: 'Expiration Date*',
+            label: AppLocalizations.of(context)!.expirationDateLabel,
             value: isStatic ? _staticExpirationDate : _dynamicExpirationDate,
-            description: isStatic ? 'Expiration Date* - (Only ' : 'Expiration Date* - (Only ',
+            description: isStatic ? AppLocalizations.of(context)!.expirationDateDescription : AppLocalizations.of(context)!.expirationDateDescription,
           ),
           const SizedBox(height: 16),
           
           // Image section header
-          Text(
-            isStatic 
-                ? 'Static Ad Image (Optional)'
-                : 'Dynamic Ad Images (${_dynamicAdImages.length}/$_adsLimit)',
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF3D5150),
-            ),
-          ),
+          isStatic
+              ? _buildSectionHeader(AppLocalizations.of(context)!.staticAdImageLabel)
+              : _buildSectionHeader(AppLocalizations.of(context)!.dynamicAdImagesLabel(_dynamicAdImages.length.toString(), _adsLimit.toString())),
           const SizedBox(height: 12),
           
           // Images section
@@ -587,7 +593,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
             if (_staticAdImage != null) ...[
               const SizedBox(height: 8),
               Text(
-                'Click download button to save, delete to remove',
+                AppLocalizations.of(context)!.downloadToSave,
                 style: GoogleFonts.poppins(
                   fontSize: 12,
                   color: Colors.grey[600],
@@ -616,7 +622,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'No dynamic ad images added yet',
+                      AppLocalizations.of(context)!.noDynamicAdImages,
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         color: Colors.grey[600],
@@ -624,7 +630,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Click "Add Images" button below to add images',
+                      AppLocalizations.of(context)!.clickAddImagesButton,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         color: Colors.grey[500],
@@ -643,12 +649,12 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                       .asMap()
                       .entries
                       .map((entry) => _buildDynamicAdImageCard(entry.value, entry.key))
-                      .toList(),
+                      ,
                 ],
               ),
               const SizedBox(height: 8),
               Text(
-                'Images: ${_dynamicAdImages.length}/$_adsLimit',
+                AppLocalizations.of(context)!.dynamicImagesCount(_dynamicAdImages.length.toString(), _adsLimit.toString()),
                 style: GoogleFonts.poppins(
                   fontSize: 12,
                   color: _dynamicAdImages.length == _adsLimit 
@@ -713,7 +719,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Ads Management',
+                              AppLocalizations.of(context)!.adsManagement,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -774,7 +780,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Ads Configuration',
+                                  AppLocalizations.of(context)!.adsConfiguration,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -783,7 +789,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'View and edit your Ads Plans.',
+                                  AppLocalizations.of(context)!.viewEditAdsPlans,
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     color: Colors.grey[600],
@@ -808,7 +814,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                   children: [
                     // Static Ad Plan
                     _buildAdSection(
-                      title: 'Static Ad Plan',
+                      title: AppLocalizations.of(context)!.staticAdPlan,
                       isStatic: true,
                     ),
                     
@@ -816,7 +822,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                     
                     // Dynamic Ad Plan
                     _buildAdSection(
-                      title: 'Dynamic Ad Plan',
+                      title: AppLocalizations.of(context)!.dynamicAdPlan,
                       isStatic: false,
                     ),
                     
@@ -854,7 +860,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Add Images to Dynamic Ad Plan',
+                                  AppLocalizations.of(context)!.addImagesToDynamicAdPlan,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -871,8 +877,8 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                       const SizedBox(height: 8),
                       Text(
                         _dynamicAdImages.length >= _adsLimit
-                            ? 'Maximum $_adsLimit images reached for Dynamic Ad Plan'
-                            : 'Add up to $_adsLimit images for Dynamic Ad Plan',
+                            ? AppLocalizations.of(context)!.maxImagesReached(_adsLimit.toString())
+                            : AppLocalizations.of(context)!.addUpToImages(_adsLimit.toString()),
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: _dynamicAdImages.length >= _adsLimit
@@ -911,7 +917,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                               ),
                             ),
                             child: Text(
-                              'Cancel',
+                              AppLocalizations.of(context)!.cancel,
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
@@ -932,7 +938,7 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                               ),
                             ),
                             child: Text(
-                              'Save Images',
+                              AppLocalizations.of(context)!.saveChanges,
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,

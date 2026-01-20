@@ -2,6 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
+
+// Custom class for dropdown items
+class FilterItem {
+  final String id;
+  final String label;
+  
+  FilterItem(this.id, this.label);
+}
 
 class ManageProductsScreen extends StatefulWidget {
   const ManageProductsScreen({super.key});
@@ -12,10 +21,14 @@ class ManageProductsScreen extends StatefulWidget {
 
 class _ManageProductsScreenState extends State<ManageProductsScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _selectedStatus = 'All';
-  String _selectedCategory = 'All Categories';
+  String _selectedStatus = 'all';
+  String _selectedCategory = 'all';
+  
+  // Filter items for dropdowns
+  late List<FilterItem> _statusFilterItems;
+  late List<FilterItem> _categoryFilterItems;
 
-  List<Map<String, dynamic>> _products = [
+  final List<Map<String, dynamic>> _products = [
     {
       'name': 'Facial Cleansing',
       'description': 'Gentle facial cleanser for all skin types',
@@ -102,6 +115,34 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
   final List<String> _availableCategories = ['Cosmetics', 'SkinCare', 'Fashion', 'Electronics', 'Books'];
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize filter items in initState to access context
+    _statusFilterItems = [];
+    _categoryFilterItems = [];
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize filter items with localization
+    _statusFilterItems = [
+      FilterItem('all', AppLocalizations.of(context)!.all),
+      FilterItem('active', AppLocalizations.of(context)!.active),
+      FilterItem('inactive', AppLocalizations.of(context)!.inactive),
+      FilterItem('outOfStock', AppLocalizations.of(context)!.outOfStock),
+    ];
+    
+    _categoryFilterItems = [
+      FilterItem('all', AppLocalizations.of(context)!.allCategories),
+      FilterItem('cosmetics', AppLocalizations.of(context)!.cosmetics),
+      FilterItem('skinCare', AppLocalizations.of(context)!.skinCare),
+      FilterItem('fashion', AppLocalizations.of(context)!.fashion),
+      FilterItem('electronics', AppLocalizations.of(context)!.electronics),
+    ];
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -114,12 +155,24 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
               .toLowerCase()
               .contains(_searchController.text.toLowerCase());
       
-      final matchesStatus = _selectedStatus == 'All' ||
-          product['status'] == _selectedStatus ||
-          (_selectedStatus == 'Out of Stock' && product['stock'] == 0);
+      // Convert selected status ID to display value
+      final statusFilter = _statusFilterItems.firstWhere(
+        (item) => item.id == _selectedStatus,
+        orElse: () => FilterItem('all', 'All'),
+      );
       
-      final matchesCategory = _selectedCategory == 'All Categories' ||
-          (product['categories'] as List<String>).contains(_selectedCategory);
+      final matchesStatus = _selectedStatus == 'all' ||
+          product['status'] == statusFilter.label ||
+          (_selectedStatus == 'outOfStock' && product['stock'] == 0);
+      
+      // Convert selected category ID to display value
+      final categoryFilter = _categoryFilterItems.firstWhere(
+        (item) => item.id == _selectedCategory,
+        orElse: () => FilterItem('all', 'All Categories'),
+      );
+      
+      final matchesCategory = _selectedCategory == 'all' ||
+          (product['categories'] as List<String>).contains(categoryFilter.label);
       
       return matchesSearch && matchesStatus && matchesCategory;
     }).toList();
@@ -144,7 +197,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Product status updated!',
+                AppLocalizations.of(context)!.productStatusUpdated,
                 style: GoogleFonts.poppins(fontSize: 14),
               ),
             ),
@@ -184,7 +237,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
             ),
             const SizedBox(width: 12),
             Text(
-              'Delete Product',
+              AppLocalizations.of(context)!.deleteProductTitle,
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -193,14 +246,14 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
           ],
         ),
         content: Text(
-          'Are you sure you want to delete "${product['name']}"? This action cannot be undone.',
+          AppLocalizations.of(context)!.deleteProductConfirm(product['name']),
           style: GoogleFonts.poppins(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              AppLocalizations.of(context)!.cancel,
               style: GoogleFonts.poppins(
                 color: Colors.grey,
                 fontWeight: FontWeight.w600,
@@ -215,7 +268,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${product['name']} deleted successfully'),
+                  content: Text(AppLocalizations.of(context)!.deletedSuccessfully(product['name'])),
                   backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -228,7 +281,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
               ),
             ),
             child: Text(
-              'Delete',
+              AppLocalizations.of(context)!.delete,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
               ),
@@ -274,29 +327,29 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
     Map<String, dynamic>? product,
     required VoidCallback onProductSaved,
   }) {
-    final _productNameController = TextEditingController(text: product?['name'] ?? '');
-    final _descriptionController = TextEditingController(text: product?['description'] ?? '');
-    final _priceController = TextEditingController(text: product?['price'] ?? '');
-    final _salePriceController = TextEditingController(text: product?['salePrice'] ?? '');
-    final _quantityController = TextEditingController(text: product?['quantity'].toString() ?? '');
-    final _brandController = TextEditingController(text: product?['brand'] ?? '');
-    final _customBrandController = TextEditingController(text: product?['brand'] != null && !_availableBrands.contains(product!['brand']) ? product['brand'] : '');
-    final _newWeightController = TextEditingController();
+    final productNameController = TextEditingController(text: product?['name'] ?? '');
+    final descriptionController = TextEditingController(text: product?['description'] ?? '');
+    final priceController = TextEditingController(text: product?['price'] ?? '');
+    final salePriceController = TextEditingController(text: product?['salePrice'] ?? '');
+    final quantityController = TextEditingController(text: product?['quantity'].toString() ?? '');
+    final brandController = TextEditingController(text: product?['brand'] ?? '');
+    final customBrandController = TextEditingController(text: product?['brand'] != null && !_availableBrands.contains(product!['brand']) ? product['brand'] : '');
+    final newWeightController = TextEditingController();
     
     // Handle brand selection - if product has a custom brand not in list, show as "Custom Brand"
-    String _selectedBrand = product?['brand'] ?? 'Febra';
-    bool _showCustomBrandField = product?['brand'] != null && !_availableBrands.contains(product!['brand']);
-    if (_showCustomBrandField) {
-      _selectedBrand = 'Custom Brand';
+    String selectedBrand = product?['brand'] ?? 'Febra';
+    bool showCustomBrandField = product?['brand'] != null && !_availableBrands.contains(product!['brand']);
+    if (showCustomBrandField) {
+      selectedBrand = 'Custom Brand';
     }
     
-    List<String> _selectedCategories = product?['categories'] != null 
+    List<String> selectedCategories = product?['categories'] != null 
         ? List<String>.from(product!['categories']) 
         : ['Cosmetics'];
-    List<String> _selectedWeights = product?['weights'] != null 
+    List<String> selectedWeights = product?['weights'] != null 
         ? List<String>.from(product!['weights']) 
         : ['500g'];
-    List<File> _productImages = product?['images'] != null ? List<File>.from(product!['images']) : [];
+    List<File> productImages = product?['images'] != null ? List<File>.from(product!['images']) : [];
 
     return StatefulBuilder(
       builder: (context, setStateDialog) {
@@ -358,8 +411,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                         children: [
                           // Product Name (Required)
                           _buildFormField(
-                            label: 'Product Name *',
-                            controller: _productNameController,
+                            label: AppLocalizations.of(context)!.productNameLabel,
+                            controller: productNameController,
                             icon: Icons.edit,
                             isRequired: true,
                           ),
@@ -367,8 +420,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
 
                           // Description (Optional)
                           _buildFormField(
-                            label: 'Description',
-                            controller: _descriptionController,
+                            label: AppLocalizations.of(context)!.description,
+                            controller: descriptionController,
                             icon: Icons.description,
                             maxLines: 3,
                             isOptional: true,
@@ -380,8 +433,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             children: [
                               Expanded(
                                 child: _buildFormField(
-                                  label: 'Price *',
-                                  controller: _priceController,
+                                  label: AppLocalizations.of(context)!.priceLabel,
+                                  controller: priceController,
                                   icon: Icons.attach_money,
                                   isRequired: true,
                                   keyboardType: TextInputType.number,
@@ -390,8 +443,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: _buildFormField(
-                                  label: 'Sale Price',
-                                  controller: _salePriceController,
+                                  label: AppLocalizations.of(context)!.salePriceLabel,
+                                  controller: salePriceController,
                                   icon: Icons.attach_money,
                                   isOptional: true,
                                   keyboardType: TextInputType.number,
@@ -403,8 +456,8 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
 
                           // Quantity (Required)
                           _buildFormField(
-                            label: 'Quantity *',
-                            controller: _quantityController,
+                            label: AppLocalizations.of(context)!.quantityLabel,
+                            controller: quantityController,
                             icon: Icons.inventory_2,
                             isRequired: true,
                             keyboardType: TextInputType.number,
@@ -413,7 +466,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
 
                           // Categories (Multiple Selection)
                           Text(
-                            'Categories *',
+                            AppLocalizations.of(context)!.categoriesLabel,
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -436,7 +489,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                 spacing: 8,
                                 runSpacing: 8,
                                 children: _availableCategories.map((category) {
-                                  final isSelected = _selectedCategories.contains(category);
+                                  final isSelected = selectedCategories.contains(category);
                                   return ChoiceChip(
                                     label: Text(category, 
                                       style: GoogleFonts.poppins(
@@ -448,9 +501,9 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                     onSelected: (selected) {
                                       setStateDialog(() {
                                         if (selected) {
-                                          _selectedCategories.add(category);
+                                          selectedCategories.add(category);
                                         } else {
-                                          _selectedCategories.remove(category);
+                                          selectedCategories.remove(category);
                                         }
                                       });
                                     },
@@ -469,11 +522,11 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                               ),
                             ),
                           ),
-                          if (_selectedCategories.isEmpty)
+                          if (selectedCategories.isEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Text(
-                                'At least one category is required',
+                                AppLocalizations.of(context)!.categoryRequired,
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   color: Colors.red,
@@ -507,7 +560,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
-                                      value: _selectedBrand,
+                                      value: selectedBrand,
                                       isExpanded: true,
                                       items: _availableBrands.map((String brand) {
                                         return DropdownMenuItem<String>(
@@ -520,23 +573,23 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                       }).toList(),
                                       onChanged: (String? value) {
                                         setStateDialog(() {
-                                          _selectedBrand = value!;
-                                          _showCustomBrandField = value == 'Custom Brand';
-                                          if (!_showCustomBrandField) {
-                                            _brandController.text = value;
+                                          selectedBrand = value!;
+                                          showCustomBrandField = value == 'Custom Brand';
+                                          if (!showCustomBrandField) {
+                                            brandController.text = value;
                                           }
                                         });
                                       },
                                     ),
                                   ),
                                 ),
-                                if (_showCustomBrandField)
+                                if (showCustomBrandField)
                                   Padding(
                                     padding: const EdgeInsets.all(12),
                                     child: TextField(
-                                      controller: _customBrandController,
+                                      controller: customBrandController,
                                       decoration: InputDecoration(
-                                        hintText: 'Enter custom brand name',
+                                        hintText: AppLocalizations.of(context)!.customBrandHint,
                                         hintStyle: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: Colors.grey[400],
@@ -549,7 +602,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                         ),
                                       ),
                                       onChanged: (value) {
-                                        _brandController.text = value;
+                                        brandController.text = value;
                                       },
                                     ),
                                   ),
@@ -563,7 +616,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Product Images *',
+                                AppLocalizations.of(context)!.productImagesLabel,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -571,10 +624,10 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                 ),
                               ),
                               Text(
-                                '${_productImages.length}/3',
+                                '${productImages.length}/3',
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
-                                  color: _productImages.length >= 3 
+                                  color: productImages.length >= 3 
                                       ? Colors.red 
                                       : const Color(0xFF1CE2D6),
                                   fontWeight: FontWeight.w600,
@@ -584,7 +637,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Add 1-3 images',
+                            AppLocalizations.of(context)!.addOneToThreeImages,
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -596,7 +649,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             runSpacing: 12,
                             children: [
                               // Existing Images
-                              ..._productImages.asMap().entries.map((entry) {
+                              ...productImages.asMap().entries.map((entry) {
                                 final index = entry.key;
                                 final image = entry.value;
                                 return Container(
@@ -631,7 +684,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                         child: GestureDetector(
                                           onTap: () {
                                             setStateDialog(() {
-                                              _productImages.removeAt(index);
+                                              productImages.removeAt(index);
                                             });
                                           },
                                           child: Container(
@@ -651,10 +704,10 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                     ],
                                   ),
                                 );
-                              }).toList(),
+                              }),
                               
                               // Add Image Button (if less than 3 images)
-                              if (_productImages.length < 3)
+                              if (productImages.length < 3)
                                 GestureDetector(
                                   onTap: () async {
                                     final ImagePicker picker = ImagePicker();
@@ -664,7 +717,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                     );
                                     if (image != null) {
                                       setStateDialog(() {
-                                        _productImages.add(File(image.path));
+                                        productImages.add(File(image.path));
                                       });
                                     }
                                   },
@@ -690,7 +743,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          'Add',
+                                          AppLocalizations.of(context)!.addPhoto,
                                           style: GoogleFonts.poppins(
                                             fontSize: 12,
                                             color: const Color(0xFF1CE2D6),
@@ -705,11 +758,11 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                           ),
                           
                           // Image validation message
-                          if (_productImages.isEmpty)
+                          if (productImages.isEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Text(
-                                'At least one image is required',
+                                AppLocalizations.of(context)!.imageRequired,
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   color: Colors.red,
@@ -723,7 +776,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Weight (Optional)',
+                                AppLocalizations.of(context)!.weightOptional,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -737,16 +790,16 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: Text(
-                                        'Add New Weight',
+                                        AppLocalizations.of(context)!.addNewWeight,
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       content: TextField(
-                                        controller: _newWeightController,
+                                        controller: newWeightController,
                                         decoration: InputDecoration(
-                                          hintText: 'e.g., 250g',
+                                          hintText: AppLocalizations.of(context)!.weightHint,
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(8),
                                           ),
@@ -755,14 +808,14 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.pop(context),
-                                          child: const Text('Cancel'),
+                                          child: Text(AppLocalizations.of(context)!.cancel),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            if (_newWeightController.text.isNotEmpty) {
+                                            if (newWeightController.text.isNotEmpty) {
                                               setStateDialog(() {
-                                                _selectedWeights.add(_newWeightController.text);
-                                                _newWeightController.clear();
+                                                selectedWeights.add(newWeightController.text);
+                                                newWeightController.clear();
                                               });
                                               Navigator.pop(context);
                                             }
@@ -770,7 +823,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: const Color(0xFF1CE2D6),
                                           ),
-                                          child: const Text('Add'),
+                                          child: Text(AppLocalizations.of(context)!.addPhoto),
                                         ),
                                       ],
                                     ),
@@ -792,7 +845,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        'Add New',
+                                        AppLocalizations.of(context)!.addNew,
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
@@ -812,16 +865,16 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             children: [
                               // Default weights
                               ..._defaultWeights.map((weight) {
-                                final isSelected = _selectedWeights.contains(weight);
+                                final isSelected = selectedWeights.contains(weight);
                                 return FilterChip(
                                   label: Text(weight, style: GoogleFonts.poppins(fontSize: 13)),
                                   selected: isSelected,
                                   onSelected: (selected) {
                                     setStateDialog(() {
                                       if (selected) {
-                                        _selectedWeights.add(weight);
+                                        selectedWeights.add(weight);
                                       } else {
-                                        _selectedWeights.remove(weight);
+                                        selectedWeights.remove(weight);
                                       }
                                     });
                                   },
@@ -840,9 +893,9 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                   ),
                                   checkmarkColor: const Color(0xFF1CE2D6),
                                 );
-                              }).toList(),
+                              }),
                               // Custom added weights
-                              ..._selectedWeights.where((weight) => !_defaultWeights.contains(weight)).map((weight) {
+                              ...selectedWeights.where((weight) => !_defaultWeights.contains(weight)).map((weight) {
                                 return Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                   decoration: BoxDecoration(
@@ -866,7 +919,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                       GestureDetector(
                                         onTap: () {
                                           setStateDialog(() {
-                                            _selectedWeights.remove(weight);
+                                            selectedWeights.remove(weight);
                                           });
                                         },
                                         child: const Icon(
@@ -878,7 +931,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                                     ],
                                   ),
                                 );
-                              }).toList(),
+                              }),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -927,15 +980,15 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Validate required fields
-                            if (_productNameController.text.isEmpty ||
-                                _priceController.text.isEmpty ||
-                                _quantityController.text.isEmpty ||
-                                _selectedCategories.isEmpty ||
-                                _productImages.isEmpty) {
+                            if (productNameController.text.isEmpty ||
+                                priceController.text.isEmpty ||
+                                quantityController.text.isEmpty ||
+                                selectedCategories.isEmpty ||
+                                productImages.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Please fill all required fields (*)',
+                                    AppLocalizations.of(context)!.fillRequiredFields,
                                     style: GoogleFonts.poppins(fontSize: 14),
                                   ),
                                   backgroundColor: Colors.red,
@@ -947,26 +1000,26 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
 
                             // Get the final brand value
                             String finalBrand;
-                            if (_showCustomBrandField) {
-                              finalBrand = _customBrandController.text.isNotEmpty 
-                                  ? _customBrandController.text 
+                            if (showCustomBrandField) {
+                              finalBrand = customBrandController.text.isNotEmpty 
+                                  ? customBrandController.text 
                                   : 'Custom Brand';
                             } else {
-                              finalBrand = _selectedBrand;
+                              finalBrand = selectedBrand;
                             }
 
                             final newProduct = {
-                              'name': _productNameController.text,
-                              'description': _descriptionController.text,
-                              'categories': List<String>.from(_selectedCategories),
-                              'price': _priceController.text,
-                              'salePrice': _salePriceController.text.isNotEmpty ? _salePriceController.text : null,
-                              'stock': int.tryParse(_quantityController.text) ?? 0,
+                              'name': productNameController.text,
+                              'description': descriptionController.text,
+                              'categories': List<String>.from(selectedCategories),
+                              'price': priceController.text,
+                              'salePrice': salePriceController.text.isNotEmpty ? salePriceController.text : null,
+                              'stock': int.tryParse(quantityController.text) ?? 0,
                               'status': isEditing ? (product?['status'] ?? 'Active') : 'Active',
-                              'quantity': int.tryParse(_quantityController.text) ?? 0,
+                              'quantity': int.tryParse(quantityController.text) ?? 0,
                               'brand': finalBrand,
-                              'images': _productImages,
-                              'weights': _selectedWeights,
+                              'images': productImages,
+                              'weights': selectedWeights,
                             };
 
                             // Update the product list
@@ -987,7 +1040,9 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  isEditing ? 'Product updated successfully!' : 'Product added successfully!',
+                                  isEditing 
+                                      ? AppLocalizations.of(context)!.productUpdatedSuccessfully 
+                                      : AppLocalizations.of(context)!.productAddedSuccessfully,
                                 ),
                                 backgroundColor: Colors.green,
                                 behavior: SnackBarBehavior.floating,
@@ -1002,7 +1057,9 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             ),
                           ),
                           child: Text(
-                            isEditing ? 'Update Product' : 'Add Product',
+                            isEditing 
+                                ? AppLocalizations.of(context)!.updateProduct 
+                                : AppLocalizations.of(context)!.addProduct,
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -1137,7 +1194,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Manage Products',
+                              AppLocalizations.of(context)!.manageProductsTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -1193,7 +1250,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                'Add New Product',
+                                AppLocalizations.of(context)!.addProduct,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -1251,7 +1308,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             controller: _searchController,
                             style: GoogleFonts.poppins(fontSize: 14),
                             decoration: InputDecoration(
-                              hintText: 'Search products by name...',
+                              hintText: AppLocalizations.of(context)!.searchProductsHint,
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: Colors.grey[500],
@@ -1275,12 +1332,14 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                       Expanded(
                         child: _buildFilterDropdown(
                           value: _selectedStatus,
-                          items: ['All', 'Active', 'Inactive', 'Out of Stock'],
+                          items: _statusFilterItems,
                           icon: Icons.filter_list,
                           onChanged: (value) {
-                            setState(() {
-                              _selectedStatus = value!;
-                            });
+                            if (value != null) {
+                              setState(() {
+                                _selectedStatus = value;
+                              });
+                            }
                           },
                         ),
                       ),
@@ -1288,18 +1347,14 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                       Expanded(
                         child: _buildFilterDropdown(
                           value: _selectedCategory,
-                          items: [
-                            'All Categories',
-                            'Cosmetics',
-                            'SkinCare',
-                            'Fashion',
-                            'Electronics'
-                          ],
+                          items: _categoryFilterItems,
                           icon: Icons.category,
                           onChanged: (value) {
-                            setState(() {
-                              _selectedCategory = value!;
-                            });
+                            if (value != null) {
+                              setState(() {
+                                _selectedCategory = value;
+                              });
+                            }
                           },
                         ),
                       ),
@@ -1334,7 +1389,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
-                                'No products found',
+                                AppLocalizations.of(context)!.noProductsFound,
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
@@ -1347,7 +1402,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
-                                'Try adjusting your filters or add a new product',
+                                AppLocalizations.of(context)!.emptyProductsSubtitle,
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
@@ -1381,7 +1436,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
 
   Widget _buildFilterDropdown({
     required String value,
-    required List<String> items,
+    required List<FilterItem> items,
     required IconData icon,
     required Function(String?) onChanged,
   }) {
@@ -1417,11 +1472,11 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                   color: const Color(0xFF3D5150),
                   fontWeight: FontWeight.w500,
                 ),
-                items: items.map((String item) {
+                items: items.map((FilterItem item) {
                   return DropdownMenuItem<String>(
-                    value: item,
+                    value: item.id,
                     child: Text(
-                      item,
+                      item.label,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(fontSize: 13),
                     ),

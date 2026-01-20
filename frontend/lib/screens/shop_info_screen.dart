@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShopInfoScreen extends StatefulWidget {
   const ShopInfoScreen({super.key});
@@ -27,18 +28,18 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
   final TextEditingController _productLimitController = TextEditingController(text: '100');
   final TextEditingController _statusController = TextEditingController(text: 'Active');
 
-  List<String> _selectedCategories = ['Cosmetics', 'SkinCare'];
-  final List<String> _availableCategories = [
-    'Cosmetics',
-    'SkinCare',
-    'Fashion',
-    'Electronics',
-    'Home & Garden',
-    'Food & Beverage',
-    'Sports',
-    'Books',
-    'Toys',
-    'Health',
+  final List<String> _selectedCategories = ['Cosmetics', 'SkinCare'];
+  List<String> get _availableCategories => [
+    AppLocalizations.of(context)!.cosmetics,
+    AppLocalizations.of(context)!.skinCare,
+    AppLocalizations.of(context)!.fashion,
+    AppLocalizations.of(context)!.electronics,
+    AppLocalizations.of(context)!.homeGarden,
+    AppLocalizations.of(context)!.foodBeverage,
+    AppLocalizations.of(context)!.sports,
+    AppLocalizations.of(context)!.books,
+    AppLocalizations.of(context)!.toys,
+    AppLocalizations.of(context)!.health,
   ];
 
   File? _logoImage;
@@ -109,7 +110,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Shop Information',
+                              AppLocalizations.of(context)!.shopInformation,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -166,7 +167,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Basic Information Section
-                            _buildSectionHeader('Basic Information'),
+                             _buildSectionHeader(AppLocalizations.of(context)!.basicInformation),
                             const SizedBox(height: 16),
 
                             // Owner and Phone Row
@@ -177,7 +178,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Owner Name',
+                                        AppLocalizations.of(context)!.ownerName,
                                         style: GoogleFonts.poppins(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -198,7 +199,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Phone Number',
+                                        AppLocalizations.of(context)!.phoneNumber,
                                         style: GoogleFonts.poppins(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -208,7 +209,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                       const SizedBox(height: 6),
                                       _buildTextField(
                                         _phoneController,
-                                        'Enter phone number',
+                                        AppLocalizations.of(context)!.enterPhoneNumber,
                                         icon: Icons.phone_outlined,
                                       ),
                                     ],
@@ -220,7 +221,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
                             // Description
                             Text(
-                              'Shop Description',
+                              AppLocalizations.of(context)!.shopDescription,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -229,7 +230,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              '(Optional)',
+                              AppLocalizations.of(context)!.optional,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -238,7 +239,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             const SizedBox(height: 8),
                             _buildTextAreaField(
                               _descriptionController,
-                              'Describe your shop...',
+                              AppLocalizations.of(context)!.describeShop,
                               icon: Icons.description_outlined,
                               minLines: 4,
                             ),
@@ -246,7 +247,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
                             // Categories
                             Text(
-                              'Categories',
+                              AppLocalizations.of(context)!.categories,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -255,7 +256,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              '(Select one or more categories for your shop)',
+                              AppLocalizations.of(context)!.selectCategoriesHelp,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -266,13 +267,13 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             const SizedBox(height: 30),
 
                             // Social Media Section
-                            _buildSectionHeader('Social Media'),
+                             _buildSectionHeader(AppLocalizations.of(context)!.socialMedia),
                             const SizedBox(height: 16),
 
                             // Instagram
                             _buildSocialMediaField(
                               _instagramController,
-                              'Instagram URL',
+                              AppLocalizations.of(context)!.instagramUrl,
                               'https://instagram.com/...',
                               Icons.camera_alt, 
                               const Color(0xFFE4405F),
@@ -282,7 +283,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             // Facebook
                             _buildSocialMediaField(
                               _facebookController,
-                              'Facebook URL',
+                              AppLocalizations.of(context)!.facebookUrl,
                               'https://facebook.com/...',
                               Icons.facebook, 
                               const Color(0xFF1877F2),
@@ -292,7 +293,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             // TikTok
                             _buildSocialMediaField(
                               _tiktokController,
-                              'TikTok URL',
+                              AppLocalizations.of(context)!.tiktokUrl,
                               'https://tiktok.com/...',
                               Icons.music_note,
                               const Color(0xFF000000),
@@ -300,11 +301,11 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             const SizedBox(height: 30),
 
                             // Location
-                            _buildSectionHeader('Location'),
+                             _buildSectionHeader(AppLocalizations.of(context)!.location),
                             const SizedBox(height: 16),
 
                             Text(
-                              'Shop Location',
+                              AppLocalizations.of(context)!.shopLocation,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -313,7 +314,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              '(Optional)',
+                              AppLocalizations.of(context)!.optional,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -330,7 +331,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             const SizedBox(height: 30),
 
                             // Shop Images Section
-                            _buildSectionHeader('Shop Images'),
+                             _buildSectionHeader(AppLocalizations.of(context)!.shopImages),
                             const SizedBox(height: 16),
 
                             // Logo and Cover Row
@@ -338,8 +339,8 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                               children: [
                                 Expanded(
                                   child: _buildImageUploader(
-                                    title: 'Shop Logo',
-                                    subtitle: 'Optional (500x500px)',
+                                    title: AppLocalizations.of(context)!.shopLogo,
+                                    subtitle: AppLocalizations.of(context)!.logoSubtitle,
                                     icon: Icons.photo_camera_outlined,
                                     imageFile: _logoImage,
                                     onTap: () => _pickImage(true),
@@ -348,8 +349,8 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: _buildImageUploader(
-                                    title: 'Cover Image',
-                                    subtitle: 'Optional (1200x300px)',
+                                    title: AppLocalizations.of(context)!.coverImage,
+                                    subtitle: AppLocalizations.of(context)!.coverSubtitle,
                                     icon: Icons.photo_library_outlined,
                                     imageFile: _coverImage,
                                     onTap: () => _pickImage(false),
@@ -362,12 +363,12 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
 
                             // Shop Settings Section
-                            _buildSectionHeader('Shop Settings'),
+                             _buildSectionHeader(AppLocalizations.of(context)!.shopSettings),
                             const SizedBox(height: 16),
 
                             // Status Dropdown
                             Text(
-                              'Shop Status',
+                              AppLocalizations.of(context)!.shopStatus,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -383,7 +384,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
                             // Product Limit
                             Text(
-                              'Product Limit',
+                              AppLocalizations.of(context)!.productLimit,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -392,7 +393,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'Maximum number of products allowed',
+                              AppLocalizations.of(context)!.productLimitHelp,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -407,7 +408,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
 
                             // Created At
                             Text(
-                              'Shop Created At',
+                              AppLocalizations.of(context)!.shopCreatedAt,
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -416,7 +417,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'This cannot be changed',
+                              AppLocalizations.of(context)!.createdAtHelp,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -462,7 +463,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   child: Center(
                                     child: Text(
-                                      'Save Shop Information',
+                                      AppLocalizations.of(context)!.saveShopInfo,
                                       style: GoogleFonts.poppins(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -513,7 +514,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open maps')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.couldNotOpenMaps)),
         );
       }
     }
@@ -687,7 +688,7 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
               ),
             ),
             Text(
-              '(Optional)',
+              AppLocalizations.of(context)!.optional,
               style: GoogleFonts.poppins(
                 fontSize: 11,
                 color: Colors.grey[500],
@@ -729,8 +730,8 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? const Color(0xFF1CE2D6)
-                      : Colors.white,
+                        ? const Color(0xFF1CE2D6)
+                        : Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: isSelected
@@ -881,14 +882,14 @@ class _ShopInfoScreenState extends State<ShopInfoScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Shop information saved successfully!',
+                AppLocalizations.of(context)!.shopInfoSaved,
                 style: GoogleFonts.poppins(fontSize: 14),
               ),
             ),
           ],
         ),
         backgroundColor: Colors.green,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

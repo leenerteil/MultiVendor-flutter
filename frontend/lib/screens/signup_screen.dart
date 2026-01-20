@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -39,9 +40,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all fields'),
-          backgroundColor: Color(0xFF3D5150),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.fillAllFields),
+          backgroundColor: const Color(0xFF3D5150),
         ),
       );
       return;
@@ -49,18 +50,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Passwords do not match'),
-          backgroundColor: Color(0xFF3D5150),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.passwordsDoNotMatch),
+          backgroundColor: const Color(0xFF3D5150),
         ),
       );
       return;
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Account created successfully!'),
-        backgroundColor: Color(0xFF1CE2D6),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.accountCreated),
+        backgroundColor: const Color(0xFF1CE2D6),
       ),
     );
   }
@@ -138,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Create Account',
+                    AppLocalizations.of(context)!.createAccountTitle,
                     style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -147,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Join our community today',
+                    AppLocalizations.of(context)!.joinCommunity,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       color: const Color(0xFF3D5150).withOpacity(0.7),
@@ -164,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Expanded(
                     child: _buildTextField(
                       controller: _firstNameController,
-                      hintText: 'First Name',
+                      hintText: AppLocalizations.of(context)!.firstName,
                       prefixIcon: Icons.person_outline,
                     ),
                   ),
@@ -172,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Expanded(
                     child: _buildTextField(
                       controller: _lastNameController,
-                      hintText: 'Last Name',
+                      hintText: AppLocalizations.of(context)!.lastName,
                       prefixIcon: Icons.person_outline,
                     ),
                   ),
@@ -184,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Email Field
               _buildTextField(
                 controller: _emailController,
-                hintText: 'Email Address',
+                hintText: AppLocalizations.of(context)!.emailAddress,
                 prefixIcon: Icons.email_outlined,
               ),
 
@@ -193,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Address Field
               _buildTextField(
                 controller: _addressController,
-                hintText: 'Address',
+                hintText: AppLocalizations.of(context)!.address,
                 prefixIcon: Icons.location_on_outlined,
               ),
 
@@ -202,7 +203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Password Field
               _buildTextField(
                 controller: _passwordController,
-                hintText: 'Create Password',
+                hintText: AppLocalizations.of(context)!.createPassword,
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
                 obscureText: _obscurePassword,
@@ -218,7 +219,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Confirm Password Field
               _buildTextField(
                 controller: _confirmPasswordController,
-                hintText: 'Confirm Password',
+                hintText: AppLocalizations.of(context)!.confirmPassword,
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
                 obscureText: _obscureConfirmPassword,
@@ -255,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Create Account',
+                        AppLocalizations.of(context)!.createAccountTitle,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -281,7 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'or sign up with',
+                      AppLocalizations.of(context)!.orSignUpWith,
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         color: const Color(0xFF3D5150).withOpacity(0.6),
@@ -348,7 +349,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Sign up with Google',
+                        AppLocalizations.of(context)!.googleSignUp,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -367,7 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account? ',
+                    AppLocalizations.of(context)!.alreadyHaveAccount,
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF3D5150).withOpacity(0.7),
@@ -383,7 +384,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     },
                     child: Text(
-                      'Sign In',
+                      AppLocalizations.of(context)!.login,
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         color: const Color(0xFF1CE2D6),

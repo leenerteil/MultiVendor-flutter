@@ -1,13 +1,16 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/shop_owner_drawer.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import '../widgets/language_switcher.dart';
+import '../widgets/shop_owner_drawer.dart';
 import 'package:shopzy/screens/profile_screen.dart'; 
 import 'package:shopzy/screens/main_screen.dart'; 
 import 'cart_screen.dart'; 
 import 'package:shopzy/models/product.dart';
 import 'user_orders_screen.dart'; 
+import '../flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ShopOwnerProfileScreen extends StatefulWidget {
   const ShopOwnerProfileScreen({super.key});
@@ -101,7 +104,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bgLight,
-      drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
+      drawer: ShopOwnerDrawer(currentScreen: AppLocalizations.of(context)?.profile ?? 'Profile'),
       body: Column(
         children: [
           // Styled Header with Shop Owner Gradient
@@ -141,7 +144,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                           ),
                         ),
                         Text(
-                          'Personal Profile',
+                          AppLocalizations.of(context)?.profile ?? 'Profile',
                           style: GoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
@@ -209,7 +212,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                       ),
                     ),
                     Text(
-                      'Shop Owner',
+                      AppLocalizations.of(context)!.shopOwner,
                       style: GoogleFonts.poppins(
                         fontSize: 13,
                         color: Colors.white.withOpacity(0.8),
@@ -228,12 +231,16 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
               child: Column(
                 children: [
                   // Email Field
-                  _buildProfileField("Email", Icons.email_outlined, _emailController),
+                  _buildProfileField(AppLocalizations.of(context)!.email, Icons.email_outlined, _emailController),
                   const SizedBox(height: 16),
 
                   // Password Field
-                  _buildProfileField("Password", Icons.lock_outline, _passwordController, isPassword: true),
+                  _buildProfileField(AppLocalizations.of(context)!.password, Icons.lock_outline, _passwordController, isPassword: true),
                   const SizedBox(height: 24),
+
+                  const SizedBox(height: 10),
+                  const LanguageSwitcher(),
+                  const SizedBox(height: 16),
 
                   // View Profile Button
                   SizedBox(
@@ -255,7 +262,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                       },
                       icon: Icon(Icons.account_circle_outlined, size: 20, color: Colors.white),
                       label: Text(
-                        "View Profile Info",
+                        AppLocalizations.of(context)!.profile,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -274,11 +281,11 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                   const SizedBox(height: 30),
 
                   // Functional Buttons - Mirroring User Profile
-                  _buildMenuButton("My Wishlist", Icons.favorite_border, () {
+                  _buildMenuButton(AppLocalizations.of(context)!.myWishlist, Icons.favorite_border, () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Wishlist is empty',
+                          AppLocalizations.of(context)!.wishlistEmpty,
                           style: GoogleFonts.poppins(color: Colors.white),
                         ),
                         backgroundColor: _primaryDark,
@@ -286,7 +293,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                     );
                   }),
                   const SizedBox(height: 12),
-                  _buildMenuButton("My Cart", Icons.shopping_bag_outlined, () {
+                  _buildMenuButton(AppLocalizations.of(context)!.myCart, Icons.shopping_bag_outlined, () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -307,7 +314,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                                     const Icon(Icons.check_circle, color: Colors.white),
                                     const SizedBox(width: 10),
                                     Text(
-                                      'Order placed successfully!',
+                                      AppLocalizations.of(context)!.orderPlacedSuccessfully,
                                       style: GoogleFonts.poppins(color: Colors.white),
                                     ),
                                   ],
@@ -327,7 +334,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                   const SizedBox(height: 12),
 
                   // My Orders Button
-                  _buildMenuButton("My Orders", Icons.receipt_long_outlined, () {
+                  _buildMenuButton(AppLocalizations.of(context)!.myOrders, Icons.receipt_long_outlined, () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -352,7 +359,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                       },
                       icon: Icon(Icons.contact_support_outlined, color: _primaryDark),
                       label: Text(
-                        "Contact Support",
+                        AppLocalizations.of(context)!.contactUs,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -374,21 +381,21 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                         context: context,
                         builder: (context) => AlertDialog(
                           title: Text(
-                            "Logout",
+                            AppLocalizations.of(context)!.logout,
                             style: GoogleFonts.poppins(
                               color: _primaryDark,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           content: Text(
-                            "Are you sure you want to logout?",
+                            AppLocalizations.of(context)!.logoutConfirm,
                             style: GoogleFonts.poppins(color: Colors.grey.shade600),
                           ),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
                               child: Text(
-                                "Cancel",
+                                AppLocalizations.of(context)!.cancel,
                                 style: GoogleFonts.poppins(color: Colors.grey.shade600),
                               ),
                             ),
@@ -396,8 +403,8 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Logged out successfully!"),
+                                  SnackBar(
+                                    content: Text(AppLocalizations.of(context)!.loggedOut),
                                     backgroundColor: Colors.green,
                                   ),
                                 );
@@ -413,7 +420,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                                 backgroundColor: Colors.redAccent,
                               ),
                               child: Text(
-                                "Logout",
+                                AppLocalizations.of(context)!.logout,
                                 style: GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
@@ -423,7 +430,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                     },
                     icon: const Icon(Icons.logout, color: Colors.redAccent),
                     label: Text(
-                      "Log Out",
+                      AppLocalizations.of(context)!.logout,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -537,7 +544,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Update Profile Photo",
+              AppLocalizations.of(context)!.updateProfilePhoto,
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -550,7 +557,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
               children: [
                 _buildPickerOption(
                   icon: Icons.camera_alt_outlined,
-                  label: "Camera",
+                   label: AppLocalizations.of(context)!.camera,
                   onTap: () async {
                     Navigator.pop(context);
                     final picker = ImagePicker();
@@ -560,7 +567,7 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
                 ),
                 _buildPickerOption(
                   icon: Icons.image_outlined,
-                  label: "Gallery",
+                   label: AppLocalizations.of(context)!.gallery,
                   onTap: () async {
                     Navigator.pop(context);
                     final picker = ImagePicker();
@@ -603,3 +610,249 @@ class _ShopOwnerProfileScreenState extends State<ShopOwnerProfileScreen> {
     );
   }
 }
+class ContactUsScreen extends StatelessWidget {
+  const ContactUsScreen({super.key});
+
+  final Color _primaryDark = const Color(0xFF3D5150);
+  final Color _accentCyan = const Color(0xFF1CE2D6);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: _primaryDark),
+          onPressed: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: Text(
+          AppLocalizations.of(context)!.contactUs,
+          style: GoogleFonts.poppins(color: _primaryDark, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // --- Intro Text ---
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                AppLocalizations.of(context)!.dropUsLine,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14),
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // --- Contact Info Cards ---
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  Expanded(child: _buildInfoCard(
+                    Icons.phone_in_talk, 
+                    AppLocalizations.of(context)!.phone, 
+                    AppLocalizations.of(context)!.phoneNumberExample
+                  )),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildInfoCard(
+                    Icons.email_outlined, 
+                    AppLocalizations.of(context)!.email, 
+                    AppLocalizations.of(context)!.emailExample
+                  )),
+                ],
+              ),
+            ),
+            
+            const SizedBox(height: 30),
+
+            // --- Social Media ---
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.followUs,
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: _primaryDark),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    AppLocalizations.of(context)!.stayConnected,
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildSocialIcon(Icons.facebook),
+                      const SizedBox(width: 15),
+                      _buildSocialIcon(Icons.camera_alt), 
+                      const SizedBox(width: 15),
+                      _buildSocialIcon(Icons.link), 
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // --- Form Section ---
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.getInTouch,
+                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: _primaryDark),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.fillOutForm,
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 20),
+                  
+                  _buildFormInput(AppLocalizations.of(context)!.nameLabel),
+                  const SizedBox(height: 12),
+                  _buildFormInput(AppLocalizations.of(context)!.emailLabel),
+                  const SizedBox(height: 12),
+                  _buildFormInput(AppLocalizations.of(context)!.messageLabel, maxLines: 4),
+                  
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              AppLocalizations.of(context)!.messageSentSuccessfully,
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ),
+                            backgroundColor: _accentCyan,
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _primaryDark,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.sendMessage,
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+                  
+                  // --- Map Placeholder ---
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      height: 180,
+                      width: double.infinity,
+                      color: Colors.grey[300],
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Icon(Icons.map, size: 50, color: Colors.grey[400]),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              color: Colors.white,
+                              child: const Icon(Icons.fullscreen, size: 20),
+                            ),
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.locationMapPlaceholder,
+                            style: GoogleFonts.poppins(color: Colors.grey[600], fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(IconData icon, String title, String content) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade100),
+        boxShadow: [
+          BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: _accentCyan, size: 28),
+          const SizedBox(height: 10),
+          Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: _primaryDark)),
+          const SizedBox(height: 4),
+          Text(
+            content,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey.shade600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialIcon(IconData icon) {
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: _primaryDark,
+      child: Icon(icon, color: Colors.white, size: 18),
+    );
+  }
+
+  Widget _buildFormInput(String hint, {int maxLines = 1}) {
+    return TextField(
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: GoogleFonts.poppins(color: Colors.grey.shade400, fontSize: 14),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.all(16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey.shade200),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: _accentCyan),
+        ),
+      ),
+    );
+  }
+}
+

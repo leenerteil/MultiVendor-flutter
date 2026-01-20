@@ -1,8 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'login_screen.dart';
 import '../widgets/shop_owner_drawer.dart';
+import 'dart:async';
 
 class Product {
   final String id;
@@ -42,90 +43,95 @@ class _HomeScreenState extends State<HomeScreen> {
   int _cartCount = 0;
   int _favoriteCount = 0;
 
-  final List<Map<String, dynamic>> _carouselItems = [
-    {
-      'color': const Color(0xFF1CE2D6),
-      'title': 'Summer Collection',
-      'subtitle': '50% Off Now',
-      'icon': Icons.local_offer,
-    },
-    {
-      'color': const Color(0xFF3D5150),
-      'title': 'New Arrivals',
-      'subtitle': 'Check Now',
-      'icon': Icons.new_releases,
-    },
-    {
-      'color': const Color(0xFF1CE2D6),
-      'title': 'Exclusive Deals',
-      'subtitle': 'Limited Time',
-      'icon': Icons.star,
-    },
-  ];
+  List<Map<String, dynamic>> _getCarouselItems(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      {
+        'color': const Color(0xFF1CE2D6),
+        'title': l10n.summerCollection,
+        'subtitle': l10n.discount50,
+        'icon': Icons.local_offer,
+      },
+      {
+        'color': const Color(0xFF3D5150),
+        'title': l10n.newArrivals,
+        'subtitle': l10n.checkNow,
+        'icon': Icons.new_releases,
+      },
+      {
+        'color': const Color(0xFF1CE2D6),
+        'title': l10n.exclusiveDeals,
+        'subtitle': l10n.limitedTime,
+        'icon': Icons.star,
+      },
+    ];
+  }
 
-  // 10 Static Ads
-  final List<Map<String, dynamic>> _staticAds = [
-    {
-      'color': const Color(0xFFFF6B9D),
-      'title': 'Beauty Sale',
-      'subtitle': 'Up to 70% Off',
-      'icon': Icons.face_retouching_natural,
-    },
-    {
-      'color': const Color(0xFF4ECDC4),
-      'title': 'Tech Deals',
-      'subtitle': 'Latest Gadgets',
-      'icon': Icons.devices,
-    },
-    {
-      'color': const Color(0xFFFFD166),
-      'title': 'Home Decor',
-      'subtitle': 'Modern Furniture',
-      'icon': Icons.home,
-    },
-    {
-      'color': const Color(0xFF06D6A0),
-      'title': 'Fitness Gear',
-      'subtitle': 'Stay Active',
-      'icon': Icons.fitness_center,
-    },
-    {
-      'color': const Color(0xFF118AB2),
-      'title': 'Book Fair',
-      'subtitle': 'Best Sellers',
-      'icon': Icons.menu_book,
-    },
-    {
-      'color': const Color(0xFFEF476F),
-      'title': 'Fashion Week',
-      'subtitle': 'Trendy Styles',
-      'icon': Icons.style,
-    },
-    {
-      'color': const Color(0xFF7209B7),
-      'title': 'Gaming Zone',
-      'subtitle': 'New Consoles',
-      'icon': Icons.videogame_asset,
-    },
-    {
-      'color': const Color(0xFFF8961E),
-      'title': 'Kitchenware',
-      'subtitle': 'Premium Cookware',
-      'icon': Icons.kitchen,
-    },
-    {
-      'color': const Color(0xFF073B4C),
-      'title': 'Smart Watches',
-      'subtitle': 'Health Tracking',
-      'icon': Icons.watch,
-    },
-    {
-      'color': const Color(0xFF8338EC),
-      'title': 'Audio Gear',
-      'subtitle': 'Premium Sound',
-      'icon': Icons.headphones,
-    },
-  ];
+  List<Map<String, dynamic>> _getStaticAds(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      {
+        'color': const Color(0xFFFF6B9D),
+        'title': l10n.beautySale,
+        'subtitle': l10n.upTo70Off,
+        'icon': Icons.face_retouching_natural,
+      },
+      {
+        'color': const Color(0xFF4ECDC4),
+        'title': l10n.techDeals,
+        'subtitle': l10n.latestGadgets,
+        'icon': Icons.devices,
+      },
+      {
+        'color': const Color(0xFFFFD166),
+        'title': l10n.homeDecor,
+        'subtitle': l10n.modernFurniture,
+        'icon': Icons.home,
+      },
+      {
+        'color': const Color(0xFF06D6A0),
+        'title': l10n.fitnessGear,
+        'subtitle': l10n.stayActive,
+        'icon': Icons.fitness_center,
+      },
+      {
+        'color': const Color(0xFF118AB2),
+        'title': l10n.bookFair,
+        'subtitle': l10n.bestSellers,
+        'icon': Icons.menu_book,
+      },
+      {
+        'color': const Color(0xFFEF476F),
+        'title': l10n.fashionWeek,
+        'subtitle': l10n.trendyStyles,
+        'icon': Icons.style,
+      },
+      {
+        'color': const Color(0xFF7209B7),
+        'title': l10n.gamingZone,
+        'subtitle': l10n.newConsoles,
+        'icon': Icons.videogame_asset,
+      },
+      {
+        'color': const Color(0xFFF8961E),
+        'title': l10n.kitchenware,
+        'subtitle': l10n.premiumCookware,
+        'icon': Icons.kitchen,
+      },
+      {
+        'color': const Color(0xFF073B4C),
+        'title': l10n.smartWatches,
+        'subtitle': l10n.healthTracking,
+        'icon': Icons.watch,
+      },
+      {
+        'color': const Color(0xFF8338EC),
+        'title': l10n.audioGear,
+        'subtitle': l10n.premiumSound,
+        'icon': Icons.headphones,
+      },
+    ];
+  }
 
   final List<Product> _products = [
     Product(
@@ -187,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _startCarouselTimer() {
     _carouselTimer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       if (_pageController.hasClients) {
-        int nextIndex = (_currentCarouselIndex + 1) % _carouselItems.length;
+        final carouselLength = _getCarouselItems(context).length;
+        int nextIndex = (_currentCarouselIndex + 1) % carouselLength;
         _pageController.animateToPage(
           nextIndex,
           duration: const Duration(milliseconds: 800),
@@ -432,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Search for products, shops...',
+                                  hintText: AppLocalizations.of(context)!.searchHint,
                                   hintStyle: GoogleFonts.poppins(
                                     fontSize: 14,
                                     color: const Color(0xFF9E9E9E),
@@ -459,16 +466,19 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SizedBox(
                   height: 210,
-                  child: PageView.builder(
+                  child: Builder(
+                    builder: (context) {
+                      final carouselItems = _getCarouselItems(context);
+                      return PageView.builder(
                     controller: _pageController,
                     onPageChanged: (index) {
                       setState(() {
                         _currentCarouselIndex = index;
                       });
                     },
-                    itemCount: _carouselItems.length,
+                    itemCount: carouselItems.length,
                     itemBuilder: (context, index) {
-                      final item = _carouselItems[index];
+                      final item = carouselItems[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Container(
@@ -506,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    'Sponsored',
+                                    AppLocalizations.of(context)!.sponsored,
                                     style: GoogleFonts.poppins(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
@@ -547,7 +557,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     elevation: 2,
                                   ),
                                   child: Text(
-                                    'Shop Now',
+                                    AppLocalizations.of(context)!.shopNow,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
@@ -561,13 +571,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                  ),
+                  );
+                    }
+                  )
                 ),
                 const SizedBox(height: 12),
-                Row(
+                Row( 
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    _carouselItems.length,
+                    _getCarouselItems(context).length,
                     (index) => AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       width: _currentCarouselIndex == index ? 32 : 8,
@@ -591,73 +603,78 @@ class _HomeScreenState extends State<HomeScreen> {
           // 10 Static Ads Grid
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                // Row 1: Ads 1-2
-                Row(
+            child: Builder(
+              builder: (context) {
+                final staticAds = _getStaticAds(context);
+                return Column(
                   children: [
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[0]),
+                    // Row 1: Ads 1-2
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStaticAd(staticAds[0]),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStaticAd(staticAds[1]),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[1]),
+                    const SizedBox(height: 12),
+                    // Row 2: Ads 3-4
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStaticAd(staticAds[2]),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStaticAd(staticAds[3]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // Row 3: Ads 5-6
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStaticAd(staticAds[4]),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStaticAd(staticAds[5]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // Row 4: Ads 7-8
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStaticAd(staticAds[6]),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStaticAd(staticAds[7]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // Row 5: Ads 9-10
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStaticAd(staticAds[8]),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStaticAd(staticAds[9]),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-                const SizedBox(height: 12),
-                // Row 2: Ads 3-4
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[2]),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[3]),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // Row 3: Ads 5-6
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[4]),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[5]),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // Row 4: Ads 7-8
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[6]),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[7]),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // Row 5: Ads 9-10
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[8]),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStaticAd(_staticAds[9]),
-                    ),
-                  ],
-                ),
-              ],
+                );
+              },
             ),
           ),
 
@@ -670,7 +687,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Popular Products',
+                   AppLocalizations.of(context)!.popularProducts,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -686,7 +703,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       Text(
-                        'Show All',
+                         AppLocalizations.of(context)!.showAll,
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -735,7 +752,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Categories',
+                   AppLocalizations.of(context)!.categories,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -751,7 +768,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       Text(
-                        'View All',
+                         AppLocalizations.of(context)!.viewAll,
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -782,15 +799,16 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (context, index) => const SizedBox(width: 15),
               itemCount: 5,
               itemBuilder: (context, index) {
+                final l10n = AppLocalizations.of(context)!;
                 List<Map<String, dynamic>> categories = [
                   {
-                    'title': 'Electronics',
+                    'title': l10n.electronics,
                     'icon': Icons.electrical_services
                   },
-                  {'title': 'Accessories', 'icon': Icons.watch},
-                  {'title': 'Cosmetics', 'icon': Icons.spa},
-                  {'title': 'Groceries', 'icon': Icons.shopping_cart},
-                  {'title': 'Fashion', 'icon': Icons.shopping_bag},
+                  {'title': l10n.accessories, 'icon': Icons.watch},
+                  {'title': l10n.cosmetics, 'icon': Icons.spa},
+                  {'title': l10n.groceries, 'icon': Icons.shopping_cart},
+                  {'title': l10n.fashion, 'icon': Icons.shopping_bag},
                 ];
                 return SizedBox(
                   width: 80,
@@ -814,7 +832,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Featured Shops',
+                      AppLocalizations.of(context)!.featuredShops,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
@@ -830,7 +848,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'View All',
+                            AppLocalizations.of(context)!.viewAll,
                             style: GoogleFonts.poppins(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -885,7 +903,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Best Sellers',
+                      AppLocalizations.of(context)!.bestSellers,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
@@ -901,7 +919,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'See All',
+                            AppLocalizations.of(context)!.seeAll,
                             style: GoogleFonts.poppins(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -1123,7 +1141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
-                'Visit Shop',
+                AppLocalizations.of(context)!.visitShop,
                 style: GoogleFonts.poppins(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,

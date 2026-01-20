@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'signup_screen.dart';
 import 'shop_owner_main_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,9 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleSignIn() {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all fields'),
-          backgroundColor: Color(0xFF3D5150),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.fillAllFields),
+          backgroundColor: const Color(0xFF3D5150),
         ),
       );
       return;
@@ -42,10 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_emailController.text == mockShopOwnerEmail && 
         _passwordController.text == mockShopOwnerPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Welcome, Shop Owner! Sign in successful!'),
-          backgroundColor: Color(0xFF1CE2D6),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.welcomeShopOwner),
+          backgroundColor: const Color(0xFF1CE2D6),
+          duration: const Duration(seconds: 2),
         ),
       );
       
@@ -60,10 +62,10 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid email or password'),
-          backgroundColor: Color(0xFFE57373),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.invalidCredentials),
+          backgroundColor: const Color(0xFFE57373),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -142,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Welcome Back',
+                    AppLocalizations.of(context)!.welcomeBackTitle,
                     style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -151,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign in to continue to your account',
+                    AppLocalizations.of(context)!.signInSubtitle,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       color: const Color(0xFF3D5150).withOpacity(0.7),
@@ -165,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Email Field
               _buildTextField(
                 controller: _emailController,
-                hintText: 'Email Address',
+                hintText: AppLocalizations.of(context)!.emailAddress,
                 prefixIcon: Icons.email_outlined,
                 isPassword: false,
               ),
@@ -175,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Password Field
               _buildTextField(
                 controller: _passwordController,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
                 obscureText: _obscurePassword,
@@ -223,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Remember me',
+                        AppLocalizations.of(context)!.rememberMe,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           color: const Color(0xFF3D5150),
@@ -238,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // TODO: Navigate to forgot password screen
                     },
                     child: Text(
-                      'Forgot Password?',
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         color: const Color(0xFF1CE2D6),
@@ -275,7 +277,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Sign In',
+                        AppLocalizations.of(context)!.signIn,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -301,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'or continue with',
+                      AppLocalizations.of(context)!.orContinueWith,
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         color: const Color(0xFF3D5150).withOpacity(0.6),
@@ -368,7 +370,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Sign in with Google',
+                        AppLocalizations.of(context)!.googleSignIn,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -387,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account? ",
+                    AppLocalizations.of(context)!.noAccount,
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF3D5150).withOpacity(0.7),
@@ -403,7 +405,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      'Sign Up',
+                      AppLocalizations.of(context)!.signup,
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         color: const Color(0xFF1CE2D6),

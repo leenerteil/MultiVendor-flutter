@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'product_detail_screen.dart';
 import '../models/product.dart';
 import '../widgets/shop_owner_drawer.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
+import '../utils/rtl_helper.dart'; // Add RTLHelper import
 
 class ProductsScreen extends StatefulWidget {
   final bool isShopOwner;
@@ -14,21 +16,22 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _selectedCategory = "All categories";
-  String _selectedBrand = "All Brands";
+  String _selectedCategory = "all";
+  String _selectedBrand = "all";
   double _minPrice = 0;
   double _maxPrice = 1000;
   String _searchQuery = "";
   int _cartCount = 0;
   int _favoriteCount = 0;
 
-  // Mock Products Data
+  // Mock Products Data - using keys for localization
   final List<Product> _products = [
+    // ... (keep your existing product list unchanged)
     Product(
       id: '1',
       name: 'Wireless Bluetooth Headphones',
       price: '\$89.99',
-      category: 'Electronics',
+      category: 'electronics',
       shop: 'AudioTech',
       rating: 4.2,
       color: const Color(0xFF1CE2D6),
@@ -40,7 +43,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '2',
       name: 'Smart Fitness Watch',
       price: '\$199.99',
-      category: 'Electronics',
+      category: 'electronics',
       shop: 'FitGear',
       rating: 4.5,
       color: const Color(0xFF3D5150),
@@ -52,7 +55,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '3',
       name: 'Premium Running Shoes',
       price: '\$129.99',
-      category: 'Sports & Outdoors',
+      category: 'sports',
       shop: 'SportStyle',
       rating: 4.3,
       color: const Color(0xFF1CE2D6),
@@ -64,7 +67,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '4',
       name: 'Organic Green Tea Pack',
       price: '\$14.99',
-      category: 'Food & Beverages',
+      category: 'groceries',
       shop: 'HealthFoods',
       rating: 4.7,
       color: const Color(0xFF3D5150),
@@ -76,7 +79,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '5',
       name: 'Modern Desk Lamp',
       price: '\$45.50',
-      category: 'Home & Garden',
+      category: 'homeGarden',
       shop: 'HomeEssentials',
       rating: 4.0,
       color: const Color(0xFF1CE2D6),
@@ -88,7 +91,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '6',
       name: 'Leather Handbag',
       price: '\$159.99',
-      category: 'Fashion',
+      category: 'fashion',
       shop: 'FashionBoutique',
       rating: 4.6,
       color: const Color(0xFF3D5150),
@@ -100,7 +103,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '7',
       name: 'Smartphone 128GB',
       price: '\$699.99',
-      category: 'Electronics',
+      category: 'electronics',
       shop: 'TechWorld',
       rating: 4.4,
       color: const Color(0xFF1CE2D6),
@@ -112,7 +115,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '8',
       name: 'Yoga Mat Premium',
       price: '\$29.99',
-      category: 'Sports & Outdoors',
+      category: 'sports',
       shop: 'WellnessShop',
       rating: 4.1,
       color: const Color(0xFF3D5150),
@@ -124,7 +127,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '9',
       name: 'Coffee Maker',
       price: '\$89.99',
-      category: 'Home & Garden',
+      category: 'homeGarden',
       shop: 'KitchenPro',
       rating: 4.3,
       color: const Color(0xFF1CE2D6),
@@ -136,7 +139,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '10',
       name: 'Men\'s Casual Shirt',
       price: '\$39.99',
-      category: 'Fashion',
+      category: 'fashion',
       shop: 'UrbanFashion',
       rating: 4.2,
       color: const Color(0xFF3D5150),
@@ -148,7 +151,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '11',
       name: 'Gaming Keyboard',
       price: '\$79.99',
-      category: 'Electronics',
+      category: 'electronics',
       shop: 'GameZone',
       rating: 4.5,
       color: const Color(0xFF1CE2D6),
@@ -160,7 +163,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       id: '12',
       name: 'Scented Candles Set',
       price: '\$24.99',
-      category: 'Home & Garden',
+      category: 'homeGarden',
       shop: 'HomeEssentials',
       rating: 4.8,
       color: const Color(0xFF3D5150),
@@ -170,20 +173,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
     ),
   ];
 
-  // Filter Options
-  final List<String> _categories = [
-    "All categories",
-    "Electronics",
-    "Fashion",
-    "Home & Garden",
-    "Sports & Outdoors",
-    "Food & Beverages",
-    "Beauty & Health",
-    "Books & Media",
+  // Filter Options using keys - updated to match your ARB file
+  final List<String> _categoryKeys = [
+    "all",
+    "electronics",
+    "fashion",
+    "homeGarden",
+    "sports",
+    "groceries",
+    "beauty",
+    "books",
   ];
 
   final List<String> _brands = [
-    "All Brands",
+    "all",
     "Apple",
     "Samsung",
     "Nike",
@@ -213,24 +216,46 @@ class _ProductsScreenState extends State<ProductsScreen> {
     });
   }
 
+  String _getLocalizedCategoryName(String key) {
+    switch (key) {
+      case 'electronics':
+        return AppLocalizations.of(context)!.electronics;
+      case 'fashion':
+        return AppLocalizations.of(context)!.fashion;
+      case 'homeGarden':
+        return AppLocalizations.of(context)!.homeGarden;
+      case 'sports':
+        return AppLocalizations.of(context)!.sports;
+      case 'groceries':
+        return AppLocalizations.of(context)!.groceries;
+      case 'beauty':
+        return AppLocalizations.of(context)!.beauty;
+      case 'books':
+        return AppLocalizations.of(context)!.books;
+      default:
+        return key;
+    }
+  }
+
+  String _getLocalizedBrandName(String brand) {
+    if (brand == 'all') {
+      return AppLocalizations.of(context)!.allBrands;
+    }
+    return brand;
+  }
+
   List<Product> _getFilteredProducts() {
     return _products.where((product) {
-      // Category filter
-      bool categoryMatch = _selectedCategory == "All categories" ||
+      bool categoryMatch = _selectedCategory == "all" ||
           product.category == _selectedCategory;
-
-      // Brand filter (simplified - using product name/shop)
-      bool brandMatch = _selectedBrand == "All Brands" ||
+      bool brandMatch = _selectedBrand == "all" ||
           product.shop.toLowerCase().contains(_selectedBrand.toLowerCase());
-
-      // Price filter
       double price = double.parse(product.price.replaceAll('\$', ''));
       bool priceMatch = price >= _minPrice && price <= _maxPrice;
-
-      // Search filter
       bool searchMatch = _searchQuery.isEmpty ||
           product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          product.shop.toLowerCase().contains(_searchQuery.toLowerCase());
+          product.shop.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          _getLocalizedCategoryName(product.category).toLowerCase().contains(_searchQuery.toLowerCase());
 
       return categoryMatch && brandMatch && priceMatch && searchMatch;
     }).toList();
@@ -239,11 +264,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     final filteredProducts = _getFilteredProducts();
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Products') : null,
+      drawer: widget.isShopOwner ? ShopOwnerDrawer(
+        currentScreen: AppLocalizations.of(context)!.products,
+      ) : null,
       body: Column(
         children: [
           // Dark Header Section
@@ -405,7 +433,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          'Products',
+                          AppLocalizations.of(context)!.products,
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -415,16 +443,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ],
                     ),
                     const SizedBox(height: 6),
-                    Padding(
-                      padding: const EdgeInsets.only(right:108),
-                      child: Text(
-                        'Discover our complete collection',
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          color: Colors.white.withOpacity(0.8),
+                    
+                    // FIXED: Subtitle with proper RTL alignment
+                    Container(
+                      width: double.infinity,
+                      alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Padding(
+                        padding: isRTL 
+                          ? const EdgeInsets.only(left: 108, right: 0) 
+                          : const EdgeInsets.only(right: 108, left: 0),
+                        child: Text(
+                          AppLocalizations.of(context)!.discoverProductsSubtitle,
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                          textAlign: isRTL ? TextAlign.right : TextAlign.left,
                         ),
                       ),
                     ),
+                    
                     const SizedBox(height: 16),
 
                     // Search Bar
@@ -461,7 +499,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Search by name...',
+                                  hintText: AppLocalizations.of(context)!.searchHint,
                                   hintStyle: GoogleFonts.poppins(
                                     fontSize: 13,
                                     color: const Color(0xFF9E9E9E),
@@ -502,7 +540,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     Expanded(
                       child: _buildFilterDropdown(
                         value: _selectedCategory,
-                        items: _categories,
+                        items: _categoryKeys,
+                        isCategory: true,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -510,6 +549,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       child: _buildFilterDropdown(
                         value: _selectedBrand,
                         items: _brands,
+                        isCategory: false,
                       ),
                     ),
                   ],
@@ -520,34 +560,43 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildPriceInput('min', _minPrice, (value) {
-                        setState(() {
-                          _minPrice = value;
-                        });
-                      }),
+                      child: _buildPriceInput(
+                        AppLocalizations.of(context)!.minPrice,
+                        _minPrice,
+                        (value) {
+                          setState(() {
+                            _minPrice = value;
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _buildPriceInput('max', _maxPrice, (value) {
-                        setState(() {
-                          _maxPrice = value;
-                        });
-                      }),
+                      child: _buildPriceInput(
+                        AppLocalizations.of(context)!.maxPrice,
+                        _maxPrice,
+                        (value) {
+                          setState(() {
+                            _maxPrice = value;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
 
-                // Results Count
+                // Results Count - FIXED RTL alignment
                 const SizedBox(height: 10),
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
                   child: Text(
-                    '${filteredProducts.length} products found',
+                    AppLocalizations.of(context)!.productsFound(filteredProducts.length),
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       color: const Color(0xFF3D5150).withOpacity(0.7),
                       fontWeight: FontWeight.w500,
                     ),
+                    textAlign: isRTL ? TextAlign.right : TextAlign.left,
                   ),
                 ),
               ],
@@ -568,20 +617,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'No products found',
+                          _searchQuery.isEmpty
+                              ? AppLocalizations.of(context)!.noProductsAvailable
+                              : AppLocalizations.of(context)!.noProductsFound,
                           style: GoogleFonts.poppins(
                             fontSize: 15,
                             color: const Color(0xFF3D5150),
                             fontWeight: FontWeight.w600,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Try adjusting your filters or search',
+                          AppLocalizations.of(context)!.adjustFiltersHint,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             color: const Color(0xFF3D5150).withOpacity(0.6),
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
@@ -611,7 +664,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget _buildFilterDropdown({
     required String value,
     required List<String> items,
+    required bool isCategory,
   }) {
+    String getDisplayText(String item) {
+      if (isCategory) {
+        if (item == 'all') {
+          return AppLocalizations.of(context)!.allCategories;
+        }
+        return _getLocalizedCategoryName(item);
+      } else {
+        return _getLocalizedBrandName(item);
+      }
+    }
+
     return Container(
       height: 36,
       decoration: BoxDecoration(
@@ -629,7 +694,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
-              value,
+              getDisplayText(value),
               style: GoogleFonts.poppins(
                 fontSize: 12,
                 color: const Color(0xFF3D5150),
@@ -640,7 +705,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         onChanged: (value) {
           setState(() {
             if (value != null) {
-              if (items == _categories) {
+              if (isCategory) {
                 _selectedCategory = value;
               } else {
                 _selectedBrand = value;
@@ -676,7 +741,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
           keyboardType: TextInputType.number,
           onChanged: (text) {
             if (text.isNotEmpty) {
-              onChanged(double.parse(text));
+              final parsedValue = double.tryParse(text);
+              if (parsedValue != null) {
+                onChanged(parsedValue);
+              }
             }
           },
           style: GoogleFonts.poppins(
@@ -689,6 +757,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   Widget _buildProductCard(Product product) {
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+    
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -742,7 +812,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 // Favorite Button
                 Positioned(
                   top: 6,
-                  right: 6,
+                  right: isRTL ? null : 6,
+                  left: isRTL ? 6 : null,
                   child: GestureDetector(
                     onTap: () => _toggleFavorite(product),
                     child: Container(
@@ -771,10 +842,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ),
                   ),
                 ),
-                // Brand Name Badge
+                // Brand Name Badge - FIXED RTL positioning
                 Positioned(
                   top: 6,
-                  left: 6,
+                  left: isRTL ? null : 6,
+                  right: isRTL ? 6 : null,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 4),
@@ -820,32 +892,34 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: isRTL ? TextAlign.right : TextAlign.left,
                     ),
                     const SizedBox(height: 6),
 
-                    // Shop Name and Rating in same row
+                    // Category and Rating in same row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Shop Name
+                        // Category
                         Expanded(
                           child: Row(
                             children: [
                               Icon(
-                                Icons.store_rounded,
+                                Icons.category_rounded,
                                 color: const Color(0xFF3D5150).withOpacity(0.5),
                                 size: 12,
                               ),
                               const SizedBox(width: 4),
                               Expanded(
                                 child: Text(
-                                  product.shop,
+                                  _getLocalizedCategoryName(product.category),
                                   style: GoogleFonts.poppins(
                                     fontSize: 11,
                                     color: const Color(0xFF3D5150).withOpacity(0.6),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
+                                  textAlign: isRTL ? TextAlign.right : TextAlign.left,
                                 ),
                               ),
                             ],
@@ -888,7 +962,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: isRTL ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                           children: [
                             Text(
                               product.price,
@@ -897,14 +971,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF1CE2D6),
                               ),
+                              textAlign: isRTL ? TextAlign.right : TextAlign.left,
                             ),
                             if (product.cartQuantity > 0)
                               Text(
-                                '${product.cartQuantity} in cart',
+                                AppLocalizations.of(context)!.inCartCount(product.cartQuantity),
                                 style: GoogleFonts.poppins(
                                   fontSize: 9,
                                   color: const Color(0xFF3D5150).withOpacity(0.5),
                                 ),
+                                textAlign: isRTL ? TextAlign.right : TextAlign.left,
                               ),
                           ],
                         ),

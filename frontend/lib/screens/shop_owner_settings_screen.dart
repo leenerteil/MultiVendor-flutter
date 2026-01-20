@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopzy/screens/manage_inventory_screen.dart';
 import 'package:shopzy/screens/shop_owner_manage_ads.dart';
+import 'package:shopzy/screens/shop_owner_products_screen.dart';
 import 'package:shopzy/screens/shop_owner_sales_screen.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'shop_info_screen.dart';
-import 'shop_owner_products_screen.dart';
 import '../widgets/shop_owner_drawer.dart';
 
 class ShopOwnerSettingsScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Management',
+                              AppLocalizations.of(context)!.management,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -100,28 +101,28 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                             child: _buildStatCard(
                               icon: Icons.shopping_bag_outlined,
                               value: '24',
-                              label: 'Products',
-                              color: const Color(0xFF1CE2D6),
-                            ),
-                          ),
+                               label: AppLocalizations.of(context)!.products,
+                               color: const Color(0xFF1CE2D6),
+                             ),
+                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: _buildStatCard(
                               icon: Icons.attach_money,
                               value: '\$1.2k',
-                              label: 'Revenue',
-                              color: Colors.green,
-                            ),
-                          ),
+                               label: AppLocalizations.of(context)!.revenue,
+                               color: Colors.green,
+                             ),
+                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: _buildStatCard(
                               icon: Icons.star_outline,
                               value: '4.8',
-                              label: 'Rating',
-                              color: Colors.orange,
-                            ),
-                          ),
+                               label: AppLocalizations.of(context)!.rating,
+                               color: Colors.orange,
+                             ),
+                           ),
                         ],
                       ),
                     ),
@@ -135,9 +136,9 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                         children: [
                           _buildMenuTile(
                             icon: Icons.store_outlined,
-                            title: 'Shop Information',
-                            subtitle: 'Manage your shop details',
-                            color: const Color(0xFF1CE2D6),
+                             title: AppLocalizations.of(context)!.shopInfo,
+                             subtitle: AppLocalizations.of(context)!.shopInfoSubtitle,
+                             color: const Color(0xFF1CE2D6),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -150,9 +151,9 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                           const SizedBox(height: 12),
                           _buildMenuTile(
                             icon: Icons.shopping_bag_outlined,
-                            title: 'Manage Products',
-                            subtitle: 'Add, edit or remove products',
-                            color: Colors.blue,
+                             title: AppLocalizations.of(context)!.manageProducts,
+                             subtitle: AppLocalizations.of(context)!.manageProductsSubtitle,
+                             color: Colors.blue,
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -165,9 +166,9 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                           const SizedBox(height: 12),
                           _buildMenuTile(
                             icon: Icons.campaign_outlined,
-                            title: 'Manage Ads',
-                            subtitle: 'Create and track advertisements',
-                            color: Colors.purple,
+                             title: AppLocalizations.of(context)!.manageAds,
+                             subtitle: AppLocalizations.of(context)!.manageAdsSubtitle,
+                             color: Colors.purple,
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -180,9 +181,9 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                           const SizedBox(height: 12),
                           _buildMenuTile(
                             icon: Icons.inventory_2_outlined,
-                            title: 'Manage Inventory',
-                            subtitle: 'Track stock and supplies',
-                            color: Colors.orange,
+                             title: AppLocalizations.of(context)!.manageInventory,
+                             subtitle: AppLocalizations.of(context)!.manageInventorySubtitle,
+                             color: Colors.orange,
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -195,9 +196,9 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                           const SizedBox(height: 12),
                           _buildMenuTile(
                             icon: Icons.receipt_long_outlined,
-                            title: 'View All Orders',
-                            subtitle: 'See complete order history',
-                            color: Colors.green,
+                             title: AppLocalizations.of(context)!.viewAllOrders,
+                             subtitle: AppLocalizations.of(context)!.viewAllOrdersSubtitle,
+                             color: Colors.green,
                             onTap: () {
                               Navigator.push(
                                 context,

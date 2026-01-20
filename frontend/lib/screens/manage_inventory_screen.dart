@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class ManageInventoryScreen extends StatefulWidget {
   const ManageInventoryScreen({super.key});
@@ -110,7 +111,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Inventory Management',
+                              AppLocalizations.of(context)!.inventoryManagement,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -171,7 +172,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Products Overview',
+                                  AppLocalizations.of(context)!.productsOverview,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -180,7 +181,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Manage stock levels for all products in your inventory.',
+                                  AppLocalizations.of(context)!.manageStockLevels,
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     color: Colors.grey[600],
@@ -206,19 +207,19 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildStatItem(
-                    title: 'Total Products',
+                    title: AppLocalizations.of(context)!.totalProducts,
                     value: products.length.toString(),
                     icon: Icons.category_outlined,
                     color: const Color(0xFF1CE2D6),
                   ),
                   _buildStatItem(
-                    title: 'Low Stock',
+                    title: AppLocalizations.of(context)!.lowStock,
                     value: products.where((p) => p['stock'] <= 3).length.toString(),
                     icon: Icons.warning_amber_outlined,
                     color: Colors.orange,
                   ),
                   _buildStatItem(
-                    title: 'Out of Stock',
+                    title: AppLocalizations.of(context)!.outOfStock,
                     value: products.where((p) => p['stock'] == 0).length.toString(),
                     icon: Icons.error_outline,
                     color: Colors.red,
@@ -274,7 +275,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                                 elevation: 0,
                               ),
                               child: Text(
-                                'Cancel',
+                                AppLocalizations.of(context)!.cancel,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -288,7 +289,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 _showSuccessSnackBar(
-                                    'Inventory updated successfully!');
+                                    AppLocalizations.of(context)!.inventoryUpdated);
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
@@ -300,7 +301,7 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                                 elevation: 0,
                               ),
                               child: Text(
-                                'Save Changes',
+                                AppLocalizations.of(context)!.saveChanges,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -498,8 +499,8 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                             ),
                             child: Text(
                               isOutOfStock
-                                  ? 'Out of Stock'
-                                  : '${product['stock']} in stock',
+                                  ? AppLocalizations.of(context)!.outOfStock
+                                  : AppLocalizations.of(context)!.inStockCount(product['stock'].toString()),
                               style: GoogleFonts.poppins(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,

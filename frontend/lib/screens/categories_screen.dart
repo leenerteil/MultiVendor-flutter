@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesScreen extends StatefulWidget {
   final bool isShopOwner;
@@ -14,73 +15,73 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Map<String, dynamic>> _allCategories = [
     {
-      'name': 'Electronics',
+      'name': 'electronics',
       'icon': Icons.devices,
       'color': Color(0xFF1CE2D6),
       'items': '324 items'
     },
     {
-      'name': 'Fashion',
+      'name': 'fashion',
       'icon': Icons.shopping_bag,
       'color': Color(0xFF3D5150),
       'items': '512 items'
     },
     {
-      'name': 'Home & Garden',
+      'name': 'homeGarden',
       'icon': Icons.home,
       'color': Color(0xFF1CE2D6),
       'items': '287 items'
     },
     {
-      'name': 'Beauty',
+      'name': 'beauty',
       'icon': Icons.spa,
       'color': Color(0xFF3D5150),
       'items': '198 items'
     },
     {
-      'name': 'Sports',
+      'name': 'sports',
       'icon': Icons.sports_baseball,
       'color': Color(0xFF1CE2D6),
       'items': '156 items'
     },
     {
-      'name': 'Books',
+      'name': 'books',
       'icon': Icons.menu_book,
       'color': Color(0xFF3D5150),
       'items': '89 items'
     },
     {
-      'name': 'Toys',
+      'name': 'toys',
       'icon': Icons.toys,
       'color': Color(0xFF1CE2D6),
       'items': '76 items'
     },
     {
-      'name': 'Automotive',
+      'name': 'automotive',
       'icon': Icons.directions_car,
       'color': Color(0xFF3D5150),
       'items': '54 items'
     },
     {
-      'name': 'Groceries',
+      'name': 'groceries',
       'icon': Icons.local_grocery_store,
       'color': Color(0xFF1CE2D6),
       'items': '432 items'
     },
     {
-      'name': 'Health',
+      'name': 'health',
       'icon': Icons.health_and_safety,
       'color': Color(0xFF3D5150),
       'items': '167 items'
     },
     {
-      'name': 'Jewelry',
+      'name': 'jewelry',
       'icon': Icons.diamond,
       'color': Color(0xFF1CE2D6),
       'items': '92 items'
     },
     {
-      'name': 'Pets',
+      'name': 'pets',
       'icon': Icons.pets,
       'color': Color(0xFF3D5150),
       'items': '65 items'
@@ -116,7 +117,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         _filteredCategories = _allCategories;
       } else {
         _filteredCategories = _allCategories.where((category) {
-          final categoryName = category['name'] as String;
+          final categoryKey = category['name'] as String;
+          final categoryName = _getLocalizedCategoryName(categoryKey);
           return categoryName.toLowerCase().contains(_searchQuery);
         }).toList();
       }
@@ -131,12 +133,45 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     });
   }
 
+  String _getLocalizedCategoryName(String key) {
+    switch (key) {
+      case 'electronics':
+        return AppLocalizations.of(context)!.electronics;
+      case 'fashion':
+        return AppLocalizations.of(context)!.fashion;
+      case 'homeGarden':
+        return AppLocalizations.of(context)!.homeGarden;
+      case 'beauty':
+        return AppLocalizations.of(context)!.beauty;
+      case 'sports':
+        return AppLocalizations.of(context)!.sports;
+      case 'books':
+        return AppLocalizations.of(context)!.books;
+      case 'toys':
+        return AppLocalizations.of(context)!.toys;
+      case 'automotive':
+        return AppLocalizations.of(context)!.automotive;
+      case 'groceries':
+        return AppLocalizations.of(context)!.groceries;
+      case 'health':
+        return AppLocalizations.of(context)!.health;
+      case 'jewelry':
+        return AppLocalizations.of(context)!.jewelry;
+      case 'pets':
+        return AppLocalizations.of(context)!.pets;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Categories') : null,
+      drawer: widget.isShopOwner ? ShopOwnerDrawer(
+        currentScreen: AppLocalizations.of(context)!.categories,
+      ) : null,
       body: Column(
         children: [
           // Header Section
@@ -196,7 +231,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ),
                             const SizedBox(width: 12),
                             Text(
-                              'Categories',
+                              AppLocalizations.of(context)!.categories,
                               style: GoogleFonts.poppins(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
@@ -261,7 +296,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Search categories...',
+                                    hintText: AppLocalizations.of(context)!.searchCategoriesHint,
                                     hintStyle: GoogleFonts.poppins(
                                       fontSize: 14,
                                       color: const Color(0xFF9E9E9E),
@@ -290,14 +325,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Browse products by category',
+                          AppLocalizations.of(context)!.browseByCategory,
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             color: Colors.white.withOpacity(0.8),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 10), // Spacing between text and pill
+                        const SizedBox(height: 10), 
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 6),
@@ -315,7 +350,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                '${_filteredCategories.length} categories',
+                                AppLocalizations.of(context)!.categoriesCount(_filteredCategories.length),
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   color: Colors.white,
@@ -422,7 +457,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                name,
+                _getLocalizedCategoryName(name),
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -473,8 +508,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           const SizedBox(height: 16),
           Text(
             _searchQuery.isEmpty
-                ? 'No categories available'
-                : 'No categories found',
+                ? AppLocalizations.of(context)!.noCategoriesAvailable
+                : AppLocalizations.of(context)!.noCategoriesFound,
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -486,8 +521,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
               _searchQuery.isEmpty
-                  ? 'Categories will appear here'
-                  : 'No results for "$_searchQuery"',
+                  ? AppLocalizations.of(context)!.categoriesWillAppearHere
+                  : AppLocalizations.of(context)!.noResultsFor(_searchQuery),
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 14,
@@ -507,7 +542,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               ),
               child: Text(
-                'Clear search',
+                AppLocalizations.of(context)!.clearSearch,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
                 ),

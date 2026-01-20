@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShopOwnerBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -33,26 +34,26 @@ class ShopOwnerBottomNav extends StatelessWidget {
               _buildNavItem(
                 icon: Icons.dashboard_outlined,
                 activeIcon: Icons.dashboard,
-                label: 'Dashboard',
+                label: AppLocalizations.of(context)!.dashboard,
                 index: 0,
               ),
               _buildNavItem(
                 icon: Icons.shopping_bag_outlined,
                 activeIcon: Icons.shopping_bag,
-                label: 'Orders',
+                label: AppLocalizations.of(context)!.orders,
                 index: 1,
               ),
             
               _buildNavItem(
                 icon: Icons.admin_panel_settings_outlined,
                 activeIcon: Icons.admin_panel_settings,
-                label: 'Management',
+                label: AppLocalizations.of(context)!.management,
                 index: 2,
               ),
               _buildNavItem(
                 icon: Icons.person_outline,
                 activeIcon: Icons.person,
-                label: 'Profile',
+                label: AppLocalizations.of(context)!.profile,
                 index: 3,
               ),
             ],

@@ -5,6 +5,8 @@ import '../screens/shops_screen.dart';
 import '../screens/categories_screen.dart';
 import '../screens/products_screen.dart';
 import '../screens/shop_owner_main_screen.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ShopOwnerDrawer extends StatelessWidget {
   final String? currentScreen;
@@ -26,7 +28,7 @@ class ShopOwnerDrawer extends StatelessWidget {
                 colors: [accentCyan, primaryDark],
               ),
             ),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +40,7 @@ class ShopOwnerDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Browse as User',
+                    AppLocalizations.of(context)!.browseAsUser,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 18,
@@ -56,8 +58,8 @@ class ShopOwnerDrawer extends StatelessWidget {
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.home_outlined,
-                  title: 'Home',
-                  isSelected: currentScreen == 'Home',
+                  title: AppLocalizations.of(context)!.home,
+                  isSelected: currentScreen == AppLocalizations.of(context)!.home,
                   onTap: () {
                     Navigator.pop(context); // Close drawer
                     if (currentScreen != 'Home') {
@@ -68,8 +70,8 @@ class ShopOwnerDrawer extends StatelessWidget {
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.storefront_outlined,
-                  title: 'Shops',
-                  isSelected: currentScreen == 'Shops',
+                  title: AppLocalizations.of(context)!.shops,
+                  isSelected: currentScreen == AppLocalizations.of(context)!.shops,
                   onTap: () {
                     Navigator.pop(context);
                     if (currentScreen != 'Shops') {
@@ -80,8 +82,8 @@ class ShopOwnerDrawer extends StatelessWidget {
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.grid_view_outlined,
-                  title: 'Categories',
-                  isSelected: currentScreen == 'Categories',
+                  title: AppLocalizations.of(context)!.categories,
+                  isSelected: currentScreen == AppLocalizations.of(context)!.categories,
                   onTap: () {
                     Navigator.pop(context);
                     if (currentScreen != 'Categories') {
@@ -92,8 +94,8 @@ class ShopOwnerDrawer extends StatelessWidget {
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.shopping_bag_outlined,
-                  title: 'Products',
-                  isSelected: currentScreen == 'Products',
+                  title: AppLocalizations.of(context)!.products,
+                  isSelected: currentScreen == AppLocalizations.of(context)!.products,
                   onTap: () {
                     Navigator.pop(context);
                     if (currentScreen != 'Products') {
@@ -105,7 +107,7 @@ class ShopOwnerDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Text(
-                    'Management',
+                    AppLocalizations.of(context)!.management,
                     style: GoogleFonts.poppins(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -117,7 +119,7 @@ class ShopOwnerDrawer extends StatelessWidget {
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.dashboard_outlined,
-                  title: 'Back to Dashboard',
+                  title: AppLocalizations.of(context)!.backToDashboard,
                   onTap: () {
                     Navigator.pop(context); // Close drawer
                     // Return to root dashboard screen

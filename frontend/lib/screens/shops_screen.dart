@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
 import 'shop_screen.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class Shop {
   final String id;
@@ -44,7 +45,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '1',
       name: 'Skin & Grin',
-      category: 'Beauty',
+      category: 'beauty',
       description: '✨ وكيل رسمي لمستحضرات لادورا الفاخرة ✨ 🌿منتجات طبيعية مستخلصة من الطبيعة🌿 🛵 نوصل الجمال إلى جميع أنحاء لبنان 🛵',
       rating: 4.7,
       productCount: 15,
@@ -57,7 +58,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '2',
       name: 'Hanan Boutique',
-      category: 'Fashion',
+      category: 'fashion',
       description: 'Latest fashion trends & designer collections',
       rating: 4.5,
       productCount: 56,
@@ -70,7 +71,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '3',
       name: 'Tech Gadgets',
-      category: 'Electronics',
+      category: 'electronics',
       description: 'Latest tech gadgets & smart devices',
       rating: 4.8,
       productCount: 38,
@@ -83,7 +84,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '4',
       name: 'FreshMart',
-      category: 'Groceries',
+      category: 'groceries',
       description: 'Fresh groceries & daily essentials',
       rating: 4.6,
       productCount: 89,
@@ -96,7 +97,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '5',
       name: 'Book Haven',
-      category: 'Books',
+      category: 'books',
       description: 'Wide collection of books & stationery',
       rating: 4.9,
       productCount: 24,
@@ -109,7 +110,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     Shop(
       id: '6',
       name: 'Fit Gear',
-      category: 'Sports',
+      category: 'sports',
       description: 'Sports equipment & fitness gear',
       rating: 4.4,
       productCount: 31,
@@ -121,17 +122,18 @@ class _ShopsScreenState extends State<ShopsScreen> {
     ),
   ];
 
-  final List<String> _categories = [
-    'All',
-    'Beauty',
-    'Fashion',
-    'Electronics',
-    'Groceries',
-    'Books',
-    'Sports',
+  // Use category keys instead of display names
+  final List<String> _categoryKeys = [
+    'all',
+    'beauty',
+    'fashion',
+    'electronics',
+    'groceries',
+    'books',
+    'sports',
   ];
 
-  String _selectedCategory = 'All';
+  String _selectedCategory = 'all';
   String _searchQuery = '';
   List<Shop> _filteredShops = [];
 
@@ -165,7 +167,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     List<Shop> filtered = _allShops;
 
     // Apply category filter
-    if (_selectedCategory != 'All') {
+    if (_selectedCategory != 'all') {
       filtered = filtered.where((shop) => shop.category == _selectedCategory).toList();
     }
 
@@ -174,7 +176,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
       final query = _searchQuery.toLowerCase();
       filtered = filtered.where((shop) {
         return shop.name.toLowerCase().contains(query) ||
-            shop.category.toLowerCase().contains(query) ||
+            _getLocalizedCategoryName(shop.category).toLowerCase().contains(query) ||
             shop.tags.any((tag) => tag.toLowerCase().contains(query));
       }).toList();
     }
@@ -184,12 +186,33 @@ class _ShopsScreenState extends State<ShopsScreen> {
     });
   }
 
+  String _getLocalizedCategoryName(String key) {
+    switch (key) {
+      case 'beauty':
+        return AppLocalizations.of(context)!.beauty;
+      case 'fashion':
+        return AppLocalizations.of(context)!.fashion;
+      case 'electronics':
+        return AppLocalizations.of(context)!.electronics;
+      case 'groceries':
+        return AppLocalizations.of(context)!.groceries;
+      case 'books':
+        return AppLocalizations.of(context)!.books;
+      case 'sports':
+        return AppLocalizations.of(context)!.sports;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: widget.isShopOwner ? const ShopOwnerDrawer(currentScreen: 'Shops') : null,
+      drawer: widget.isShopOwner ? ShopOwnerDrawer(
+        currentScreen: AppLocalizations.of(context)!.shops,
+      ) : null,
       body: Column(
         children: [
           // Header Section
@@ -242,7 +265,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
-                                'Discover Shops',
+                                AppLocalizations.of(context)!.discoverShops,
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
@@ -267,7 +290,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Browse our curated vendors',
+                          AppLocalizations.of(context)!.browseCuratedVendors,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             color: Colors.white70,
@@ -318,7 +341,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                             decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
-                              hintText: 'Search shops by name...',
+                              hintText: AppLocalizations.of(context)!.searchShopsHint,
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: const Color(0xFF9E9E9E),
@@ -339,15 +362,23 @@ class _ShopsScreenState extends State<ShopsScreen> {
                   height: 36,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _categories.length,
+                    itemCount: _categoryKeys.length,
                     separatorBuilder: (context, index) => const SizedBox(width: 8),
                     itemBuilder: (context, index) {
-                      final category = _categories[index];
-                      final isSelected = _selectedCategory == category;
+                      final categoryKey = _categoryKeys[index];
+                      final isSelected = _selectedCategory == categoryKey;
+                      String displayText;
+                      
+                      if (categoryKey == 'all') {
+                        displayText = AppLocalizations.of(context)!.all;
+                      } else {
+                        displayText = _getLocalizedCategoryName(categoryKey);
+                      }
+                      
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedCategory = category;
+                            _selectedCategory = categoryKey;
                             _filterShops();
                           });
                         },
@@ -366,7 +397,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                                 : Border.all(color: Colors.white.withOpacity(0.3)),
                           ),
                           child: Text(
-                            category,
+                            displayText,
                             style: GoogleFonts.poppins(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -396,7 +427,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No shops found',
+                          _searchQuery.isNotEmpty
+                              ? AppLocalizations.of(context)!.noShopsFound
+                              : AppLocalizations.of(context)!.noShopsAvailable,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -405,7 +438,9 @@ class _ShopsScreenState extends State<ShopsScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Try a different search or category',
+                          _searchQuery.isNotEmpty
+                              ? AppLocalizations.of(context)!.noResultsFor(_searchQuery)
+                              : AppLocalizations.of(context)!.shopsWillAppearHere,
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             color: const Color(0xFF999999),
@@ -500,7 +535,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        shop.category,
+                        _getLocalizedCategoryName(shop.category),
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           color: Colors.white.withOpacity(0.9),
@@ -599,7 +634,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                                 const SizedBox(width: 4),
                                 Flexible(
                                   child: Text(
-                                    '${shop.productCount} products',
+                                    AppLocalizations.of(context)!.productCount(shop.productCount),
                                     style: GoogleFonts.poppins(
                                       fontSize: 13,
                                       color: const Color(0xFF666666),
@@ -650,7 +685,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Visit Shop',
+                                AppLocalizations.of(context)!.visitShop,
                                 style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,

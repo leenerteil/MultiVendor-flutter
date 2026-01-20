@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrdersManagementScreen extends StatefulWidget {
   const OrdersManagementScreen({super.key});
@@ -12,8 +13,8 @@ class OrdersManagementScreen extends StatefulWidget {
 class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedFilter = 'All';
-  
-  List<Map<String, dynamic>> _orders = [
+
+  final List<Map<String, dynamic>> _orders = [
     {
       'orderId': '#ORD-001',
       'date': 'Jan 15, 2024',
@@ -121,15 +122,15 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
     },
   ];
 
-  List<String> _exportOptions = ['Excel', 'CSV', 'PDF', 'Word'];
+  final List<String> _exportOptions = ['Excel', 'CSV', 'PDF', 'Word'];
 
-  // Filter orders based on selected filter
   List<Map<String, dynamic>> get _filteredOrders {
     if (_selectedFilter == 'All') return _orders;
-    return _orders.where((order) => order['status'] == _selectedFilter).toList();
+    return _orders
+        .where((order) => order['status'] == _selectedFilter)
+        .toList();
   }
 
-  // Count orders by status
   int _getOrderCount(String status) {
     if (status == 'All') return _orders.length;
     return _orders.where((order) => order['status'] == status).length;
@@ -137,10 +138,12 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8F9FA),
-      drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
+      drawer: ShopOwnerDrawer(currentScreen: AppLocalizations.of(context)!.dashboard),
       body: SafeArea(
         child: Column(
           children: [
@@ -188,7 +191,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              'Orders Management',
+                              AppLocalizations.of(context)!.ordersManagement,
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -218,23 +221,23 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                               }
                             },
                             itemBuilder: (context) => [
-                              const PopupMenuItem<String>(
+                              PopupMenuItem<String>(
                                 value: 'export_all',
                                 child: Row(
                                   children: [
-                                    Icon(Icons.download, size: 18),
-                                    SizedBox(width: 8),
-                                    Text('Export All Orders'),
+                                    const Icon(Icons.download, size: 18),
+                                    const SizedBox(width: 8),
+                                    Text(AppLocalizations.of(context)!.exportAllOrders),
                                   ],
                                 ),
                               ),
-                              const PopupMenuItem<String>(
+                              PopupMenuItem<String>(
                                 value: 'refresh',
                                 child: Row(
                                   children: [
-                                    Icon(Icons.refresh, size: 18),
-                                    SizedBox(width: 8),
-                                    Text('Refresh Orders'),
+                                    const Icon(Icons.refresh, size: 18),
+                                    const SizedBox(width: 8),
+                                    Text(AppLocalizations.of(context)!.refreshOrders),
                                   ],
                                 ),
                               ),
@@ -244,14 +247,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Stats Row
                     Row(
                       children: [
                         Expanded(
                           child: _buildQuickStat(
                             icon: Icons.shopping_bag_outlined,
-                            label: 'Total',
+                            label: AppLocalizations.of(context)!.all,
                             value: _orders.length.toString(),
                           ),
                         ),
@@ -259,7 +262,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         Expanded(
                           child: _buildQuickStat(
                             icon: Icons.attach_money,
-                            label: 'Revenue',
+                            label: AppLocalizations.of(context)!.revenue,
                             value: '\$${_calculateTotalRevenue().toInt()}',
                           ),
                         ),
@@ -301,7 +304,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent Orders',
+                    AppLocalizations.of(context)!.recentOrders,
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -336,7 +339,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            'Export',
+                            AppLocalizations.of(context)!.export,
                             style: GoogleFonts.poppins(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -463,21 +466,32 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   Widget _buildFilterChip(String label, int count) {
     final isSelected = _selectedFilter == label;
     Color chipColor;
-    
+
+    // Localize the display label for the chip
+    String displayLabel;
     switch (label) {
+      case 'All':
+        displayLabel = AppLocalizations.of(context)!.all;
+        chipColor = const Color(0xFF3D5150);
+        break;
       case 'Pending':
+        displayLabel = AppLocalizations.of(context)!.pending;
         chipColor = Colors.blue;
         break;
       case 'Shipped':
+        displayLabel = AppLocalizations.of(context)!.shipped;
         chipColor = Colors.orange;
         break;
       case 'Completed':
+        displayLabel = AppLocalizations.of(context)!.completed;
         chipColor = Colors.green;
         break;
       case 'Canceled':
+        displayLabel = AppLocalizations.of(context)!.canceled;
         chipColor = Colors.red;
         break;
       default:
+        displayLabel = label;
         chipColor = const Color(0xFF3D5150);
     }
 
@@ -510,7 +524,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              label,
+              displayLabel,
               style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -612,7 +626,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
-                                  order['status'],
+                                  _getLocalizedStatus(order['status']),
                                   style: GoogleFonts.poppins(
                                     fontSize: 10,
                                     color: order['statusColor'],
@@ -688,7 +702,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         },
                         icon: const Icon(Icons.visibility_outlined, size: 16),
                         label: Text(
-                          'View',
+                          AppLocalizations.of(context)!.viewDetails,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -714,7 +728,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         },
                         icon: const Icon(Icons.update, size: 16),
                         label: Text(
-                          'Update',
+                          AppLocalizations.of(context)!.updateStatus,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -780,7 +794,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Order Details',
+                          AppLocalizations.of(context)!.orderDetails,
                           style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
@@ -794,7 +808,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    
+
                     // Order Summary
                     Container(
                       width: double.infinity,
@@ -806,15 +820,18 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildDetailRow('Order ID', order['orderId']),
+                          _buildDetailRow(
+                              AppLocalizations.of(context)!.orderId,
+                              order['orderId']),
                           const SizedBox(height: 12),
-                          _buildDetailRow('Date', order['date']),
+                          _buildDetailRow(
+                              AppLocalizations.of(context)!.date, order['date']),
                           const SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Status',
+                                AppLocalizations.of(context)!.statusLabel,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   color: Colors.grey[600],
@@ -830,7 +847,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  order['status'],
+                                  _getLocalizedStatus(order['status']),
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -841,16 +858,29 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             ],
                           ),
                           const SizedBox(height: 12),
-                          _buildDetailRow('Total', order['total']),
+                          _buildDetailRow(
+                              AppLocalizations.of(context)!.totalAmountLabel,
+                              order['total']),
+                          const SizedBox(height: 12),
+                          _buildDetailRow(
+                              AppLocalizations.of(context)!.subtotal,
+                              order['subtotal']),
+                          const SizedBox(height: 12),
+                          _buildDetailRow(
+                              AppLocalizations.of(context)!.shipping,
+                              order['shipping']),
+                          if (order['tax'] != null && order['tax'].isNotEmpty)
+                            _buildDetailRow(
+                                AppLocalizations.of(context)!.tax, order['tax']),
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Customer Information
                     Text(
-                      'Customer Information',
+                      AppLocalizations.of(context)!.customerInformation,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -904,10 +934,10 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
 
-                    // Payment Row
+                    // Payment and Shipping Methods
                     Row(
                       children: [
                         Expanded(
@@ -915,7 +945,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Payment Method',
+                                AppLocalizations.of(context)!.paymentMethod,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -941,7 +971,36 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.shippingMethod,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF3D5150),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF8F9FA),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  order['shippingMethod'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
 
@@ -952,7 +1011,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Shipping Address',
+                          AppLocalizations.of(context)!.shippingAddress,
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -965,7 +1024,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                           decoration: BoxDecoration(
                             color: const Color(0xFFF8F9FA),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                            border:
+                                Border.all(color: Colors.grey.withOpacity(0.1)),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -987,13 +1047,15 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                     Opacity(
                                       opacity: 0.1,
                                       child: GridView.builder(
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: 100,
                                         gridDelegate:
                                             const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 10,
                                         ),
-                                        itemBuilder: (context, index) => Container(
+                                        itemBuilder: (context, index) =>
+                                            Container(
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                               color: Colors.blue,
@@ -1041,10 +1103,10 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                     ),
 
                     const SizedBox(height: 20),
-                    
+
                     // Order Items
                     Text(
-                      'Order Items',
+                      AppLocalizations.of(context)!.orderItems,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1074,7 +1136,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                     ),
                                   ),
                                   Text(
-                                    'Qty: ${item['quantity']}',
+                                    '${AppLocalizations.of(context)!.quantity}: ${item['quantity']}',
                                     style: GoogleFonts.poppins(
                                       fontSize: 13,
                                       color: Colors.grey[600],
@@ -1093,17 +1155,17 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                           ],
                         ),
                       );
-                    }).toList(),
-                    
+                    }),
+
                     const SizedBox(height: 20),
-                    
+
                     // Notes
                     if (order['notes'].isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Notes',
+                            AppLocalizations.of(context)!.notes,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -1168,7 +1230,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
           borderRadius: BorderRadius.circular(20),
         ),
         title: Text(
-          'Update Order Status',
+          AppLocalizations.of(context)!.updateOrderStatusTitle,
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w700,
           ),
@@ -1177,7 +1239,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Select new status for ${order['orderId']}',
+              AppLocalizations.of(context)!
+                  .selectNewStatusFor(order['orderId']),
               style: GoogleFonts.poppins(fontSize: 14),
             ),
             const SizedBox(height: 16),
@@ -1191,11 +1254,12 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
     );
   }
 
-  Widget _buildStatusOption(String status, Color color, Map<String, dynamic> order) {
+  Widget _buildStatusOption(
+      String status, Color color, Map<String, dynamic> order) {
     return ListTile(
       leading: Icon(Icons.circle, color: color, size: 16),
       title: Text(
-        status,
+        _getLocalizedStatus(status),
         style: GoogleFonts.poppins(
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -1216,10 +1280,13 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
         _orders[index]['statusColor'] = statusColor;
       }
     });
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Order $orderId status updated to $newStatus'),
+        content: Text(
+          AppLocalizations.of(context)!
+              .orderStatusUpdatedTo(orderId, _getLocalizedStatus(newStatus)),
+        ),
         backgroundColor: statusColor,
         duration: const Duration(seconds: 2),
       ),
@@ -1261,7 +1328,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Export Orders',
+                          AppLocalizations.of(context)!.exportOrdersTitle,
                           style: GoogleFonts.poppins(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
@@ -1270,14 +1337,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Drag format to export zone or click to export',
+                          AppLocalizations.of(context)!.dragToExportHint,
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             color: Colors.grey[600],
                           ),
                         ),
                         const SizedBox(height: 20),
-                        
+
                         // Export Options with Drag & Drop
                         Container(
                           height: 250,
@@ -1288,7 +1355,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                           child: GridView.builder(
                             padding: const EdgeInsets.all(16),
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 12,
@@ -1307,7 +1375,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: const Color(0xFF1CE2D6)),
+                                      border: Border.all(
+                                          color: const Color(0xFF1CE2D6)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.black.withOpacity(0.1),
@@ -1318,7 +1387,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Export as $option',
+                                        AppLocalizations.of(context)!
+                                            .exportAs(option),
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w600,
                                           color: const Color(0xFF1CE2D6),
@@ -1334,18 +1404,21 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                   ),
                                 ),
                                 child: GestureDetector(
-                                  onTap: () => _exportOrders(option, this.context),
+                                  onTap: () =>
+                                      _exportOrders(option, context),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
-                                        color: const Color(0xFF1CE2D6).withOpacity(0.5),
+                                        color: const Color(0xFF1CE2D6)
+                                            .withOpacity(0.5),
                                       ),
                                     ),
                                     child: Center(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             _getExportIcon(option),
@@ -1370,14 +1443,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             },
                           ),
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Drop Zone
                         DragTarget<String>(
                           onWillAcceptWithDetails: (data) => true,
                           onAcceptWithDetails: (data) {
-                            _exportOrders(data.data, this.context);
+                            _exportOrders(data.data, context);
                           },
                           builder: (context, candidateData, rejectedData) {
                             return Container(
@@ -1408,7 +1481,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Drop here to export',
+                                      AppLocalizations.of(context)!
+                                          .dropHereToExport,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         color: candidateData.isNotEmpty
@@ -1423,15 +1497,15 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             );
                           },
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Export All Button
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              _exportAllOrders(this.context);
+                              _exportAllOrders(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF3D5150),
@@ -1444,10 +1518,11 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.download_for_offline, size: 20),
+                                const Icon(Icons.download_for_offline,
+                                    size: 20),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Export All Orders',
+                                  AppLocalizations.of(context)!.exportAllOrders,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -1457,7 +1532,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 20),
                       ],
                     ),
@@ -1488,14 +1563,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
 
   void _exportOrders(String format, BuildContext context) {
     final count = _filteredOrders.length;
-    final filterText = _selectedFilter == 'All' ? '' : ' ($_selectedFilter)';
-    
-    // Close the dialog first if it's still showing
+    final filterText = _selectedFilter == 'All'
+        ? ''
+        : ' (${_getLocalizedStatus(_selectedFilter)})';
+
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     }
-    
-    // Show loading dialog
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -1510,7 +1585,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Exporting $count orders$filterText...',
+              AppLocalizations.of(context)!.exportingOrders(count, filterText),
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
@@ -1519,7 +1594,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Preparing your $format file',
+              AppLocalizations.of(context)!.preparingFile(format),
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 12,
@@ -1532,18 +1607,16 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
       ),
     );
 
-    // Simulate export process
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context); // Close loading dialog
-      
-      // Create export content
+      Navigator.pop(context);
+
       final exportContent = _generateExportContent(format);
-      
-      // Show success dialog with actual export content
+
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
               Icon(
@@ -1553,7 +1626,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                'Export Successful!',
+                AppLocalizations.of(context)!.exportSuccessful,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF3D5150),
@@ -1566,7 +1639,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Your $format file is ready:',
+                AppLocalizations.of(context)!.yourFileIsReady(format),
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   color: Colors.grey[600],
@@ -1591,7 +1664,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Size: ${exportContent.length ~/ 1024} KB',
+                      '${AppLocalizations.of(context)!.size}: ${exportContent.length ~/ 1024} KB',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         color: Colors.grey[600],
@@ -1599,7 +1672,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Orders: $count',
+                      '${AppLocalizations.of(context)!.orders}: $count',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         color: Colors.grey[600],
@@ -1610,7 +1683,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Preview:',
+                '${AppLocalizations.of(context)!.preview}:',
                 style: GoogleFonts.poppins(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -1624,11 +1697,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 decoration: BoxDecoration(
                   color: Colors.grey[50],
                   borderRadius: BorderRadius.circular(6),
-                  // border: Border.all(color:),
                 ),
                 child: SingleChildScrollView(
                   child: Text(
-                    exportContent.substring(0, exportContent.length > 300 ? 300 : exportContent.length),
+                    exportContent.substring(
+                        0,
+                        exportContent.length > 300
+                            ? 300
+                            : exportContent.length),
                     style: GoogleFonts.poppins(
                       fontSize: 10,
                       color: Colors.grey[700],
@@ -1642,7 +1718,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'Close',
+                AppLocalizations.of(context)!.close,
                 style: GoogleFonts.poppins(
                   color: Colors.grey[600],
                 ),
@@ -1653,7 +1729,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('$format file downloaded successfully!'),
+                    content: Text(AppLocalizations.of(context)!
+                        .fileDownloadedSuccessfully(format)),
                     backgroundColor: Colors.green,
                     duration: const Duration(seconds: 2),
                   ),
@@ -1667,7 +1744,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 ),
               ),
               child: Text(
-                'Download',
+                AppLocalizations.of(context)!.download,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
                 ),
@@ -1680,15 +1757,14 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   }
 
   void _exportAllOrders(BuildContext context) {
-    Navigator.pop(context); // Close the dialog
-    
-    // Show format selection dialog
+    Navigator.pop(context);
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
-          'Export All Orders',
+          AppLocalizations.of(context)!.exportAllOrders,
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w700,
           ),
@@ -1697,7 +1773,8 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
           mainAxisSize: MainAxisSize.min,
           children: _exportOptions.map((format) {
             return ListTile(
-              leading: Icon(_getExportIcon(format), color: _getFormatColor(format)),
+              leading:
+                  Icon(_getExportIcon(format), color: _getFormatColor(format)),
               title: Text(format),
               onTap: () {
                 Navigator.pop(context);
@@ -1728,59 +1805,76 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   String _generateExportContent(String format) {
     final filteredOrders = _filteredOrders;
     final buffer = StringBuffer();
-    
-    // Add header based on format
+
     if (format == 'Excel' || format == 'CSV') {
-      buffer.writeln('Order ID,Date,Customer,Total,Status,Items');
+      buffer.writeln(
+          'Order ID,Date,Customer,Total,Status,Items,Payment Method,Shipping Method');
       for (var order in filteredOrders) {
         final items = order['items'] as List<dynamic>;
-        final itemsStr = items.map((item) => 
-          '${item['name']} (x${item['quantity']})').join('; ');
-        
-        buffer.writeln('${order['orderId']},${order['date']},${order['customer']},${order['total']},${order['status']},"$itemsStr"');
+        final itemsStr = items
+            .map((item) => '${item['name']} (x${item['quantity']})')
+            .join('; ');
+
+        buffer.writeln(
+            '${order['orderId']},${order['date']},${order['customer']},${order['total']},${_getLocalizedStatus(order['status'])},$itemsStr,${order['paymentMethod']},${order['shippingMethod']}');
       }
     } else if (format == 'PDF') {
-      buffer.writeln('ORDERS REPORT');
-      buffer.writeln('Generated: ${DateTime.now()}');
-      buffer.writeln('Filter: $_selectedFilter');
-      buffer.writeln('Total Orders: ${filteredOrders.length}');
+      buffer.writeln(AppLocalizations.of(context)!.ordersReport);
+      buffer.writeln(
+          '${AppLocalizations.of(context)!.generated}: ${DateTime.now()}');
+      buffer.writeln(
+          '${AppLocalizations.of(context)!.filter}: ${_getLocalizedStatus(_selectedFilter)}');
+      buffer.writeln(
+          '${AppLocalizations.of(context)!.totalOrders}: ${filteredOrders.length}');
       buffer.writeln('\n---\n');
-      
+
       for (var order in filteredOrders) {
-        buffer.writeln('Order ID: ${order['orderId']}');
-        buffer.writeln('Date: ${order['date']}');
-        buffer.writeln('Customer: ${order['customer']}');
-        buffer.writeln('Total: ${order['total']}');
-        buffer.writeln('Status: ${order['status']}');
-        buffer.writeln('Items:');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.orderId}: ${order['orderId']}');
+        buffer.writeln('${AppLocalizations.of(context)!.date}: ${order['date']}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.customer}: ${order['customer']}');
+        buffer.writeln('${AppLocalizations.of(context)!.total}: ${order['total']}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.status}: ${_getLocalizedStatus(order['status'])}');
+        buffer.writeln(AppLocalizations.of(context)!.items);
         final items = order['items'] as List<dynamic>;
         for (var item in items) {
-          buffer.writeln('  • ${item['name']} x${item['quantity']} - \$${item['price']}');
+          buffer.writeln(
+              '  • ${item['name']} ${AppLocalizations.of(context)!.quantity}: ${item['quantity']} - \$${item['price']}');
         }
         buffer.writeln('\n---\n');
       }
     } else if (format == 'Word') {
-      buffer.writeln('Orders Document');
+      buffer.writeln(AppLocalizations.of(context)!.ordersDocument);
       buffer.writeln('===============\n');
-      buffer.writeln('Date: ${DateTime.now()}');
-      buffer.writeln('Orders Count: ${filteredOrders.length}\n');
-      
+      buffer.writeln('${AppLocalizations.of(context)!.date}: ${DateTime.now()}');
+      buffer.writeln(
+          '${AppLocalizations.of(context)!.ordersCount}: ${filteredOrders.length}\n');
+
       for (var order in filteredOrders) {
-        buffer.writeln('Order: ${order['orderId']}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.order}: ${order['orderId']}');
         buffer.writeln('-------------------------');
-        buffer.writeln('Customer: ${order['customer']}');
-        buffer.writeln('Order Date: ${order['date']}');
-        buffer.writeln('Status: ${order['status']}');
-        buffer.writeln('Total Amount: ${order['total']}');
-        buffer.writeln('\nItems Ordered:');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.customer}: ${order['customer']}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.orderDate}: ${order['date']}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.status}: ${_getLocalizedStatus(order['status'])}');
+        buffer.writeln(
+            '${AppLocalizations.of(context)!.totalAmount}: ${order['total']}');
+        buffer.writeln(
+            '\n${AppLocalizations.of(context)!.itemsOrdered}:');
         final items = order['items'] as List<dynamic>;
         for (var item in items) {
-          buffer.writeln('• ${item['name']} (Quantity: ${item['quantity']}, Price: \$${item['price']})');
+          buffer.writeln(
+              '• ${item['name']} (${AppLocalizations.of(context)!.quantity}: ${item['quantity']}, ${AppLocalizations.of(context)!.price}: \$${item['price']})');
         }
         buffer.writeln('\n');
       }
     }
-    
+
     return buffer.toString();
   }
 
@@ -1792,20 +1886,20 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
           borderRadius: BorderRadius.circular(20),
         ),
         title: Text(
-          'Cancel Order',
+          AppLocalizations.of(context)!.cancelOrder,
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w700,
           ),
         ),
         content: Text(
-          'Are you sure you want to cancel order $orderId? This action cannot be undone.',
+          AppLocalizations.of(context)!.cancelOrderConfirmation(orderId),
           style: GoogleFonts.poppins(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
-              'No',
+              AppLocalizations.of(context)!.no,
               style: GoogleFonts.poppins(
                 color: Colors.grey[600],
               ),
@@ -1821,7 +1915,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
               ),
             ),
             child: Text(
-              'Yes, Cancel Order',
+              AppLocalizations.of(context)!.yesCancelOrder,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
               ),
@@ -1834,17 +1928,17 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
 
   void _deleteOrder(String orderId) {
     setState(() {
-      final orderIndex = _orders.indexWhere((order) => order['orderId'] == orderId);
+      final orderIndex =
+          _orders.indexWhere((order) => order['orderId'] == orderId);
       if (orderIndex != -1) {
         final order = _orders.removeAt(orderIndex);
-        
-        // Add snackbar with undo option
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Order $orderId has been canceled'),
+            content: Text(AppLocalizations.of(context)!.orderCanceled(orderId)),
             duration: const Duration(seconds: 4),
             action: SnackBarAction(
-              label: 'UNDO',
+              label: AppLocalizations.of(context)!.undo,
               textColor: Colors.white,
               onPressed: () {
                 setState(() {
@@ -1861,7 +1955,6 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
   double _calculateTotalRevenue() {
     double total = 0;
     for (var order in _orders) {
-      // Remove $ sign and convert to double
       final totalString = order['total'].toString();
       final numericString = totalString.replaceAll('\$', '');
       total += double.tryParse(numericString) ?? 0;
@@ -1871,13 +1964,27 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
 
   void _refreshOrders() {
     setState(() {
-      // Simulate refreshing orders
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Refreshing orders...'),
-          duration: Duration(seconds: 1),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.refreshingOrders),
+          duration: const Duration(seconds: 1),
         ),
       );
     });
+  }
+
+  String _getLocalizedStatus(String status) {
+    switch (status) {
+      case 'Pending':
+        return AppLocalizations.of(context)!.pending;
+      case 'Shipped':
+        return AppLocalizations.of(context)!.shipped;
+      case 'Completed':
+        return AppLocalizations.of(context)!.completed;
+      case 'Canceled':
+        return AppLocalizations.of(context)!.canceled;
+      default:
+        return status;
+    }
   }
 }

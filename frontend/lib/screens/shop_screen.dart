@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'product_detail_screen.dart';
 import '../models/product.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShopScreen extends StatefulWidget {
   final String shopName;
@@ -34,8 +35,8 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
-  String _selectedCategory = "All";
-  String _selectedBrand = "All";
+  String _selectedCategory = "all";
+  String _selectedBrand = "all";
   double _minPrice = 0;
   double _maxPrice = 500;
   String _searchQuery = "";
@@ -49,7 +50,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '1',
       name: 'Luxury Night Cream',
       price: '\$89.99',
-      category: 'Skincare',
+      category: 'skincare',
       shop: 'Skin & Grin',
       rating: 4.5,
       color: const Color(0xFFF4E2DE),
@@ -61,7 +62,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '2',
       name: 'Vitamin C Serum',
       price: '\$59.99',
-      category: 'Skincare',
+      category: 'skincare',
       shop: 'Skin & Grin',
       rating: 4.7,
       color: const Color(0xFFFFF3CD),
@@ -73,7 +74,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '3',
       name: 'Anti-Aging Eye Cream',
       price: '\$75.50',
-      category: 'Skincare',
+      category: 'skincare',
       shop: 'Skin & Grin',
       rating: 4.3,
       color: const Color(0xFFE8F5E9),
@@ -85,7 +86,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '4',
       name: 'Hydrating Face Mask',
       price: '\$34.99',
-      category: 'Masks',
+      category: 'masks',
       shop: 'Skin & Grin',
       rating: 4.8,
       color: const Color(0xFFE3F2FD),
@@ -97,7 +98,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '5',
       name: 'Detox Clay Mask',
       price: '\$45.50',
-      category: 'Masks',
+      category: 'masks',
       shop: 'Skin & Grin',
       rating: 4.2,
       color: const Color(0xFFF3E5F5),
@@ -109,7 +110,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '6',
       name: 'Rose Water Toner',
       price: '\$29.99',
-      category: 'Toners',
+      category: 'toners',
       shop: 'Skin & Grin',
       rating: 4.6,
       color: const Color(0xFFFFE0E0),
@@ -121,7 +122,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '7',
       name: 'Sunscreen SPF 50',
       price: '\$42.99',
-      category: 'Suncare',
+      category: 'suncare',
       shop: 'Skin & Grin',
       rating: 4.4,
       color: const Color(0xFFFFF8E1),
@@ -133,7 +134,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '8',
       name: 'Lip Repair Balm',
       price: '\$18.99',
-      category: 'Lip Care',
+      category: 'lipCare',
       shop: 'Skin & Grin',
       rating: 4.9,
       color: const Color(0xFFFCE4EC),
@@ -145,7 +146,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '9',
       name: 'Hand Cream',
       price: '\$22.99',
-      category: 'Body Care',
+      category: 'bodyCare',
       shop: 'Skin & Grin',
       rating: 4.3,
       color: const Color(0xFFE8F5E9),
@@ -157,7 +158,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '10',
       name: 'Facial Cleanser',
       price: '\$39.99',
-      category: 'Cleansers',
+      category: 'cleansers',
       shop: 'Skin & Grin',
       rating: 4.2,
       color: const Color(0xFFE0F7FA),
@@ -169,7 +170,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '11',
       name: 'Brightening Essence',
       price: '\$65.99',
-      category: 'Essences',
+      category: 'essences',
       shop: 'Skin & Grin',
       rating: 4.5,
       color: const Color(0xFFF3E5F5),
@@ -181,7 +182,7 @@ class _ShopScreenState extends State<ShopScreen> {
       id: '12',
       name: 'Body Lotion',
       price: '\$54.99',
-      category: 'Body Care',
+      category: 'bodyCare',
       shop: 'Skin & Grin',
       rating: 4.1,
       color: const Color(0xFFFFF3CD),
@@ -192,20 +193,20 @@ class _ShopScreenState extends State<ShopScreen> {
   ];
 
   // Filter Options specific to this shop
-  final List<String> _categories = [
-    "All",
-    "Skincare",
-    "Masks",
-    "Toners",
-    "Suncare",
-    "Lip Care",
-    "Body Care",
-    "Cleansers",
-    "Essences",
+  final List<String> _categoryKeys = [
+    "all",
+    "skincare",
+    "masks",
+    "toners",
+    "suncare",
+    "lipCare",
+    "bodyCare",
+    "cleansers",
+    "essences",
   ];
 
   final List<String> _brands = [
-    "All",
+    "all",
     "Skin & Grin",
     "Luxury Line",
     "Natural Collection",
@@ -230,14 +231,37 @@ class _ShopScreenState extends State<ShopScreen> {
     });
   }
 
+  String _getLocalizedCategoryName(String key) {
+    switch (key) {
+      case 'skincare':
+        return AppLocalizations.of(context)!.skincare;
+      case 'masks':
+        return AppLocalizations.of(context)!.masks;
+      case 'toners':
+        return AppLocalizations.of(context)!.toners;
+      case 'suncare':
+        return AppLocalizations.of(context)!.suncare;
+      case 'lipCare':
+        return AppLocalizations.of(context)!.lipCare;
+      case 'bodyCare':
+        return AppLocalizations.of(context)!.bodyCare;
+      case 'cleansers':
+        return AppLocalizations.of(context)!.cleansers;
+      case 'essences':
+        return AppLocalizations.of(context)!.essences;
+      default:
+        return key;
+    }
+  }
+
   List<Product> _getFilteredProducts() {
     return _shopProducts.where((product) {
       // Category filter
-      bool categoryMatch = _selectedCategory == "All" ||
+      bool categoryMatch = _selectedCategory == "all" ||
           product.category == _selectedCategory;
 
       // Brand filter
-      bool brandMatch = _selectedBrand == "All" ||
+      bool brandMatch = _selectedBrand == "all" ||
           product.shop.toLowerCase().contains(_selectedBrand.toLowerCase());
 
       // Price filter
@@ -247,7 +271,7 @@ class _ShopScreenState extends State<ShopScreen> {
       // Search filter
       bool searchMatch = _searchQuery.isEmpty ||
           product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          product.category.toLowerCase().contains(_searchQuery.toLowerCase());
+          _getLocalizedCategoryName(product.category).toLowerCase().contains(_searchQuery.toLowerCase());
 
       return categoryMatch && brandMatch && priceMatch && searchMatch;
     }).toList();
@@ -263,7 +287,7 @@ class _ShopScreenState extends State<ShopScreen> {
         slivers: [
           // 1. Compact Header (SliverAppBar)
           SliverAppBar(
-            expandedHeight: 280, // Reduced from 340
+            expandedHeight: 280,
             pinned: true,
             backgroundColor: const Color(0xFF3D5150),
             leading: IconButton(
@@ -278,7 +302,7 @@ class _ShopScreenState extends State<ShopScreen> {
               onPressed: () => Navigator.pop(context),
             ),
             actions: [
-               Row(
+              Row(
                 children: [
                   _buildHeaderIcon(
                     icon: _favoriteCount > 0 ? Icons.favorite : Icons.favorite_border,
@@ -331,7 +355,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         children: [
                           // Logo
                           Container(
-                            width: 80, // Smaller logo
+                            width: 80,
                             height: 80,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -365,11 +389,20 @@ class _ShopScreenState extends State<ShopScreen> {
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    _buildCompactStat(Icons.grid_view_rounded, '${widget.shopProductCount} Items'),
+                                    _buildCompactStat(
+                                      Icons.grid_view_rounded, 
+                                      AppLocalizations.of(context)!.itemsCount(widget.shopProductCount)
+                                    ),
                                     const SizedBox(width: 12),
-                                    _buildCompactStat(Icons.visibility_rounded, widget.shopViews),
+                                    _buildCompactStat(
+                                      Icons.visibility_rounded, 
+                                      AppLocalizations.of(context)!.viewsCount(widget.shopViews)
+                                    ),
                                     const SizedBox(width: 12),
-                                    _buildCompactStat(Icons.category_rounded, widget.shopCategory),
+                                    _buildCompactStat(
+                                      Icons.category_rounded, 
+                                      _getLocalizedCategoryName(widget.shopCategory)
+                                    ),
                                   ],
                                 ),
                               ],
@@ -391,7 +424,7 @@ class _ShopScreenState extends State<ShopScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Column(
                 children: [
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.location_on, size: 14, color: const Color(0xFF3D5150).withOpacity(0.7)),
@@ -406,7 +439,11 @@ class _ShopScreenState extends State<ShopScreen> {
                   const SizedBox(height: 12),
                   Text(
                     widget.shopDescription,
-                    style: GoogleFonts.poppins(fontSize: 13, color: const Color(0xFF3D5150).withOpacity(0.8), height: 1.5),
+                    style: GoogleFonts.poppins(
+                      fontSize: 13, 
+                      color: const Color(0xFF3D5150).withOpacity(0.8), 
+                      height: 1.5
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -443,7 +480,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         onChanged: (val) => setState(() => _searchQuery = val),
                         style: GoogleFonts.poppins(fontSize: 14),
                         decoration: InputDecoration(
-                          hintText: 'Search in shop...',
+                          hintText: AppLocalizations.of(context)!.searchInShopHint,
                           hintStyle: GoogleFonts.poppins(color: Colors.grey, fontSize: 13),
                           prefixIcon: const Icon(Icons.search, color: Color(0xFF3D5150), size: 20),
                           border: InputBorder.none,
@@ -463,7 +500,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         color: _isFiltersExpanded ? const Color(0xFF3D5150) : Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
-                           BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
+                          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
                         ],
                       ),
                       child: Icon(
@@ -493,18 +530,42 @@ class _ShopScreenState extends State<ShopScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Filters', style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: const Color(0xFF3D5150))),
+                    Text(
+                      AppLocalizations.of(context)!.filters,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600, 
+                        color: const Color(0xFF3D5150)
+                      )
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Expanded(child: _buildCompactDropdown(_selectedCategory, _categories, 'Category')),
+                        Expanded(
+                          child: _buildCompactDropdown(
+                            _selectedCategory, 
+                            _categoryKeys, 
+                            AppLocalizations.of(context)!.category,
+                            isCategory: true
+                          )
+                        ),
                         const SizedBox(width: 12),
-                        Expanded(child: _buildCompactDropdown(_selectedBrand, _brands, 'Brand')),
+                        Expanded(
+                          child: _buildCompactDropdown(
+                            _selectedBrand, 
+                            _brands, 
+                            AppLocalizations.of(context)!.brand
+                          )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Text('Price Range: \$${_minPrice.toInt()} - \$${_maxPrice.toInt()}', 
-                         style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF3D5150))),
+                    Text(
+                      '${AppLocalizations.of(context)!.priceRange}: \$${_minPrice.toInt()} - \$${_maxPrice.toInt()}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12, 
+                        color: const Color(0xFF3D5150)
+                      )
+                    ),
                     RangeSlider(
                       values: RangeValues(_minPrice, _maxPrice),
                       min: 0,
@@ -534,7 +595,12 @@ class _ShopScreenState extends State<ShopScreen> {
                       children: [
                         Icon(Icons.search_off, size: 48, color: Colors.grey[300]),
                         const SizedBox(height: 16),
-                        Text('No products found', style: GoogleFonts.poppins(color: Colors.grey)),
+                        Text(
+                          _searchQuery.isEmpty 
+                            ? AppLocalizations.of(context)!.noProductsAvailable
+                            : AppLocalizations.of(context)!.noProductsFound,
+                          style: GoogleFonts.poppins(color: Colors.grey)
+                        ),
                       ],
                     ),
                   ),
@@ -554,7 +620,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     ),
                   ),
                 ),
-           const SliverPadding(padding: EdgeInsets.only(bottom: 40)),
+          const SliverPadding(padding: EdgeInsets.only(bottom: 40)),
         ],
       ),
     );
@@ -580,7 +646,14 @@ class _ShopScreenState extends State<ShopScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(color: Color(0xFF1CE2D6), shape: BoxShape.circle),
-                  child: Text('$count', style: const TextStyle(fontSize: 8, color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    '$count', 
+                    style: const TextStyle(
+                      fontSize: 8, 
+                      color: Colors.white, 
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
                 ),
               ),
           ],
@@ -594,12 +667,28 @@ class _ShopScreenState extends State<ShopScreen> {
       children: [
         Icon(icon, color: Colors.white70, size: 14),
         const SizedBox(width: 4),
-        Text(text, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 11)),
+        Text(
+          text, 
+          style: GoogleFonts.poppins(
+            color: Colors.white70, 
+            fontSize: 11
+          )
+        ),
       ],
     );
   }
 
-  Widget _buildCompactDropdown(String value, List<String> items, String label) {
+  Widget _buildCompactDropdown(String value, List<String> items, String label, {bool isCategory = false}) {
+    String getDisplayText(String item) {
+      if (item == 'all') {
+        return AppLocalizations.of(context)!.all;
+      }
+      if (isCategory) {
+        return _getLocalizedCategoryName(item);
+      }
+      return item;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
@@ -613,13 +702,19 @@ class _ShopScreenState extends State<ShopScreen> {
           isExpanded: true,
           icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF3D5150)),
           style: GoogleFonts.poppins(fontSize: 13, color: const Color(0xFF3D5150)),
-          items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+          items: items.map((e) => DropdownMenuItem(
+            value: e, 
+            child: Text(getDisplayText(e))
+          )).toList(),
           onChanged: (val) {
-             if (val == null) return;
-             setState(() {
-               if (label == 'Category') _selectedCategory = val;
-               if (label == 'Brand') _selectedBrand = val;
-             });
+            if (val == null) return;
+            setState(() {
+              if (label == AppLocalizations.of(context)!.category) {
+                _selectedCategory = val;
+              } else if (label == AppLocalizations.of(context)!.brand) {
+                _selectedBrand = val;
+              }
+            });
           },
         ),
       ),
@@ -777,11 +872,10 @@ class _ShopScreenState extends State<ShopScreen> {
                               const SizedBox(width: 4),
                               Expanded(
                                 child: Text(
-                                  product.category,
+                                  _getLocalizedCategoryName(product.category),
                                   style: GoogleFonts.poppins(
                                     fontSize: 11,
-                                    color:
-                                        const Color(0xFF3D5150).withOpacity(0.6),
+                                    color: const Color(0xFF3D5150).withOpacity(0.6),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -839,11 +933,10 @@ class _ShopScreenState extends State<ShopScreen> {
                             ),
                             if (product.cartQuantity > 0)
                               Text(
-                                '${product.cartQuantity} in cart',
+                                AppLocalizations.of(context)!.inCartCount(product.cartQuantity),
                                 style: GoogleFonts.poppins(
                                   fontSize: 9,
-                                  color:
-                                      const Color(0xFF3D5150).withOpacity(0.5),
+                                  color: const Color(0xFF3D5150).withOpacity(0.5),
                                 ),
                               ),
                           ],

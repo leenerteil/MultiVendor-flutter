@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../screens/product_detail_screen.dart';
 
@@ -64,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                '${product.name} removed from cart',
+                AppLocalizations.of(context)!.itemRemoved(product.name),
                 style: GoogleFonts.poppins(color: Colors.white),
               ),
             ),
@@ -164,7 +165,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         const Spacer(),
                         Text(
-                          'My Cart',
+                          AppLocalizations.of(context)!.myCart,
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
@@ -222,7 +223,7 @@ class _CartScreenState extends State<CartScreen> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                '${widget.cartItems.length} items',
+                                AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -240,14 +241,14 @@ class _CartScreenState extends State<CartScreen> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     title: Text(
-                                      'Clear Cart?',
+                                      AppLocalizations.of(context)!.clearCartTitle,
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w700,
                                         color: const Color(0xFF3D5150),
                                       ),
                                     ),
                                     content: Text(
-                                      'Are you sure you want to remove all items from your cart?',
+                                      AppLocalizations.of(context)!.clearCartConfirm,
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFF3D5150).withOpacity(0.7),
                                       ),
@@ -256,7 +257,7 @@ class _CartScreenState extends State<CartScreen> {
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
                                         child: Text(
-                                          'Cancel',
+                                          AppLocalizations.of(context)!.cancel,
                                           style: GoogleFonts.poppins(
                                             color: const Color(0xFF666666),
                                             fontWeight: FontWeight.w600,
@@ -272,7 +273,7 @@ class _CartScreenState extends State<CartScreen> {
                                           });
                                         },
                                         child: Text(
-                                          'Clear All',
+                                          AppLocalizations.of(context)!.clearAll,
                                           style: GoogleFonts.poppins(
                                             color: const Color(0xFF1CE2D6),
                                             fontWeight: FontWeight.w600,
@@ -304,7 +305,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
-                                      'Clear All',
+                                      AppLocalizations.of(context)!.clearAll,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -559,7 +560,7 @@ class _CartScreenState extends State<CartScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'Total: \$${(price * quantity).toStringAsFixed(2)}',
+                        '${AppLocalizations.of(context)!.total}: \$${(price * quantity).toStringAsFixed(2)}',
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -597,7 +598,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           const SizedBox(height: 30),
           Text(
-            'Your cart is empty',
+            AppLocalizations.of(context)!.emptyCart,
             style: GoogleFonts.poppins(
               fontSize: 24,
               fontWeight: FontWeight.w700,
@@ -608,7 +609,7 @@ class _CartScreenState extends State<CartScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Looks like you haven\'t added any products to your cart yet. Start shopping to fill it up!',
+              AppLocalizations.of(context)!.emptyCartSubtitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 14,
@@ -648,7 +649,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'Start Shopping',
+                    AppLocalizations.of(context)!.startShopping,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -689,7 +690,7 @@ class _CartScreenState extends State<CartScreen> {
             Row(
               children: [
                 Text(
-                  'Order Summary',
+                  AppLocalizations.of(context)!.orderSummary,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -712,7 +713,7 @@ class _CartScreenState extends State<CartScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '${widget.cartItems.length} items',
+                  AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -726,15 +727,15 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(height: 16),
             
             // Summary Details
-            _buildSummaryRow('Subtotal', '\$${_calculateSubtotal().toStringAsFixed(2)}'),
-            _buildSummaryRow('Shipping', '\$5.99'),
+            _buildSummaryRow(AppLocalizations.of(context)!.subtotal, '\$${_calculateSubtotal().toStringAsFixed(2)}'),
+            _buildSummaryRow(AppLocalizations.of(context)!.shipping, '\$5.99'),
             const Divider(
               color: Color(0xFFF0F0F0),
               height: 24,
               thickness: 2,
             ),
             _buildSummaryRow(
-              'Total',
+              AppLocalizations.of(context)!.total,
               '\$${_calculateTotal().toStringAsFixed(2)}',
               isTotal: true,
             ),
@@ -769,7 +770,7 @@ class _CartScreenState extends State<CartScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Order placed successfully!',
+                                      AppLocalizations.of(context)!.orderSuccess,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -777,7 +778,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '\$${_calculateTotal().toStringAsFixed(2)} will be charged',
+                                      AppLocalizations.of(context)!.willBeCharged('\$${_calculateTotal().toStringAsFixed(2)}'),
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         color: Colors.white.withOpacity(0.9),

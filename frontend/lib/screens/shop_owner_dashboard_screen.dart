@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../widgets/shop_owner_drawer.dart';
 
@@ -68,7 +69,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                           Expanded(
                             child: Center(
                               child: Text(
-                                'Dashboard',
+                                AppLocalizations.of(context)!.dashboard,
                                 style: GoogleFonts.poppins(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
@@ -101,14 +102,14 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Welcome back,',
+                                  AppLocalizations.of(context)!.welcomeBack,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     color: Colors.white.withOpacity(0.9),
                                   ),
                                 ),
                                 Text(
-                                  'Shop Owner',
+                                  AppLocalizations.of(context)!.shopOwner,
                                   style: GoogleFonts.poppins(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
@@ -128,7 +129,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              'Today',
+                               AppLocalizations.of(context)!.today,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -156,7 +157,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                           child: _buildStatCard(
                             icon: Icons.inventory_2_rounded,
                             value: '4',
-                            label: 'Total Products',
+                            label: AppLocalizations.of(context)!.totalProductsCount,
                             color: const Color(0xFF1CE2D6),
                             iconBgColor:
                                 const Color(0xFF1CE2D6).withOpacity(0.1),
@@ -167,7 +168,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                           child: _buildStatCard(
                             icon: Icons.shopping_bag_rounded,
                             value: '2',
-                            label: 'Total Orders',
+                            label: AppLocalizations.of(context)!.totalOrdersCount,
                             color: const Color(0xFFF9A825),
                             iconBgColor:
                                 const Color(0xFFF9A825).withOpacity(0.1),
@@ -182,7 +183,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                           child: _buildStatCard(
                             icon: Icons.attach_money_rounded,
                             value: '\$68',
-                            label: 'Total Revenue',
+                            label: AppLocalizations.of(context)!.totalRevenue,
                             color: const Color(0xFFE57373),
                             iconBgColor:
                                 const Color(0xFFE57373).withOpacity(0.1),
@@ -193,7 +194,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                           child: _buildStatCard(
                             icon: Icons.people_rounded,
                             value: '2',
-                            label: 'Active Customers',
+                            label: AppLocalizations.of(context)!.activeCustomers,
                             color: const Color(0xFF81C784),
                             iconBgColor:
                                 const Color(0xFF81C784).withOpacity(0.1),
@@ -209,8 +210,8 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
 
               // Sales Over Time Section with Line Chart
               _buildChartSection(
-                title: 'Sales Over Time',
-                subtitle: 'Last 7 days performance',
+                title: AppLocalizations.of(context)!.salesOverTime,
+                subtitle: AppLocalizations.of(context)!.last7Days,
                 chart: _buildSalesLineChart(),
                 gradientColors: [
                   const Color(0xFF1CE2D6).withOpacity(0.3),
@@ -222,8 +223,8 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
 
               // Monthly Order Count Section
               _buildChartSection(
-                title: 'Monthly Order Count',
-                subtitle: 'Order trends over last 6 months',
+                title: AppLocalizations.of(context)!.monthlyOrderCount,
+                subtitle: AppLocalizations.of(context)!.orderTrends,
                 chart: _buildMonthlyOrdersChart(),
                 gradientColors: [
                   const Color(0xFFF9A825).withOpacity(0.3),
@@ -235,8 +236,8 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
 
               // Top Selling Products Section with Bar Chart
               _buildChartSection(
-                title: 'Top Selling Products',
-                subtitle: 'Best performing items',
+                title: AppLocalizations.of(context)!.topSellingProducts,
+                subtitle: AppLocalizations.of(context)!.bestPerformingItems,
                 chart: _buildProductsBarChart(),
                 gradientColors: [
                   const Color(0xFF3D5150).withOpacity(0.3),
@@ -248,8 +249,8 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
 
               // Category Revenue Section with Pie Chart
               _buildChartSection(
-                title: 'Category Revenue',
-                subtitle: 'Revenue distribution by category',
+                title: AppLocalizations.of(context)!.categoryRevenue,
+                subtitle: AppLocalizations.of(context)!.revenueDistribution,
                 chart: _buildCategoryPieChart(),
                 gradientColors: [
                   const Color(0xFFF9A825).withOpacity(0.3),
@@ -814,7 +815,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Inventory Levels',
+                  AppLocalizations.of(context)!.inventoryLevels,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -826,13 +827,13 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
             const SizedBox(height: 20),
 
             // Inventory List Items
-            _buildInventoryItem(name: 'Facial Cleansing', count: 0),
+            _buildInventoryItem(name: AppLocalizations.of(context)!.facialCleansing, count: 0),
             const SizedBox(height: 12),
-            _buildInventoryItem(name: 'Splash', count: 3),
+            _buildInventoryItem(name: AppLocalizations.of(context)!.splash, count: 3),
             const SizedBox(height: 12),
-            _buildInventoryItem(name: 'Shampoo', count: 5),
+            _buildInventoryItem(name: AppLocalizations.of(context)!.shampoo, count: 5),
             const SizedBox(height: 12),
-            _buildInventoryItem(name: 'Passion Orchid Perfume', count: 9),
+            _buildInventoryItem(name: AppLocalizations.of(context)!.passionOrchidPerfume, count: 9),
           ],
         ),
       ),
