@@ -296,7 +296,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
     showDialog(
       context: context,
       builder: (context) => _buildProductFormDialog(
-        title: 'Add Product',
+        title: AppLocalizations.of(context)!.addProduct,
         isEditing: false,
         onProductSaved: () {
           // This callback will trigger a rebuild when a product is saved
@@ -310,7 +310,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
     showDialog(
       context: context,
       builder: (context) => _buildProductFormDialog(
-        title: 'Edit Product',
+        title: AppLocalizations.of(context)!.editProduct,
         isEditing: true,
         product: product,
         onProductSaved: () {
@@ -966,7 +966,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             ),
                           ),
                           child: Text(
-                            'Cancel',
+                            AppLocalizations.of(context)!.cancel,
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,

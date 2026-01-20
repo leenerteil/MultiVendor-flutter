@@ -393,6 +393,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startShopping => 'Start Shopping';
 
   @override
+  String get proceedToCheckout => 'Proceed to Checkout';
+
+  @override
+  String get continueShopping => 'Continue Shopping';
+
+  @override
   String get orderSummary => 'Order Summary';
 
   @override

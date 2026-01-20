@@ -4,11 +4,12 @@ import 'product_detail_screen.dart';
 import '../models/product.dart';
 import '../widgets/shop_owner_drawer.dart';
 import '../flutter_gen/gen_l10n/app_localizations.dart';
-import '../utils/rtl_helper.dart'; // Add RTLHelper import
+import '../utils/rtl_helper.dart'; 
 
 class ProductsScreen extends StatefulWidget {
   final bool isShopOwner;
-  const ProductsScreen({super.key, this.isShopOwner = false});
+  final bool showBackButton;
+  const ProductsScreen({super.key, this.isShopOwner = false, this.showBackButton = false});
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -298,6 +299,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           // Menu Icon and Logo Row
                           Row(
                             children: [
+                              // Back Arrow Button (only show when showBackButton is true)
+                              if (widget.showBackButton) ...[
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_back_ios_rounded,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                              ],
                               if (widget.isShopOwner) ...[
                                 GestureDetector(
                                   onTap: () {

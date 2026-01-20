@@ -394,6 +394,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get startShopping => 'ابدأ التسوق';
 
   @override
+  String get proceedToCheckout => 'المتابعة إلى الدفع';
+
+  @override
+  String get continueShopping => 'متابعة التسوق';
+
+  @override
   String get orderSummary => 'ملخص الطلب';
 
   @override

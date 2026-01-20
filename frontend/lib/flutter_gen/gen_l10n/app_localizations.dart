@@ -842,6 +842,18 @@ abstract class AppLocalizations {
   /// **'Start Shopping'**
   String get startShopping;
 
+  /// No description provided for @proceedToCheckout.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed to Checkout'**
+  String get proceedToCheckout;
+
+  /// No description provided for @continueShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Shopping'**
+  String get continueShopping;
+
   /// No description provided for @orderSummary.
   ///
   /// In en, this message translates to:

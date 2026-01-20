@@ -5,7 +5,8 @@ import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesScreen extends StatefulWidget {
   final bool isShopOwner;
-  const CategoriesScreen({super.key, this.isShopOwner = false});
+  final bool showBackButton;
+  const CategoriesScreen({super.key, this.isShopOwner = false, this.showBackButton = false});
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
@@ -176,7 +177,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         children: [
           // Header Section
           Container(
-            width: double.infinity, // Ensures header takes full width
+            width: double.infinity, 
             decoration: BoxDecoration(
               color: const Color(0xFF3D5150),
               borderRadius: const BorderRadius.only(
@@ -203,6 +204,28 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         Row(
                           children: [
+                            // Back Arrow Button (only show when showBackButton is true)
+                            if (widget.showBackButton) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                            ],
                             if (widget.isShopOwner) ...[
                               GestureDetector(
                                 onTap: () {

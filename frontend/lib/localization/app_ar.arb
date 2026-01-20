@@ -227,6 +227,8 @@
   "emptyCart": "سلتك فارغة",
   "emptyCartSubtitle": "يبدو أنك لم تضف أي منتجات إلى سلتك بعد. ابدأ التسوق لملئها!",
   "startShopping": "ابدأ التسوق",
+  "proceedToCheckout": "المتابعة إلى الدفع",
+  "continueShopping": "متابعة التسوق",
   "orderSummary": "ملخص الطلب",
   "subtotal": "المجموع الفرعي",
   "shipping": "الشحن",

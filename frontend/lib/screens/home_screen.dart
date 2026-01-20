@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../flutter_gen/gen_l10n/app_localizations.dart';
 import 'login_screen.dart';
 import '../widgets/shop_owner_drawer.dart';
+import 'categories_screen.dart';
+import 'products_screen.dart';
+import 'shops_screen.dart';
 import 'dart:async';
 
 class Product {
@@ -319,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   IconButton(
                                     icon: const Icon(Icons.favorite_border,
                                         color: Colors.white, size: 24),
-                                    onPressed: () {},
+                                    onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesScreen(isShopOwner: widget.isShopOwner, showBackButton: true))); },
                                     padding: EdgeInsets.zero,
                                     constraints: const BoxConstraints(
                                       minWidth: 40,
@@ -545,7 +548,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductsScreen(isShopOwner: widget.isShopOwner, showBackButton: true),
+                                      ),
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     padding: const EdgeInsets.symmetric(
@@ -695,7 +705,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(isShopOwner: widget.isShopOwner, showBackButton: true))); },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
                     minimumSize: const Size(0, 0),
@@ -760,7 +770,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesScreen(isShopOwner: widget.isShopOwner, showBackButton: true))); },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
                     minimumSize: const Size(0, 0),
@@ -840,7 +850,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {   
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ShopsScreen(isShopOwner: widget.isShopOwner, showBackButton: true))); },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: const Size(0, 0),
@@ -911,7 +922,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(isShopOwner: widget.isShopOwner, showBackButton: true))); },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: const Size(0, 0),

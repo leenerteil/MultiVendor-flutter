@@ -33,7 +33,8 @@ class Shop {
 
 class ShopsScreen extends StatefulWidget {
   final bool isShopOwner;
-  const ShopsScreen({super.key, this.isShopOwner = false});
+  final bool showBackButton;
+  const ShopsScreen({super.key, this.isShopOwner = false, this.showBackButton = false});
 
   @override
   _ShopsScreenState createState() => _ShopsScreenState();
@@ -235,6 +236,28 @@ class _ShopsScreenState extends State<ShopsScreen> {
               children: [
                 Row(
                   children: [
+                    // Back Arrow Button (only show when showBackButton is true)
+                    if (widget.showBackButton) ...[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                    ],
                     if (widget.isShopOwner) ...[
                       GestureDetector(
                         onTap: () {

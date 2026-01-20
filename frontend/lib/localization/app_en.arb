@@ -162,6 +162,8 @@
   "emptyCart": "Your cart is empty",
   "emptyCartSubtitle": "Looks like you haven't added any products to your cart yet. Start shopping to fill it up!",
   "startShopping": "Start Shopping",
+  "proceedToCheckout": "Proceed to Checkout",
+  "continueShopping": "Continue Shopping",
   "orderSummary": "Order Summary",
   "subtotal": "Subtotal",
   "shipping": "Shipping",

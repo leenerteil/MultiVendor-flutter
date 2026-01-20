@@ -838,33 +838,29 @@ class _CartScreenState extends State<CartScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(
-                        Icons.shopping_basket_rounded,
+                        Icons.shopping_cart_checkout_rounded,
                         color: Colors.white,
                         size: 20,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      'Proceed to Checkout',
+                      AppLocalizations.of(context)!.proceedToCheckout,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
-                        letterSpacing: 0.5,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            
-            const SizedBox(height: 8),
-            
-            // Continue Shopping
+            const SizedBox(height: 12),
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'Continue Shopping',
+                AppLocalizations.of(context)!.continueShopping,
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -877,6 +873,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
 
   Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
     return Padding(
