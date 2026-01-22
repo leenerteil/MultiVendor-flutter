@@ -72,8 +72,8 @@ class CustomScreenHeader extends StatelessWidget {
                       const SizedBox(width: 12),
                     ],
 
-                    // Menu button (only for shop owner)
-                    if (isShopOwner) ...[
+                    // Menu button (only for shop owner, and not when back button is shown)
+                    if (isShopOwner && !showBackButton) ...[
                       GestureDetector(
                         onTap: () {
                           Scaffold.of(context).openDrawer();
