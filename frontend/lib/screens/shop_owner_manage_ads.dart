@@ -61,16 +61,14 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
       maxWidth: 1200,
     );
     
-    if (images != null) {
-      setState(() {
-        // Limit dynamic images to the static ads limit
-        final newImages = images.take(_adsLimit - _dynamicAdImages.length);
-        _dynamicAdImages.addAll(newImages.map((image) => File(image.path)));
-        if (_dynamicAdImages.length > _adsLimit) {
-          _dynamicAdImages = _dynamicAdImages.sublist(0, _adsLimit);
-        }
-      });
-    }
+    setState(() {
+      // Limit dynamic images to the static ads limit
+      final newImages = images.take(_adsLimit - _dynamicAdImages.length);
+      _dynamicAdImages.addAll(newImages.map((image) => File(image.path)));
+      if (_dynamicAdImages.length > _adsLimit) {
+        _dynamicAdImages = _dynamicAdImages.sublist(0, _adsLimit);
+      }
+    });
   }
   
   void _removeStaticImage() {
@@ -674,30 +672,30 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header with Gradient
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF1CE2D6),
-                    Color(0xFF3D5150),
-                  ],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
+      body: Column(
+        children: [
+          // Updated Header with Gradient - Full width like Profile Screen
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF1CE2D6),
+                  Color(0xFF3D5150),
+                ],
               ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
+            child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
                   children: [
-                    // Top Bar
+                    // Top Bar - Title Centered
                     Row(
                       children: [
                         GestureDetector(
@@ -743,218 +741,162 @@ class _ManageAdsScreenState extends State<ManageAdsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 8),
                     
-                    // Info Card
+                  ],
+                ),  
+              ),
+
+            ),
+          ),
+          // Ads Content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  // Static Ad Plan
+                  _buildAdSection(
+                    title: AppLocalizations.of(context)!.staticAdPlan,
+                    isStatic: true,
+                  ),
+                  
+                  const SizedBox(height: 4),
+                  
+                  // Dynamic Ad Plan
+                  _buildAdSection(
+                    title: AppLocalizations.of(context)!.dynamicAdPlan,
+                    isStatic: false,
+                  ),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Add Images Button (for Dynamic Ad Plan only)
+                  if (_adsLimit > 0) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(16),
+                      height: 48,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF1CE2D6).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(
-                              Icons.info_outline,
-                              color: Color(0xFF1CE2D6),
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.adsConfiguration,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF3D5150),
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  AppLocalizations.of(context)!.viewEditAdsPlans,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Ads Content
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    // Static Ad Plan
-                    _buildAdSection(
-                      title: AppLocalizations.of(context)!.staticAdPlan,
-                      isStatic: true,
-                    ),
-                    
-                    const SizedBox(height: 4),
-                    
-                    // Dynamic Ad Plan
-                    _buildAdSection(
-                      title: AppLocalizations.of(context)!.dynamicAdPlan,
-                      isStatic: false,
-                    ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Add Images Button (for Dynamic Ad Plan only)
-                    if (_adsLimit > 0) ...[
-                      Container(
-                        width: double.infinity,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: _dynamicAdImages.length >= _adsLimit
-                                ? Colors.grey
-                                : const Color(0xFF1CE2D6),
-                            width: 1.5,
-                          ),
+                        border: Border.all(
+                          color: _dynamicAdImages.length >= _adsLimit
+                              ? Colors.grey
+                              : const Color(0xFF1CE2D6),
+                          width: 1.5,
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: _dynamicAdImages.length >= _adsLimit ? null : _pickDynamicImages,
-                            borderRadius: BorderRadius.circular(12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add_photo_alternate,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: _dynamicAdImages.length >= _adsLimit ? null : _pickDynamicImages,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_photo_alternate,
+                                color: _dynamicAdImages.length >= _adsLimit
+                                    ? Colors.grey
+                                    : const Color(0xFF1CE2D6),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                AppLocalizations.of(context)!.addImagesToDynamicAdPlan,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                   color: _dynamicAdImages.length >= _adsLimit
                                       ? Colors.grey
                                       : const Color(0xFF1CE2D6),
-                                  size: 20,
                                 ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  AppLocalizations.of(context)!.addImagesToDynamicAdPlan,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: _dynamicAdImages.length >= _adsLimit
-                                        ? Colors.grey
-                                        : const Color(0xFF1CE2D6),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _dynamicAdImages.length >= _adsLimit
-                            ? AppLocalizations.of(context)!.maxImagesReached(_adsLimit.toString())
-                            : AppLocalizations.of(context)!.addUpToImages(_adsLimit.toString()),
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: _dynamicAdImages.length >= _adsLimit
-                              ? Colors.orange
-                              : Colors.grey[600],
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    
-                    // Divider
-                    Container(
-                      height: 1,
-                      color: Colors.grey[200],
                     ),
-                    
+                    const SizedBox(height: 8),
+                    Text(
+                      _dynamicAdImages.length >= _adsLimit
+                          ? AppLocalizations.of(context)!.maxImagesReached(_adsLimit.toString())
+                          : AppLocalizations.of(context)!.addUpToImages(_adsLimit.toString()),
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: _dynamicAdImages.length >= _adsLimit
+                            ? Colors.orange
+                            : Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 16),
-                    
-                    // Save/Cancel Buttons
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              side: const BorderSide(
-                                color: Color(0xFF1CE2D6),
-                                width: 1.5,
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: Text(
-                              AppLocalizations.of(context)!.cancel,
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1CE2D6),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _saveChanges,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1CE2D6),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: Text(
-                              AppLocalizations.of(context)!.saveChanges,
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
-                ),
+                  
+                  // Divider
+                  Container(
+                    height: 1,
+                    color: Colors.grey[200],
+                  ),
+                  
+                  const SizedBox(height: 16),
+                  
+                  // Save/Cancel Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: const BorderSide(
+                              color: Color(0xFF1CE2D6),
+                              width: 1.5,
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.cancel,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF1CE2D6),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _saveChanges,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1CE2D6),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.saveChanges,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

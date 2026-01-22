@@ -968,6 +968,12 @@ abstract class AppLocalizations {
   /// **'Rating'**
   String get rating;
 
+  /// No description provided for @views.
+  ///
+  /// In en, this message translates to:
+  /// **'Views'**
+  String get views;
+
   /// No description provided for @manageProducts.
   ///
   /// In en, this message translates to:
@@ -2408,6 +2414,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete order {id}?'**
   String deleteOrderConfirm(String id);
 
+  /// No description provided for @shopsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Shops Found'**
+  String shopsCount(int count);
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
+
   /// No description provided for @discoverShops.
   ///
   /// In en, this message translates to:
@@ -2827,6 +2845,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to Dashboard'**
   String get backToDashboard;
+
+  /// No description provided for @filterBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter By'**
+  String get filterBy;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filters'**
+  String get applyFilters;
+
+  /// No description provided for @clearAllFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Filters'**
+  String get clearAllFilters;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @attributes.
+  ///
+  /// In en, this message translates to:
+  /// **'Attributes'**
+  String get attributes;
+
+  /// No description provided for @selectColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Color'**
+  String get selectColor;
+
+  /// No description provided for @colorSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Selected'**
+  String get colorSelected;
+
+  /// No description provided for @selectWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Weight'**
+  String get selectWeight;
+
+  /// No description provided for @itemAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'item(s) added to cart'**
+  String get itemAdded;
 }
 
 class _AppLocalizationsDelegate

@@ -138,31 +138,29 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isRTL = Directionality.of(context) == TextDirection.rtl;
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: ShopOwnerDrawer(currentScreen: AppLocalizations.of(context)!.dashboard),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header with Gradient
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF1CE2D6),
-                    Color(0xFF3D5150),
-                  ],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
+      body: Column(
+        children: [
+          // Updated Header with Gradient - Full width like Profile Screen
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF1CE2D6),
+                  const Color(0xFF3D5150),
+                ],
               ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
+            child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
@@ -188,6 +186,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                             ),
                           ),
                         ),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Center(
                             child: Text(
@@ -246,7 +245,7 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
 
                     // Stats Row
                     Row(
@@ -272,132 +271,132 @@ class _OrdersManagementScreenState extends State<OrdersManagementScreen> {
                 ),
               ),
             ),
+          ),
 
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-            // Status Filter Chips
-            SizedBox(
-              height: 40,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildFilterChip('All', _getOrderCount('All')),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Pending', _getOrderCount('Pending')),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Shipped', _getOrderCount('Shipped')),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Completed', _getOrderCount('Completed')),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Canceled', _getOrderCount('Canceled')),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Section Header
-            Padding(
+          // Status Filter Chips
+          SizedBox(
+            height: 40,
+            child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.recentOrders,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF3D5150),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _showExportDialog,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1CE2D6),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF1CE2D6).withOpacity(0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.download_rounded,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            AppLocalizations.of(context)!.export,
-                            style: GoogleFonts.poppins(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              scrollDirection: Axis.horizontal,
+              children: [
+                _buildFilterChip('All', _getOrderCount('All')),
+                const SizedBox(width: 8),
+                _buildFilterChip('Pending', _getOrderCount('Pending')),
+                const SizedBox(width: 8),
+                _buildFilterChip('Shipped', _getOrderCount('Shipped')),
+                const SizedBox(width: 8),
+                _buildFilterChip('Completed', _getOrderCount('Completed')),
+                const SizedBox(width: 8),
+                _buildFilterChip('Canceled', _getOrderCount('Canceled')),
+              ],
             ),
+          ),
 
-            const SizedBox(height: 12),
+          const SizedBox(height: 16),
 
-            // Orders List
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: _filteredOrders.length,
-                itemBuilder: (context, index) {
-                  final order = _filteredOrders[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Dismissible(
-                      key: Key(order['orderId']),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(16),
+          // Section Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.recentOrders,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF3D5150),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: _showExportDialog,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1CE2D6),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF1CE2D6).withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
                         ),
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 20),
-                        child: const Icon(
-                          Icons.delete,
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.download_rounded,
                           color: Colors.white,
-                          size: 30,
+                          size: 16,
                         ),
+                        const SizedBox(width: 6),
+                        Text(
+                          AppLocalizations.of(context)!.export,
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Orders List
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: _filteredOrders.length,
+              itemBuilder: (context, index) {
+                final order = _filteredOrders[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Dismissible(
+                    key: Key(order['orderId']),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      confirmDismiss: (direction) async {
-                        return await _showDeleteConfirmation(order['orderId']);
-                      },
-                      onDismissed: (direction) {
-                        _deleteOrder(order['orderId']);
-                      },
-                      child: _buildOrderCard(
-                        order: order,
-                        index: index,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 30,
                       ),
                     ),
-                  );
-                },
-              ),
+                    confirmDismiss: (direction) async {
+                      return await _showDeleteConfirmation(order['orderId']);
+                    },
+                    onDismissed: (direction) {
+                      _deleteOrder(order['orderId']);
+                    },
+                    child: _buildOrderCard(
+                      order: order,
+                      index: index,
+                    ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

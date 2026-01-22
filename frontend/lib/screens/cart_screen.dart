@@ -112,242 +112,529 @@ class _CartScreenState extends State<CartScreen> {
     
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // Header with Gradient
-          Container(
-            height: 120,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  const Color(0xFF3D5150),
-                  const Color(0xFF1CE2D6).withOpacity(0.8),
-                ],
-              ),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF3D5150).withOpacity(0.3),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Back Button and Title
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: const Icon(
-                              Icons.arrow_back_ios_new,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          AppLocalizations.of(context)!.myCart,
-                          style: GoogleFonts.poppins(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: const Icon(
-                            Icons.shopping_cart_checkout_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                // Header with Gradient
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        const Color(0xFF3D5150),
+                        const Color(0xFF1CE2D6).withOpacity(0.8),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Cart Items List
-          Expanded(
-            child: widget.cartItems.isEmpty
-                ? _buildEmptyCart()
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF3D5150).withOpacity(0.3),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        
-                        // Cart Items Count
+                        // Back Button and Title
                         Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF1CE2D6),
-                                    Color(0xFF3D5150),
-                                  ],
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(14),
                                 ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                                child: const Icon(
+                                  Icons.arrow_back_ios_new,
                                   color: Colors.white,
+                                  size: 18,
                                 ),
                               ),
                             ),
                             const Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    title: Text(
-                                      AppLocalizations.of(context)!.clearCartTitle,
-                                      style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color(0xFF3D5150),
-                                      ),
-                                    ),
-                                    content: Text(
-                                      AppLocalizations.of(context)!.clearCartConfirm,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF3D5150).withOpacity(0.7),
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text(
-                                          AppLocalizations.of(context)!.cancel,
-                                          style: GoogleFonts.poppins(
-                                            color: const Color(0xFF666666),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          setState(() {
-                                            widget.cartItems.clear();
-                                            _itemQuantities.clear();
-                                          });
-                                        },
-                                        child: Text(
-                                          AppLocalizations.of(context)!.clearAll,
-                                          style: GoogleFonts.poppins(
-                                            color: const Color(0xFF1CE2D6),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.red.withOpacity(0.3),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.delete_outline_rounded,
-                                      color: Colors.red,
-                                      size: 16,
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      AppLocalizations.of(context)!.clearAll,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            Text(
+                              AppLocalizations.of(context)!.myCart,
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              child: const Icon(
+                                Icons.shopping_cart_checkout_rounded,
+                                color: Colors.white,
+                                size: 20,
                               ),
                             ),
                           ],
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
-                        // Cart Items List
-                        Expanded(
-                          child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: uniqueItems.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 12),
-                            itemBuilder: (context, index) {
-                              final product = uniqueItems[index];
-                              final quantity = _itemQuantities[product] ?? 0;
-                              final price = double.parse(
-                                  product.price.replaceAll('\$', ''));
-                              
-                              return _buildCartItem(product, quantity, price);
-                            },
-                          ),
-                        ),
-                        
-                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
-          ),
+                ),
 
-          // Bottom Summary and Checkout
-          if (widget.cartItems.isNotEmpty) _buildBottomSummary(),
-        ],
+                // Cart Items List
+                Expanded(
+                  child: widget.cartItems.isEmpty
+                      ? _buildEmptyCart()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              
+                              // Cart Items Count
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF1CE2D6),
+                                          Color(0xFF3D5150),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          title: Text(
+                                            AppLocalizations.of(context)!.clearCartTitle,
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color(0xFF3D5150),
+                                            ),
+                                          ),
+                                          content: Text(
+                                            AppLocalizations.of(context)!.clearCartConfirm,
+                                            style: GoogleFonts.poppins(
+                                              color: const Color(0xFF3D5150).withOpacity(0.7),
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: Text(
+                                                AppLocalizations.of(context)!.cancel,
+                                                style: GoogleFonts.poppins(
+                                                  color: const Color(0xFF666666),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                setState(() {
+                                                  widget.cartItems.clear();
+                                                  _itemQuantities.clear();
+                                                });
+                                              },
+                                              child: Text(
+                                                AppLocalizations.of(context)!.clearAll,
+                                                style: GoogleFonts.poppins(
+                                                  color: const Color(0xFF1CE2D6),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: Colors.red.withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.delete_outline_rounded,
+                                            color: Colors.red,
+                                            size: 16,
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            AppLocalizations.of(context)!.clearAll,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // Cart Items List
+                              Expanded(
+                                child: ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: uniqueItems.length,
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(height: 12),
+                                  itemBuilder: (context, index) {
+                                    final product = uniqueItems[index];
+                                    final quantity = _itemQuantities[product] ?? 0;
+                                    final price = double.parse(
+                                        product.price.replaceAll('\$', ''));
+                                    
+                                    return _buildCartItem(product, quantity, price);
+                                  },
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                ),
+              ],
+            ),
+
+            // Draggable Bottom Summary Panel
+            if (widget.cartItems.isNotEmpty)
+              DraggableScrollableSheet(
+                initialChildSize: 0.50,
+                minChildSize: 0.30,
+                maxChildSize: 0.65,
+                snap: true,
+                snapSizes: const [0.30, 0.50, 0.65],
+                builder: (context, scrollController) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF3D5150).withOpacity(0.15),
+                          blurRadius: 30,
+                          spreadRadius: 2,
+                          offset: const Offset(0, -10),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        // Drag Handle
+                        Center(
+                          child: Container(
+                            width: 60,
+                            height: 5,
+                            margin: const EdgeInsets.only(top: 12, bottom: 16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1CE2D6),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          child: ListView(
+                            controller: scrollController,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            physics: const BouncingScrollPhysics(),
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.orderSummary,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xFF3D5150),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF1CE2D6),
+                                          Color(0xFF3D5150),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              
+                              const SizedBox(height: 20),
+                              
+                              // Summary Details
+                              _buildSummaryRow(
+                                AppLocalizations.of(context)!.subtotal,
+                                '\$${_calculateSubtotal().toStringAsFixed(2)}',
+                              ),
+                              _buildSummaryRow(
+                                AppLocalizations.of(context)!.shipping,
+                                '\$5.99',
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // Divider with gradient
+                              Container(
+                                height: 2,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      const Color(0xFF1CE2D6).withOpacity(0.2),
+                                      const Color(0xFF1CE2D6),
+                                      const Color(0xFF3D5150),
+                                      const Color(0xFF3D5150).withOpacity(0.2),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // Total
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.total,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xFF3D5150),
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${_calculateTotal().toStringAsFixed(2)}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w900,
+                                      color: const Color(0xFF1CE2D6),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              
+                              const SizedBox(height: 25),
+                              
+                              // Checkout Button
+                              GestureDetector(
+                                onTap: widget.cartItems.isNotEmpty
+                                    ? () {
+                                        widget.onCheckout();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Container(
+                                                  width: 30,
+                                                  height: 30,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(8),
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        AppLocalizations.of(context)!.orderSuccess,
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        AppLocalizations.of(context)!.willBeCharged('\$${_calculateTotal().toStringAsFixed(2)}'),
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 12,
+                                                          color: Colors.white.withOpacity(0.9),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor: const Color(0xFF3D5150),
+                                            duration: const Duration(seconds: 3),
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                        );
+                                        
+                                        // Clear cart after checkout
+                                        Future.delayed(const Duration(milliseconds: 500), () {
+                                          setState(() {
+                                            widget.cartItems.clear();
+                                            _itemQuantities.clear();
+                                          });
+                                        });
+                                      }
+                                    : null,
+                                child: Container(
+                                  height: 58,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Color(0xFF1CE2D6),
+                                        Color(0xFF3D5150),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF1CE2D6).withOpacity(0.4),
+                                        blurRadius: 20,
+                                        offset: const Offset(0, 8),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: const Icon(
+                                          Icons.shopping_cart_checkout_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        AppLocalizations.of(context)!.proceedToCheckout,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // Continue Shopping Button
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.continueShopping,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color(0xFF1CE2D6),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 30), // Extra padding for scrolling
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -665,236 +952,26 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildBottomSummary() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Column(
-          children: [
-            // Order Summary
-            Row(
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.orderSummary,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF3D5150),
-                  ),
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF1CE2D6),
-                        Color(0xFF3D5150),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                  AppLocalizations.of(context)!.itemsCount(widget.cartItems.length.toString()),
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            
-            const SizedBox(height: 16),
-            
-            // Summary Details
-            _buildSummaryRow(AppLocalizations.of(context)!.subtotal, '\$${_calculateSubtotal().toStringAsFixed(2)}'),
-            _buildSummaryRow(AppLocalizations.of(context)!.shipping, '\$5.99'),
-            const Divider(
-              color: Color(0xFFF0F0F0),
-              height: 24,
-              thickness: 2,
-            ),
-            _buildSummaryRow(
-              AppLocalizations.of(context)!.total,
-              '\$${_calculateTotal().toStringAsFixed(2)}',
-              isTotal: true,
-            ),
-            
-            const SizedBox(height: 20),
-            
-            // Checkout Button
-            GestureDetector(
-              onTap: widget.cartItems.isNotEmpty
-                  ? () {
-                      widget.onCheckout();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Row(
-                            children: [
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.orderSuccess,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      AppLocalizations.of(context)!.willBeCharged('\$${_calculateTotal().toStringAsFixed(2)}'),
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        color: Colors.white.withOpacity(0.9),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          backgroundColor: const Color(0xFF3D5150),
-                          duration: const Duration(seconds: 3),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                      );
-                      
-                      // Clear cart after checkout
-                      Future.delayed(const Duration(milliseconds: 500), () {
-                        setState(() {
-                          widget.cartItems.clear();
-                          _itemQuantities.clear();
-                        });
-                      });
-                    }
-                  : null,
-              child: Container(
-                height: 58,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF1CE2D6),
-                      Color(0xFF3D5150),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF1CE2D6).withOpacity(0.4),
-                      blurRadius: 20,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(
-                        Icons.shopping_cart_checkout_rounded,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      AppLocalizations.of(context)!.proceedToCheckout,
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                AppLocalizations.of(context)!.continueShopping,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1CE2D6),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
+  Widget _buildSummaryRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
             style: GoogleFonts.poppins(
-              fontSize: isTotal ? 16 : 14,
-              fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
-              color: const Color(0xFF3D5150).withOpacity(isTotal ? 1 : 0.7),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF3D5150).withOpacity(0.7),
             ),
           ),
-          const Spacer(),
           Text(
             value,
             style: GoogleFonts.poppins(
-              fontSize: isTotal ? 20 : 15,
-              fontWeight: isTotal ? FontWeight.w800 : FontWeight.w700,
-              color: isTotal ? const Color(0xFF1CE2D6) : const Color(0xFF3D5150),
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF3D5150),
             ),
           ),
         ],

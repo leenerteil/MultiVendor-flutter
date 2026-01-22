@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
+import '../widgets/custom_screen_header.dart';
 import '../flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -14,6 +15,9 @@ class CategoriesScreen extends StatefulWidget {
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchController = TextEditingController();
+  bool _showSearchBar = false;
+  String _searchQuery = '';
   final List<Map<String, dynamic>> _allCategories = [
     {
       'name': 'electronics',
@@ -90,9 +94,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   ];
 
   List<Map<String, dynamic>> _filteredCategories = [];
-  String _searchQuery = '';
-  bool _showSearchBar = false;
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -176,120 +177,61 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: Column(
         children: [
           // Header Section
-          Container(
-            width: double.infinity, 
-            decoration: BoxDecoration(
-              color: const Color(0xFF3D5150),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-                child: Column(
+          CustomScreenHeader(
+            isShopOwner: widget.isShopOwner,
+            showBackButton: widget.showBackButton,
+            onSearchTap: _toggleSearchBar,
+            child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title and Search Icon Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    const SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Stack(
                           children: [
-                            // Back Arrow Button (only show when showBackButton is true)
-                            if (widget.showBackButton) ...[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Icon(
-                                    Icons.arrow_back_ios_rounded,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Text(
+                                AppLocalizations.of(context)!.categories,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(width: 12),
-                            ],
-                            if (widget.isShopOwner) ...[
-                              GestureDetector(
-                                onTap: () {
-                                  _scaffoldKey.currentState?.openDrawer();
-                                },
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Icon(
-                                    Icons.menu_rounded,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                            ],
-                            const Icon(
-                              Icons.category_rounded,
-                              color: Colors.white,
-                              size: 28,
                             ),
-                            const SizedBox(width: 12),
-                            Text(
-                              AppLocalizations.of(context)!.categories,
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                letterSpacing: 0.5,
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              child: Container(
+                                width: 40,
+                                height: 3,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF1CE2D6),
+                                  borderRadius: BorderRadius.circular(1.5),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: _toggleSearchBar,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              _showSearchBar ? Icons.close : Icons.search,
-                              color: Colors.white,
-                              size: 22,
-                            ),
+                        const SizedBox(height: 2),
+                        Text(
+                          AppLocalizations.of(context)!.browseByCategory,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: Colors.white70,
                           ),
                         ),
                       ],
                     ),
-
-                    const SizedBox(height: 16),
-
+                    
                     // Search Bar (shown when toggled)
                     if (_showSearchBar)
                       Container(
                         height: 40,
-                        margin: const EdgeInsets.only(bottom: 12),
+                        margin: const EdgeInsets.only(top: 16),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(25),
@@ -347,14 +289,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!.browseByCategory,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.white.withOpacity(0.8),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
                         const SizedBox(height: 10), 
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -388,8 +322,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   ],
                 ),
               ),
-            ),
-          ),
 
           // Categories Grid or Empty State
           Expanded(

@@ -17,32 +17,33 @@ class ShopOwnerSettingsScreen extends StatefulWidget {
 
 class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Styled Header to match Profile Screen
-            Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF1CE2D6),
-                    Color(0xFF3D5150),
-                  ],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
+      body: Column(
+        children: [
+          // Updated Header with Gradient - Full width like Profile Screen
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF1CE2D6),
+                  Color(0xFF3D5150),
+                ],
               ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
+            child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
@@ -67,6 +68,7 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                             ),
                           ),
                         ),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Center(
                             child: Text(
@@ -79,144 +81,144 @@ class _ShopOwnerSettingsScreenState extends State<ShopOwnerSettingsScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 40), // Balance the menu icon
+                        const SizedBox(width: 40), // Balance for centering
                       ],
                     ),
                   ],
                 ),
               ),
             ),
+          ),
 
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  children: [
-                    // Quick Stats migrated from Profile
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: _buildStatCard(
-                              icon: Icons.shopping_bag_outlined,
-                              value: '24',
-                               label: AppLocalizations.of(context)!.products,
-                               color: const Color(0xFF1CE2D6),
-                             ),
-                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildStatCard(
-                              icon: Icons.attach_money,
-                              value: '\$1.2k',
-                               label: AppLocalizations.of(context)!.revenue,
-                               color: Colors.green,
-                             ),
-                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildStatCard(
-                              icon: Icons.star_outline,
-                              value: '4.8',
-                               label: AppLocalizations.of(context)!.rating,
-                               color: Colors.orange,
-                             ),
-                           ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Menu Section migrated from Profile (Excluding Support & Logout)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          _buildMenuTile(
-                            icon: Icons.store_outlined,
-                             title: AppLocalizations.of(context)!.shopInfo,
-                             subtitle: AppLocalizations.of(context)!.shopInfoSubtitle,
-                             color: const Color(0xFF1CE2D6),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ShopInfoScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          _buildMenuTile(
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                children: [
+                  // Quick Stats migrated from Profile
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _buildStatCard(
                             icon: Icons.shopping_bag_outlined,
-                             title: AppLocalizations.of(context)!.manageProducts,
-                             subtitle: AppLocalizations.of(context)!.manageProductsSubtitle,
-                             color: Colors.blue,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ManageProductsScreen(),
-                                ),
-                              );
-                            },
+                            value: '24',
+                            label: AppLocalizations.of(context)!.products,
+                            color: const Color(0xFF1CE2D6),
                           ),
-                          const SizedBox(height: 12),
-                          _buildMenuTile(
-                            icon: Icons.campaign_outlined,
-                             title: AppLocalizations.of(context)!.manageAds,
-                             subtitle: AppLocalizations.of(context)!.manageAdsSubtitle,
-                             color: Colors.purple,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ManageAdsScreen(),
-                                ),
-                              );
-                            },
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStatCard(
+                            icon: Icons.attach_money,
+                            value: '\$1.2k',
+                            label: AppLocalizations.of(context)!.revenue,
+                            color: Colors.green,
                           ),
-                          const SizedBox(height: 12),
-                          _buildMenuTile(
-                            icon: Icons.inventory_2_outlined,
-                             title: AppLocalizations.of(context)!.manageInventory,
-                             subtitle: AppLocalizations.of(context)!.manageInventorySubtitle,
-                             color: Colors.orange,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ManageInventoryScreen(),
-                                ),
-                              );
-                            },
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStatCard(
+                            icon: Icons.star_outline,
+                            value: '4.8',
+                            label: AppLocalizations.of(context)!.rating,
+                            color: Colors.orange,
                           ),
-                          const SizedBox(height: 12),
-                          _buildMenuTile(
-                            icon: Icons.receipt_long_outlined,
-                             title: AppLocalizations.of(context)!.viewAllOrders,
-                             subtitle: AppLocalizations.of(context)!.viewAllOrdersSubtitle,
-                             color: Colors.green,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const OrdersManagementScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Menu Section migrated from Profile (Excluding Support & Logout)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        _buildMenuTile(
+                          icon: Icons.store_outlined,
+                          title: AppLocalizations.of(context)!.shopInfo,
+                          subtitle: AppLocalizations.of(context)!.shopInfoSubtitle,
+                          color: const Color(0xFF1CE2D6),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ShopInfoScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuTile(
+                          icon: Icons.shopping_bag_outlined,
+                          title: AppLocalizations.of(context)!.manageProducts,
+                          subtitle: AppLocalizations.of(context)!.manageProductsSubtitle,
+                          color: Colors.blue,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ManageProductsScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuTile(
+                          icon: Icons.campaign_outlined,
+                          title: AppLocalizations.of(context)!.manageAds,
+                          subtitle: AppLocalizations.of(context)!.manageAdsSubtitle,
+                          color: Colors.purple,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ManageAdsScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuTile(
+                          icon: Icons.inventory_2_outlined,
+                          title: AppLocalizations.of(context)!.manageInventory,
+                          subtitle: AppLocalizations.of(context)!.manageInventorySubtitle,
+                          color: Colors.orange,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ManageInventoryScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuTile(
+                          icon: Icons.receipt_long_outlined,
+                          title: AppLocalizations.of(context)!.viewAllOrders,
+                          subtitle: AppLocalizations.of(context)!.viewAllOrdersSubtitle,
+                          color: Colors.green,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OrdersManagementScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

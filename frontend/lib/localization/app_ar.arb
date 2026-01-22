@@ -249,6 +249,7 @@
 
   "revenue": "الإيرادات",
   "rating": "التقييم",
+  "views": "مشاهدات",
   "manageProducts": "إدارة المنتجات",
   "manageProductsSubtitle": "إضافة أو تعديل أو حذف المنتجات",
   "manageAds": "إدارة الإعلانات",
@@ -564,5 +565,26 @@
     "placeholders": {
       "count": {}
     }
-  }
+  },
+  "shopsCount": "{count} متاجر تم العثور عليها",
+  "@shopsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearFilters": "مسح المرشحات",
+"filterBy": "تصفية حسب",
+"reset": "إعادة تعيين",
+"applyFilters": "تطبيق المرشحات",
+"clearAllFilters": "مسح جميع المرشحات",
+"apply": "تطبيق",
+"clearAll": "مسح الكل",
+"attributes": "الخصائص",
+"productDetails": "تفاصيل المنتج",
+"selectColor": "اختر اللون",
+"colorSelected": "اللون المحدد",
+"selectWeight": "اختر الوزن",
+"itemAdded": "منتج/منتجات أضيفت إلى السلة"
 }

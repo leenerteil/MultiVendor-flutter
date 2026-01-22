@@ -462,6 +462,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rating => 'Rating';
 
   @override
+  String get views => 'Views';
+
+  @override
   String get manageProducts => 'Manage Products';
 
   @override
@@ -1254,6 +1257,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String shopsCount(int count) {
+    return '$count Shops Found';
+  }
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
   String get discoverShops => 'Discover Shops';
 
   @override
@@ -1470,4 +1481,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backToDashboard => 'Back to Dashboard';
+
+  @override
+  String get filterBy => 'Filter By';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get clearAllFilters => 'Clear All Filters';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get attributes => 'Attributes';
+
+  @override
+  String get selectColor => 'Select Color';
+
+  @override
+  String get colorSelected => 'Color Selected';
+
+  @override
+  String get selectWeight => 'Select Weight';
+
+  @override
+  String get itemAdded => 'item(s) added to cart';
 }

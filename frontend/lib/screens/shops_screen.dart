@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/shop_owner_drawer.dart';
 import 'shop_screen.dart';
 import '../flutter_gen/gen_l10n/app_localizations.dart';
+import '../widgets/custom_screen_header.dart';
 
 class Shop {
   final String id;
@@ -42,6 +43,9 @@ class ShopsScreen extends StatefulWidget {
 
 class _ShopsScreenState extends State<ShopsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchController = TextEditingController();
+  bool _showSearchBar = false;
+  String _searchQuery = '';
   final List<Shop> _allShops = [
     Shop(
       id: '1',
@@ -135,7 +139,6 @@ class _ShopsScreenState extends State<ShopsScreen> {
   ];
 
   String _selectedCategory = 'all';
-  String _searchQuery = '';
   List<Shop> _filteredShops = [];
 
   @override
@@ -206,6 +209,31 @@ class _ShopsScreenState extends State<ShopsScreen> {
     }
   }
 
+  void _toggleSearchBar() {
+    setState(() {
+      _showSearchBar = !_showSearchBar;
+      if (!_showSearchBar) {
+        _searchController.clear();
+        _searchQuery = '';
+        _filterShops();
+      }
+    });
+  }
+
+  void _clearSearch() {
+    setState(() {
+      _searchController.clear();
+      _searchQuery = '';
+      _filterShops();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,224 +245,189 @@ class _ShopsScreenState extends State<ShopsScreen> {
       body: Column(
         children: [
           // Header Section
-          Container(
-            padding: const EdgeInsets.only(
-              top: 50,
-              left: 20,
-              right: 20,
-              bottom: 16,
-            ),
-            decoration: const BoxDecoration(
-              color: Color(0xFF3D5150),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
+          CustomScreenHeader(
+            isShopOwner: widget.isShopOwner,
+            showBackButton: widget.showBackButton,
+            showSearchButton: true,
+            onSearchTap: _toggleSearchBar,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
+                const SizedBox(height: 10), 
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Back Arrow Button (only show when showBackButton is true)
-                    if (widget.showBackButton) ...[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back_ios_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                    ],
-                    if (widget.isShopOwner) ...[
-                      GestureDetector(
-                        onTap: () {
-                          _scaffoldKey.currentState?.openDrawer();
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.menu_rounded,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                    ],
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Stack(
                       children: [
-                        Stack(
-                          children: [
-                            // Main Text
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: Text(
-                                AppLocalizations.of(context)!.discoverShops,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            AppLocalizations.of(context)!.discoverShops,
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
                             ),
-                            // Decorative Underline
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              child: Container(
-                                width: 40,
-                                height: 3,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF1CE2D6),
-                                  borderRadius: BorderRadius.circular(1.5),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          AppLocalizations.of(context)!.browseCuratedVendors,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            color: Colors.white70,
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          child: Container(
+                            width: 40,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1CE2D6),
+                              borderRadius: BorderRadius.circular(1.5),
+                            ),
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      AppLocalizations.of(context)!.browseCuratedVendors,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: Colors.white70,
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-
-                // Search Bar with better text alignment
-                Container(
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.search,
-                          color: Color(0xFF3D5150),
-                          size: 22,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: TextField(
-                            onChanged: (value) {
-                              setState(() {
-                                _searchQuery = value;
-                                _filterShops();
-                              });
-                            },
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: const Color(0xFF3D5150),
-                            ),
-                            decoration: InputDecoration(
-                              isDense: true,
-                              border: InputBorder.none,
-                              hintText: AppLocalizations.of(context)!.searchShopsHint,
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: const Color(0xFF9E9E9E),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-                            ),
-                            textAlignVertical: TextAlignVertical.center,
-                          ),
+                
+                // Search Bar (Restored and placed inside header)
+                if (_showSearchBar)
+                  Container(
+                    height: 40,
+                    margin: const EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Categories Filter
-                SizedBox(
-                  height: 36,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _categoryKeys.length,
-                    separatorBuilder: (context, index) => const SizedBox(width: 8),
-                    itemBuilder: (context, index) {
-                      final categoryKey = _categoryKeys[index];
-                      final isSelected = _selectedCategory == categoryKey;
-                      String displayText;
-                      
-                      if (categoryKey == 'all') {
-                        displayText = AppLocalizations.of(context)!.all;
-                      } else {
-                        displayText = _getLocalizedCategoryName(categoryKey);
-                      }
-                      
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedCategory = categoryKey;
-                            _filterShops();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? const Color(0xFF1CE2D6)
-                                : Colors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20),
-                            border: isSelected
-                                ? null
-                                : Border.all(color: Colors.white.withOpacity(0.3)),
-                          ),
-                          child: Text(
-                            displayText,
-                            style: GoogleFonts.poppins(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.white : Colors.white70,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.search,
+                              color: Color(0xFF3D5150), size: 22),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  _searchQuery = value;
+                                  _filterShops();
+                                });
+                              },
+                              autofocus: true,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: const Color(0xFF3D5150),
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: AppLocalizations.of(context)!.searchShopsHint,
+                                hintStyle: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: const Color(0xFF9E9E9E),
+                                ),
+                                contentPadding: const EdgeInsets.only(bottom: 10),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                          if (_searchQuery.isNotEmpty)
+                            GestureDetector(
+                              onTap: _clearSearch,
+                              child: const Icon(
+                                Icons.clear,
+                                color: Color(0xFF3D5150),
+                                size: 20,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
+          const SizedBox(height: 16),
+
+          // Categories Filter
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              height: 36,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: _categoryKeys.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final categoryKey = _categoryKeys[index];
+                  final isSelected = _selectedCategory == categoryKey;
+                  String displayText;
+                  
+                  if (categoryKey == 'all') {
+                    displayText = AppLocalizations.of(context)!.all;
+                  } else {
+                    displayText = _getLocalizedCategoryName(categoryKey);
+                  }
+                  
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedCategory = categoryKey;
+                        _filterShops();
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color(0xFF1CE2D6)
+                            : Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: isSelected
+                              ? const Color(0xFF1CE2D6)
+                              : const Color(0xFF3D5150).withOpacity(0.3),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        displayText,
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected ? Colors.white : const Color(0xFF3D5150),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
 
           // Shops List
           Expanded(

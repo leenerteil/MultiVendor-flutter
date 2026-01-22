@@ -454,159 +454,57 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
           ),
 
-          // 3. Search & Filter Bar (Sticky)
-          SliverAppBar(
-            automaticallyImplyLeading: false,
+          // 3. Search & Filter Bar (Sticky) - No space when closed
+          SliverPersistentHeader(
             pinned: true,
-            toolbarHeight: 70,
-            backgroundColor: const Color(0xFFF8F9FA),
-            elevation: 0,
-            flexibleSpace: Container(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-              child: Row(
-                children: [
-                  // Search Field
-                  Expanded(
-                    child: Container(
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
-                        ],
-                      ),
-                      child: TextField(
-                        onChanged: (val) => setState(() => _searchQuery = val),
-                        style: GoogleFonts.poppins(fontSize: 14),
-                        decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.searchInShopHint,
-                          hintStyle: GoogleFonts.poppins(color: Colors.grey, fontSize: 13),
-                          prefixIcon: const Icon(Icons.search, color: Color(0xFF3D5150), size: 20),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  // Filter Toggle Button
-                  GestureDetector(
-                    onTap: () => setState(() => _isFiltersExpanded = !_isFiltersExpanded),
-                    child: Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: _isFiltersExpanded ? const Color(0xFF3D5150) : Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.tune_rounded,
-                        color: _isFiltersExpanded ? Colors.white : const Color(0xFF3D5150),
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            delegate: _SearchAndFilterHeaderDelegate(
+              searchQuery: _searchQuery,
+              onSearchChanged: (val) => setState(() => _searchQuery = val),
+              isFiltersExpanded: _isFiltersExpanded,
+              onFilterToggle: () => setState(() => _isFiltersExpanded = !_isFiltersExpanded),
+              selectedCategory: _selectedCategory,
+              categoryKeys: _categoryKeys,
+              selectedBrand: _selectedBrand,
+              brands: _brands,
+              minPrice: _minPrice,
+              maxPrice: _maxPrice,
+              onPriceChanged: (val) {
+                setState(() {
+                  _minPrice = val.start;
+                  _maxPrice = val.end;
+                });
+              },
+              onCategoryChanged: (val) => setState(() => _selectedCategory = val),
+              onBrandChanged: (val) => setState(() => _selectedBrand = val),
+              getLocalizedCategoryName: _getLocalizedCategoryName,
             ),
           ),
 
-          // 4. Collapsible Filters
-          SliverToBoxAdapter(
-            child: AnimatedCrossFade(
-              firstChild: Container(height: 0),
-              secondChild: Container(
-                margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.filters,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, 
-                        color: const Color(0xFF3D5150)
-                      )
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildCompactDropdown(
-                            _selectedCategory, 
-                            _categoryKeys, 
-                            AppLocalizations.of(context)!.category,
-                            isCategory: true
-                          )
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildCompactDropdown(
-                            _selectedBrand, 
-                            _brands, 
-                            AppLocalizations.of(context)!.brand
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      '${AppLocalizations.of(context)!.priceRange}: \$${_minPrice.toInt()} - \$${_maxPrice.toInt()}',
-                      style: GoogleFonts.poppins(
-                        fontSize: 12, 
-                        color: const Color(0xFF3D5150)
-                      )
-                    ),
-                    RangeSlider(
-                      values: RangeValues(_minPrice, _maxPrice),
-                      min: 0,
-                      max: 500,
-                      divisions: 10,
-                      activeColor: const Color(0xFF1CE2D6),
-                      inactiveColor: Colors.grey[200],
-                      onChanged: (val) => setState(() {
-                        _minPrice = val.start;
-                        _maxPrice = val.end;
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-              crossFadeState: _isFiltersExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-              duration: const Duration(milliseconds: 300),
-            ),
-          ),
-
-          // 5. Product Grid
+          // 4. Product Grid - directly after the search/filter bar
           filteredProducts.isEmpty
               ? SliverFillRemaining(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.search_off, size: 48, color: Colors.grey[300]),
-                        const SizedBox(height: 16),
-                        Text(
-                          _searchQuery.isEmpty 
-                            ? AppLocalizations.of(context)!.noProductsAvailable
-                            : AppLocalizations.of(context)!.noProductsFound,
-                          style: GoogleFonts.poppins(color: Colors.grey)
-                        ),
-                      ],
+                  hasScrollBody: false,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search_off, size: 48, color: Colors.grey[300]),
+                          const SizedBox(height: 16),
+                          Text(
+                            _searchQuery.isEmpty 
+                              ? AppLocalizations.of(context)!.noProductsAvailable
+                              : AppLocalizations.of(context)!.noProductsFound,
+                            style: GoogleFonts.poppins(color: Colors.grey)
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 )
               : SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                   sliver: SliverGrid(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -620,7 +518,6 @@ class _ShopScreenState extends State<ShopScreen> {
                     ),
                   ),
                 ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 40)),
         ],
       ),
     );
@@ -675,49 +572,6 @@ class _ShopScreenState extends State<ShopScreen> {
           )
         ),
       ],
-    );
-  }
-
-  Widget _buildCompactDropdown(String value, List<String> items, String label, {bool isCategory = false}) {
-    String getDisplayText(String item) {
-      if (item == 'all') {
-        return AppLocalizations.of(context)!.all;
-      }
-      if (isCategory) {
-        return _getLocalizedCategoryName(item);
-      }
-      return item;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value,
-          isExpanded: true,
-          icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF3D5150)),
-          style: GoogleFonts.poppins(fontSize: 13, color: const Color(0xFF3D5150)),
-          items: items.map((e) => DropdownMenuItem(
-            value: e, 
-            child: Text(getDisplayText(e))
-          )).toList(),
-          onChanged: (val) {
-            if (val == null) return;
-            setState(() {
-              if (label == AppLocalizations.of(context)!.category) {
-                _selectedCategory = val;
-              } else if (label == AppLocalizations.of(context)!.brand) {
-                _selectedBrand = val;
-              }
-            });
-          },
-        ),
-      ),
     );
   }
 
@@ -968,5 +822,244 @@ class _ShopScreenState extends State<ShopScreen> {
         ),
       ),
     );
+  }
+}
+
+// Custom delegate for the search and filter header
+
+
+class _SearchAndFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final String searchQuery;
+  final ValueChanged<String> onSearchChanged;
+  final bool isFiltersExpanded;
+  final VoidCallback onFilterToggle;
+  final String selectedCategory;
+  final List<String> categoryKeys;
+  final String selectedBrand;
+  final List<String> brands;
+  final double minPrice;
+  final double maxPrice;
+  final Function(RangeValues) onPriceChanged;
+  final ValueChanged<String> onCategoryChanged;
+  final ValueChanged<String> onBrandChanged;
+  final String Function(String) getLocalizedCategoryName;
+
+  _SearchAndFilterHeaderDelegate({
+    required this.searchQuery,
+    required this.onSearchChanged,
+    required this.isFiltersExpanded,
+    required this.onFilterToggle,
+    required this.selectedCategory,
+    required this.categoryKeys,
+    required this.selectedBrand,
+    required this.brands,
+    required this.minPrice,
+    required this.maxPrice,
+    required this.onPriceChanged,
+    required this.onCategoryChanged,
+    required this.onBrandChanged,
+    required this.getLocalizedCategoryName,
+  });
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: const Color(0xFFF8F9FA),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Search Bar - Always visible
+          Container(
+            height: 70,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Search Field
+                Expanded(
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
+                      ],
+                    ),
+                    child: TextField(
+                      onChanged: onSearchChanged,
+                      controller: TextEditingController(text: searchQuery),
+                      style: GoogleFonts.poppins(fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.searchInShopHint,
+                        hintStyle: GoogleFonts.poppins(color: Colors.grey, fontSize: 13),
+                        prefixIcon: const Icon(Icons.search, color: Color(0xFF3D5150), size: 20),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Filter Toggle Button
+                GestureDetector(
+                  onTap: onFilterToggle,
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: isFiltersExpanded ? const Color(0xFF3D5150) : Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 2)),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.tune_rounded,
+                      color: isFiltersExpanded ? Colors.white : const Color(0xFF3D5150),
+                      size: 22,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          // Filters (Collapsible) - Only shows when expanded
+          if (isFiltersExpanded)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(20, 6, 20, 12),              
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8F9FA),
+                    border: Border(
+                      top: BorderSide(color: Colors.grey[300]!, width: 1),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      
+                     
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildCompactDropdown(
+                              context,
+                              selectedCategory, 
+                              categoryKeys, 
+                              AppLocalizations.of(context)!.category,
+                              isCategory: true,
+                              onChanged: onCategoryChanged,
+                              getLocalizedCategoryName: getLocalizedCategoryName,
+                            )
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildCompactDropdown(
+                              context,
+                              selectedBrand, 
+                              brands, 
+                              AppLocalizations.of(context)!.brand,
+                              onChanged: onBrandChanged,
+                              getLocalizedCategoryName: getLocalizedCategoryName,
+                            )
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        '${AppLocalizations.of(context)!.priceRange}: \$${minPrice.toInt()} - \$${maxPrice.toInt()}',
+                        style: GoogleFonts.poppins(
+                          fontSize: 11,
+                          color: const Color(0xFF3D5150)
+                        )
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 30, 
+                        child: RangeSlider(
+                          values: RangeValues(minPrice, maxPrice),
+                          min: 0,
+                          max: 500,
+                          divisions: 10,
+                          activeColor: const Color(0xFF1CE2D6),
+                          inactiveColor: Colors.grey[200],
+                          onChanged: onPriceChanged,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCompactDropdown(
+    BuildContext context,
+    String value, 
+    List<String> items, 
+    String label, {
+    bool isCategory = false,
+    required ValueChanged<String> onChanged,
+    required String Function(String) getLocalizedCategoryName,
+  }) {
+    String getDisplayText(String item) {
+      if (item == 'all') {
+        return AppLocalizations.of(context)!.all;
+      }
+      if (isCategory) {
+        return getLocalizedCategoryName(item);
+      }
+      return item;
+    }
+
+    return Container(
+      height: 40,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: value,
+          isExpanded: true,
+          icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF3D5150), size: 18),
+          style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF3D5150)),
+          items: items.map((e) => DropdownMenuItem(
+            value: e, 
+            child: Text(
+              getDisplayText(e),
+              style: GoogleFonts.poppins(fontSize: 11),
+            )
+          )).toList(),
+          onChanged: (val) {
+            if (val != null) onChanged(val);
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => isFiltersExpanded ? 190 : 70;  // Increased from 155 to 190
+  @override
+  double get minExtent => 70;
+
+  @override
+  bool shouldRebuild(covariant _SearchAndFilterHeaderDelegate oldDelegate) {
+    return searchQuery != oldDelegate.searchQuery ||
+        isFiltersExpanded != oldDelegate.isFiltersExpanded ||
+        selectedCategory != oldDelegate.selectedCategory ||
+        selectedBrand != oldDelegate.selectedBrand ||
+        minPrice != oldDelegate.minPrice ||
+        maxPrice != oldDelegate.maxPrice;
   }
 }

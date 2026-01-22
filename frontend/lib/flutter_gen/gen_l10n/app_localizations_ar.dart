@@ -463,6 +463,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rating => 'التقييم';
 
   @override
+  String get views => 'مشاهدات';
+
+  @override
   String get manageProducts => 'إدارة المنتجات';
 
   @override
@@ -1247,6 +1250,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String shopsCount(int count) {
+    return '$count متاجر تم العثور عليها';
+  }
+
+  @override
+  String get clearFilters => 'مسح المرشحات';
+
+  @override
   String get discoverShops => 'اكتشف المتاجر';
 
   @override
@@ -1463,4 +1474,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get backToDashboard => 'العودة للوحة التحكم';
+
+  @override
+  String get filterBy => 'تصفية حسب';
+
+  @override
+  String get reset => 'إعادة تعيين';
+
+  @override
+  String get applyFilters => 'تطبيق المرشحات';
+
+  @override
+  String get clearAllFilters => 'مسح جميع المرشحات';
+
+  @override
+  String get apply => 'تطبيق';
+
+  @override
+  String get attributes => 'الخصائص';
+
+  @override
+  String get selectColor => 'اختر اللون';
+
+  @override
+  String get colorSelected => 'اللون المحدد';
+
+  @override
+  String get selectWeight => 'اختر الوزن';
+
+  @override
+  String get itemAdded => 'منتج/منتجات أضيفت إلى السلة';
 }

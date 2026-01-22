@@ -66,30 +66,29 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header with Gradient
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF1CE2D6),
-                    Color(0xFF3D5150),
-                  ],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
+      body: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF1CE2D6),
+                  Color(0xFF3D5150),
+                ],
               ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
+            child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
                   children: [
-                    // Top Bar
+                    // Top Bar - Title Centered
                     Row(
                       children: [
                         GestureDetector(
@@ -135,190 +134,133 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 8),
 
-                    // Info Card
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                  ],
+                ),    
+              ),
+            ),
+          ),
+
+          // Stats Bar
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatItem(
+                  title: AppLocalizations.of(context)!.totalProducts,
+                  value: products.length.toString(),
+                  icon: Icons.category_outlined,
+                  color: const Color(0xFF1CE2D6),
+                ),
+                _buildStatItem(
+                  title: AppLocalizations.of(context)!.lowStock,
+                  value: products.where((p) => p['stock'] <= 3).length.toString(),
+                  icon: Icons.warning_amber_outlined,
+                  color: Colors.orange,
+                ),
+                _buildStatItem(
+                  title: AppLocalizations.of(context)!.outOfStock,
+                  value: products.where((p) => p['stock'] == 0).length.toString(),
+                  icon: Icons.error_outline,
+                  color: Colors.red,
+                ),
+              ],
+            ),
+          ),
+
+          // Products Grid
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        // CHANGED: Lowered aspect ratio to make cards taller and prevent overflow
+                        childAspectRatio: 0.65, 
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF1CE2D6).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        return _buildProductCard(index);
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Save/Cancel Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(
+                                color: Color(0xFF1CE2D6),
+                                width: 1.5,
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
                             ),
-                            child: const Icon(
-                              Icons.inventory,
-                              color: Color(0xFF1CE2D6),
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.productsOverview,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF3D5150),
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  AppLocalizations.of(context)!.manageStockLevels,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: Colors.grey[600],
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ],
+                            child: Text(
+                              AppLocalizations.of(context)!.cancel,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF1CE2D6),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _showSuccessSnackBar(
+                                  AppLocalizations.of(context)!.inventoryUpdated);
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1CE2D6),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context)!.saveChanges,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-
-            // Stats Bar
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildStatItem(
-                    title: AppLocalizations.of(context)!.totalProducts,
-                    value: products.length.toString(),
-                    icon: Icons.category_outlined,
-                    color: const Color(0xFF1CE2D6),
-                  ),
-                  _buildStatItem(
-                    title: AppLocalizations.of(context)!.lowStock,
-                    value: products.where((p) => p['stock'] <= 3).length.toString(),
-                    icon: Icons.warning_amber_outlined,
-                    color: Colors.orange,
-                  ),
-                  _buildStatItem(
-                    title: AppLocalizations.of(context)!.outOfStock,
-                    value: products.where((p) => p['stock'] == 0).length.toString(),
-                    icon: Icons.error_outline,
-                    color: Colors.red,
-                  ),
-                ],
-              ),
-            ),
-
-            // Products Grid
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 8),
-
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          // CHANGED: Lowered aspect ratio to make cards taller and prevent overflow
-                          childAspectRatio: 0.65, 
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          return _buildProductCard(index);
-                        },
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Save/Cancel Buttons
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                side: const BorderSide(
-                                  color: Color(0xFF1CE2D6),
-                                  width: 1.5,
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context)!.cancel,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF1CE2D6),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _showSuccessSnackBar(
-                                    AppLocalizations.of(context)!.inventoryUpdated);
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1CE2D6),
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context)!.saveChanges,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -575,7 +517,6 @@ class _ManageInventoryScreenState extends State<ManageInventoryScreen> {
                                     : const Color(0xFF3D5150),
                           ),
                         ),
-
                         // Increase Button
                         GestureDetector(
                           onTap: () {

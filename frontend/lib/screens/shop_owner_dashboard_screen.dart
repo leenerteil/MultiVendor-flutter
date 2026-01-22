@@ -20,184 +20,119 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
       key: _scaffoldKey,
       backgroundColor: const Color(0xFFF8FAFC),
       drawer: const ShopOwnerDrawer(currentScreen: 'Dashboard'),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header with Gradient
-              Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF1CE2D6),
-                      Color(0xFF3D5150),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
-                  child: Column(
-                    children: [
-                      // Top Bar
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _scaffoldKey.currentState?.openDrawer();
-                            },
-                            child: Container(
-                              width: 44,
-                              height: 44,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                Icons.menu_rounded,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                AppLocalizations.of(context)!.dashboard,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 44), // Balance for centering
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Welcome Message
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.white.withOpacity(0.2),
-                            child: const Icon(
-                              Icons.store_rounded,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.welcomeBack,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: Colors.white.withOpacity(0.9),
-                                  ),
-                                ),
-                                Text(
-                                  AppLocalizations.of(context)!.shopOwner,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                               AppLocalizations.of(context)!.today,
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+      body: Column(
+        children: [
+          // Updated Header with Gradient - Full width like Profile Screen
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF1CE2D6),
+                  Color(0xFF3D5150),
+                ],
               ),
-
-              const SizedBox(height: 24),
-
-              // Statistics Cards Grid
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
                 child: Column(
                   children: [
+                    // Top Bar
                     Row(
                       children: [
-                        Expanded(
-                          child: _buildStatCard(
-                            icon: Icons.inventory_2_rounded,
-                            value: '4',
-                            label: AppLocalizations.of(context)!.totalProductsCount,
-                            color: const Color(0xFF1CE2D6),
-                            iconBgColor:
-                                const Color(0xFF1CE2D6).withOpacity(0.1),
+                        GestureDetector(
+                          onTap: () {
+                            _scaffoldKey.currentState?.openDrawer();
+                          },
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.menu_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildStatCard(
-                            icon: Icons.shopping_bag_rounded,
-                            value: '2',
-                            label: AppLocalizations.of(context)!.totalOrdersCount,
-                            color: const Color(0xFFF9A825),
-                            iconBgColor:
-                                const Color(0xFFF9A825).withOpacity(0.1),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.dashboard,
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
+                        const SizedBox(width: 44), // Balance for centering
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 24),
+
+                    // Welcome Message
                     Row(
                       children: [
-                        Expanded(
-                          child: _buildStatCard(
-                            icon: Icons.attach_money_rounded,
-                            value: '\$68',
-                            label: AppLocalizations.of(context)!.totalRevenue,
-                            color: const Color(0xFFE57373),
-                            iconBgColor:
-                                const Color(0xFFE57373).withOpacity(0.1),
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundColor: Colors.white.withOpacity(0.2),
+                          child: const Icon(
+                            Icons.store_rounded,
+                            color: Colors.white,
+                            size: 28,
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _buildStatCard(
-                            icon: Icons.people_rounded,
-                            value: '2',
-                            label: AppLocalizations.of(context)!.activeCustomers,
-                            color: const Color(0xFF81C784),
-                            iconBgColor:
-                                const Color(0xFF81C784).withOpacity(0.1),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.welcomeBack,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.shopOwner,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.today,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -205,70 +140,139 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
                   ],
                 ),
               ),
-
-              const SizedBox(height: 24),
-
-              // Sales Over Time Section with Line Chart
-              _buildChartSection(
-                title: AppLocalizations.of(context)!.salesOverTime,
-                subtitle: AppLocalizations.of(context)!.last7Days,
-                chart: _buildSalesLineChart(),
-                gradientColors: [
-                  const Color(0xFF1CE2D6).withOpacity(0.3),
-                  const Color(0xFF1CE2D6).withOpacity(0.1),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              // Monthly Order Count Section
-              _buildChartSection(
-                title: AppLocalizations.of(context)!.monthlyOrderCount,
-                subtitle: AppLocalizations.of(context)!.orderTrends,
-                chart: _buildMonthlyOrdersChart(),
-                gradientColors: [
-                  const Color(0xFFF9A825).withOpacity(0.3),
-                  const Color(0xFFF9A825).withOpacity(0.1),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              // Top Selling Products Section with Bar Chart
-              _buildChartSection(
-                title: AppLocalizations.of(context)!.topSellingProducts,
-                subtitle: AppLocalizations.of(context)!.bestPerformingItems,
-                chart: _buildProductsBarChart(),
-                gradientColors: [
-                  const Color(0xFF3D5150).withOpacity(0.3),
-                  const Color(0xFF3D5150).withOpacity(0.1),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              // Category Revenue Section with Pie Chart
-              _buildChartSection(
-                title: AppLocalizations.of(context)!.categoryRevenue,
-                subtitle: AppLocalizations.of(context)!.revenueDistribution,
-                chart: _buildCategoryPieChart(),
-                gradientColors: [
-                  const Color(0xFFF9A825).withOpacity(0.3),
-                  const Color(0xFFF9A825).withOpacity(0.1),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              // --- REPLACED SECTION START ---
-              // Inventory Levels Section
-              _buildInventoryLevelsSection(),
-              // --- REPLACED SECTION END ---
-
-              const SizedBox(height: 32),
-            ],
+            ),
           ),
-        ),
+
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+
+                  // Statistics Cards Grid
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.inventory_2_rounded,
+                                value: '4',
+                                label: AppLocalizations.of(context)!.totalProductsCount,
+                                color: const Color(0xFF1CE2D6),
+                                iconBgColor:
+                                    const Color(0xFF1CE2D6).withOpacity(0.1),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.shopping_bag_rounded,
+                                value: '2',
+                                label: AppLocalizations.of(context)!.totalOrdersCount,
+                                color: const Color(0xFFF9A825),
+                                iconBgColor:
+                                    const Color(0xFFF9A825).withOpacity(0.1),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.attach_money_rounded,
+                                value: '\$68',
+                                label: AppLocalizations.of(context)!.totalRevenue,
+                                color: const Color(0xFFE57373),
+                                iconBgColor:
+                                    const Color(0xFFE57373).withOpacity(0.1),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.people_rounded,
+                                value: '2',
+                                label: AppLocalizations.of(context)!.activeCustomers,
+                                color: const Color(0xFF81C784),
+                                iconBgColor:
+                                    const Color(0xFF81C784).withOpacity(0.1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Sales Over Time Section with Line Chart
+                  _buildChartSection(
+                    title: AppLocalizations.of(context)!.salesOverTime,
+                    subtitle: AppLocalizations.of(context)!.last7Days,
+                    chart: _buildSalesLineChart(),
+                    gradientColors: [
+                      const Color(0xFF1CE2D6).withOpacity(0.3),
+                      const Color(0xFF1CE2D6).withOpacity(0.1),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Monthly Order Count Section
+                  _buildChartSection(
+                    title: AppLocalizations.of(context)!.monthlyOrderCount,
+                    subtitle: AppLocalizations.of(context)!.orderTrends,
+                    chart: _buildMonthlyOrdersChart(),
+                    gradientColors: [
+                      const Color(0xFFF9A825).withOpacity(0.3),
+                      const Color(0xFFF9A825).withOpacity(0.1),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Top Selling Products Section with Bar Chart
+                  _buildChartSection(
+                    title: AppLocalizations.of(context)!.topSellingProducts,
+                    subtitle: AppLocalizations.of(context)!.bestPerformingItems,
+                    chart: _buildProductsBarChart(),
+                    gradientColors: [
+                      const Color(0xFF3D5150).withOpacity(0.3),
+                      const Color(0xFF3D5150).withOpacity(0.1),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Category Revenue Section with Pie Chart
+                  _buildChartSection(
+                    title: AppLocalizations.of(context)!.categoryRevenue,
+                    subtitle: AppLocalizations.of(context)!.revenueDistribution,
+                    chart: _buildCategoryPieChart(),
+                    gradientColors: [
+                      const Color(0xFFF9A825).withOpacity(0.3),
+                      const Color(0xFFF9A825).withOpacity(0.1),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Inventory Levels Section
+                  _buildInventoryLevelsSection(),
+
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -781,7 +785,7 @@ class _ShopOwnerDashboardScreenState extends State<ShopOwnerDashboardScreen> {
     );
   }
 
-  // --- NEW INVENTORY LEVELS SECTION ---
+  // --- INVENTORY LEVELS SECTION ---
   Widget _buildInventoryLevelsSection() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),

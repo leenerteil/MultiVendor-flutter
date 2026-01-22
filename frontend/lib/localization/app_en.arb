@@ -205,6 +205,7 @@
 
   "revenue": "Revenue",
   "rating": "Rating",
+  "views": "Views",
   "manageProducts": "Manage Products",
   "manageProductsSubtitle": "Add, edit or remove products",
   "manageAds": "Manage Ads",
@@ -665,6 +666,15 @@
       }
     }
   },
+  "shopsCount": "{count} Shops Found",
+  "@shopsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearFilters": "Clear Filters",
   "staticAdPlan": "Static Ad Plan",
 "dynamicAdPlan": "Dynamic Ad Plan",
 "addImagesToDynamicAdPlan": "Add Images to Dynamic Ad Plan",
@@ -978,5 +988,17 @@
 "tax": "Tax",
 "browseAsUser": "Browse as User",
 "backToDashboard": "Back to Dashboard",
-"management": "Management"
+"management": "Management",
+"filterBy": "Filter By",
+"reset": "Reset", 
+"applyFilters": "Apply Filters",
+"clearAllFilters": "Clear All Filters",
+"apply": "Apply",
+"clearAll": "Clear All",
+"attributes": "Attributes",
+"productDetails": "Product Details",
+"selectColor": "Select Color",
+"colorSelected": "Color Selected",
+"selectWeight": "Select Weight",
+"itemAdded": "item(s) added to cart"
 }
